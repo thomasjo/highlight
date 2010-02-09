@@ -31,14 +31,12 @@ namespace Wayloop.Highlight
 {
     public class Configurator
     {
-        private string configurationFile;
         private XmlDocument xmlDocument;
 
 
         public Configurator()
         {
             xmlDocument = new XmlDocument();
-            configurationFile = string.Empty;
         }
 
 
@@ -48,17 +46,14 @@ namespace Wayloop.Highlight
         }
 
 
-        public string ConfigurationFile
-        {
-            get { return configurationFile; }
-            set { configurationFile = value; }
-        }
+        public string ConfigurationFile { get; set; }
 
         public DefinitionCollection Definitions
         {
             get
             {
-                xmlDocument = Global.GetConfiguration(configurationFile);
+                xmlDocument = Global.GetConfiguration(ConfigurationFile);
+
                 return DefinitionCollection.GetAllDefinitions(xmlDocument);
             }
         }

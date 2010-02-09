@@ -37,13 +37,11 @@ namespace Wayloop.Highlight
     {
         public Definition()
         {
-            Name = String.Empty;
         }
 
 
         public Definition(string name, XmlDocument xmlDocument)
         {
-            Name = String.Empty;
             var xpath = String.Format("definitions/definition[translate(@name,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')='{0}']", name.ToUpper());
             var definitionNode = xmlDocument.SelectSingleNode(xpath);
             if (definitionNode != null) {
