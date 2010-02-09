@@ -1,0 +1,125 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <LiveTemplates>
+      <Template uid="243008d2-2b1c-4e51-8b7e-34e07382528c" shortcut="lic" description="License Header" text="#region License&#xD;&#xA;&#xD;&#xA;// Copyright (c) 2010 Thomas A. H. Johansen&#xD;&#xA;//&#xD;&#xA;// Permission is hereby granted, free of charge, to any person obtaining a copy&#xD;&#xA;// of this software and associated documentation files (the &quot;Software&quot;), to deal&#xD;&#xA;// in the Software without restriction, including without limitation the rights&#xD;&#xA;// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell&#xD;&#xA;// copies of the Software, and to permit persons to whom the Software is&#xD;&#xA;// furnished to do so, subject to the following conditions:&#xD;&#xA;//&#xD;&#xA;// The above copyright notice and this permission notice shall be included in&#xD;&#xA;// all copies or substantial portions of the Software.&#xD;&#xA;//&#xD;&#xA;// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR&#xD;&#xA;// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,&#xD;&#xA;// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE&#xD;&#xA;// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER&#xD;&#xA;// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,&#xD;&#xA;// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN&#xD;&#xA;// THE SOFTWARE.&#xD;&#xA;&#xD;&#xA;#endregion&#xD;&#xA;" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeAndNamespace" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+    </LiveTemplates>
+  </SharedSolutionTemplateManager>
+  <CodeStyleSettings>
+    <ExternalPath IsNull="False">
+    </ExternalPath>
+    <Sharing>SOLUTION</Sharing>
+    <CSharp>
+      <FormatSettings>
+        <ALIGN_MULTILINE_ARGUMENT>False</ALIGN_MULTILINE_ARGUMENT>
+        <ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER>False</ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER>
+        <ALIGN_MULTILINE_EXPRESSION>False</ALIGN_MULTILINE_EXPRESSION>
+        <ANONYMOUS_METHOD_DECLARATION_BRACES>END_OF_LINE</ANONYMOUS_METHOD_DECLARATION_BRACES>
+        <BLANK_LINES_AFTER_USING_LIST>2</BLANK_LINES_AFTER_USING_LIST>
+        <BLANK_LINES_AROUND_INVOCABLE>2</BLANK_LINES_AROUND_INVOCABLE>
+        <BLANK_LINES_AROUND_NAMESPACE>2</BLANK_LINES_AROUND_NAMESPACE>
+        <BLANK_LINES_AROUND_REGION>2</BLANK_LINES_AROUND_REGION>
+        <BLANK_LINES_AROUND_TYPE>2</BLANK_LINES_AROUND_TYPE>
+        <CASE_BLOCK_BRACES>END_OF_LINE</CASE_BLOCK_BRACES>
+        <FORCE_FIXED_BRACES_STYLE>ALWAYS_ADD</FORCE_FIXED_BRACES_STYLE>
+        <FORCE_FOR_BRACES_STYLE>ALWAYS_ADD</FORCE_FOR_BRACES_STYLE>
+        <FORCE_FOREACH_BRACES_STYLE>ALWAYS_ADD</FORCE_FOREACH_BRACES_STYLE>
+        <FORCE_IFELSE_BRACES_STYLE>ALWAYS_ADD</FORCE_IFELSE_BRACES_STYLE>
+        <FORCE_USING_BRACES_STYLE>ALWAYS_ADD</FORCE_USING_BRACES_STYLE>
+        <FORCE_WHILE_BRACES_STYLE>ALWAYS_ADD</FORCE_WHILE_BRACES_STYLE>
+        <INDENT_ANONYMOUS_METHOD_BLOCK>False</INDENT_ANONYMOUS_METHOD_BLOCK>
+        <INDENT_EMBRACED_INITIALIZER_BLOCK>False</INDENT_EMBRACED_INITIALIZER_BLOCK>
+        <INITIALIZER_BRACES>END_OF_LINE</INITIALIZER_BRACES>
+        <KEEP_BLANK_LINES_IN_CODE>1</KEEP_BLANK_LINES_IN_CODE>
+        <MODIFIERS_ORDER IsNull="False">
+          <Item>public</Item>
+          <Item>protected</Item>
+          <Item>internal</Item>
+          <Item>private</Item>
+          <Item>new</Item>
+          <Item>abstract</Item>
+          <Item>virtual</Item>
+          <Item>override</Item>
+          <Item>sealed</Item>
+          <Item>static</Item>
+          <Item>readonly</Item>
+          <Item>extern</Item>
+          <Item>unsafe</Item>
+          <Item>volatile</Item>
+        </MODIFIERS_ORDER>
+        <OTHER_BRACES>END_OF_LINE</OTHER_BRACES>
+        <SPACE_AROUND_MULTIPLICATIVE_OP>True</SPACE_AROUND_MULTIPLICATIVE_OP>
+        <SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>True</SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>
+        <WRAP_LINES>False</WRAP_LINES>
+      </FormatSettings>
+      <UsingsSettings />
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      </Naming2>
+    </CSharp>
+    <VB>
+      <FormatSettings />
+      <ImportsSettings />
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      </Naming2>
+    </VB>
+    <Web>
+      <Naming2 />
+    </Web>
+    <Xaml>
+      <Naming2 />
+    </Xaml>
+    <XML>
+      <FormatSettings />
+    </XML>
+    <FileHeader Region="License"><![CDATA[Copyright (c) 2010 Thomas Andre H. Johansen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.]]></FileHeader>
+    <GenerateMemberBody />
+    <Naming2>
+      <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+      <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+      <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+      <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+      <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+    </Naming2>
+  </CodeStyleSettings>
+</Configuration>
