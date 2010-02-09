@@ -127,7 +127,7 @@ namespace Wayloop.Highlight
                     throw new FileNotFoundException(string.Format("The configuration file does not exist at location <i>{0}</i>", configurationFile), configurationFile);
                 }
                 using (var stream = new FileStream(configurationFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-                    var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Lonwas.Highlight.Resources.Definitions.xsd");
+                    var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Wayloop.Highlight.Resources.Definitions.xsd");
                     try {
                         if (manifestResourceStream != null) {
                             var schema = XmlSchema.Read(manifestResourceStream, delegate(object sender, ValidationEventArgs e) { throw new Exception("An error occured while accessing the schema.\n" + e.Message); });
