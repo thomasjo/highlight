@@ -50,7 +50,7 @@ namespace Wayloop.Highlight.Engines
                 }
                 if (pattern2 is BlockPattern) {
                     if (!UseCss) {
-                        str3 = Global.CreatePatternStyle(pattern2.ForeColor, pattern2.BackColor, pattern2.Font);
+                        str3 = Global.CreatePatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
                         return string.Format(format, str3, m.Value);
                     }
                     return string.Format(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name), m.Value);
@@ -58,11 +58,11 @@ namespace Wayloop.Highlight.Engines
                 if (pattern2 is MarkupPattern) {
                     var pattern = (MarkupPattern) pattern2;
                     if (!UseCss) {
-                        str3 = Global.CreatePatternStyle(pattern.ForeColor, pattern.BackColor, pattern.Font);
-                        str4 = Global.CreatePatternStyle(pattern.BracketForeColor, pattern.BracketBackColor, pattern.Font);
+                        str3 = Global.CreatePatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
+                        str4 = Global.CreatePatternStyle(pattern.BracketForeColor, pattern.BracketBackColor, pattern.Style.Font);
                         if (pattern.HighlightAttributes) {
-                            str5 = Global.CreatePatternStyle(pattern.AttributeNameForeColor, pattern.AttributeNameBackColor, pattern.Font);
-                            str6 = Global.CreatePatternStyle(pattern.AttributeValueForeColor, pattern.AttributeValueBackColor, pattern.Font);
+                            str5 = Global.CreatePatternStyle(pattern.AttributeNameForeColor, pattern.AttributeNameBackColor, pattern.Style.Font);
+                            str6 = Global.CreatePatternStyle(pattern.AttributeValueForeColor, pattern.AttributeValueBackColor, pattern.Style.Font);
                         }
                     }
                     if (!UseCss) {
@@ -107,7 +107,7 @@ namespace Wayloop.Highlight.Engines
                 }
                 if (pattern2 is WordPattern) {
                     if (!UseCss) {
-                        str3 = Global.CreatePatternStyle(pattern2.ForeColor, pattern2.BackColor, pattern2.Font);
+                        str3 = Global.CreatePatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
                         return string.Format(format, str3, m.Value);
                     }
                     return string.Format(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name), m.Value);

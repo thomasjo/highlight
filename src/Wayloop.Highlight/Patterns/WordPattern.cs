@@ -54,8 +54,6 @@ namespace Wayloop.Highlight.Patterns
             foreach (XmlNode wordNode in wordNodes) {
                 Words.Add(Regex.Escape(wordNode.InnerText));
             }
-
-            PatternString = GetPatternString();
         }
 
 
@@ -76,7 +74,7 @@ namespace Wayloop.Highlight.Patterns
         }
 
 
-        private string GetPatternString()
+        public override string GetPatternString()
         {
             var str = string.Empty;
             if (Words.Count > 0) {

@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 // Copyright (c) 2010 Thomas Andre H. Johansen
 // 
@@ -27,52 +27,22 @@ using System;
 using System.Xml;
 
 
-namespace Wayloop.Highlight.Patterns
+namespace Wayloop.Highlight.Extensions
 {
-    public abstract class Pattern
+    public static class XmlNodeExtensions
     {
-        private const PatternType DefaultPatternType = PatternType.Word;
-
-
-        protected Pattern()
+        public static string GetAttributeValue(this XmlNode xmlNode, string name)
         {
-            PatternType = DefaultPatternType;
-        }
-
-
-        protected Pattern(XmlNode patternNode)
-        {
-            if (patternNode == null) {
-                throw new ArgumentNullException("patternNode");
+            if (xmlNode == null) {
+                throw new ArgumentNullException("xmlNode");
             }
 
-            Name = patternNode.Attributes["name"].InnerText;
-            PatternType = GetPatternType(patternNode.Attributes["type"].InnerText);
-            Style = new PatternStyle(patternNode);
-        }
-
-
-        public string Name { get; private set; }
-        public PatternType PatternType { get; private set; }
-        public PatternStyle Style { get; private set; }
-
-        public abstract string GetPatternString();
-
-
-        public static PatternType GetPatternType(string input)
-        {
-            try {
-                return (PatternType) Enum.Parse(typeof (PatternType), input, true);
+            var attribute = xmlNode.Attributes[name];
+            if (attribute == null) {
+                return null;
             }
-            catch {
-                return DefaultPatternType;
-            }
-        }
 
-
-        public override string ToString()
-        {
-            return Name;
+            return attribute.InnerText;
         }
     }
 }

@@ -39,8 +39,6 @@ namespace Wayloop.Highlight.Patterns
             if (patternNode.Attributes["escapesWith"] != null) {
                 EscapesWith = patternNode.Attributes["escapesWith"].InnerText;
             }
-
-            PatternString = GetPatternString();
         }
 
 
@@ -49,7 +47,7 @@ namespace Wayloop.Highlight.Patterns
         public string EscapesWith { get; private set; }
 
 
-        private string GetPatternString()
+        public override string GetPatternString()
         {
             if (string.IsNullOrEmpty(EscapesWith)) {
                 if (EndsWith.CompareTo(@"\n") == 0) {

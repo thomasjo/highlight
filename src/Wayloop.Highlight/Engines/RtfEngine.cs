@@ -79,16 +79,16 @@ namespace Wayloop.Highlight.Engines
                 }
                 string str2;
                 if (pattern2 is BlockPattern) {
-                    str2 = CreateRtfPatternStyle(pattern2.ForeColor, pattern2.BackColor, pattern2.Font);
+                    str2 = CreateRtfPatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
                     return ("{" + string.Format(format, str2, m.Value) + "}");
                 }
                 if (pattern2 is MarkupPattern) {
                     var pattern = (MarkupPattern) pattern2;
-                    str2 = CreateRtfPatternStyle(pattern.ForeColor, pattern.BackColor, pattern.Font);
-                    var str3 = CreateRtfPatternStyle(pattern.BracketForeColor, pattern.BracketBackColor, pattern.Font);
+                    str2 = CreateRtfPatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
+                    var str3 = CreateRtfPatternStyle(pattern.BracketForeColor, pattern.BracketBackColor, pattern.Style.Font);
                     if (pattern.HighlightAttributes) {
-                        str4 = CreateRtfPatternStyle(pattern.AttributeNameForeColor, pattern.AttributeNameBackColor, pattern.Font);
-                        str5 = CreateRtfPatternStyle(pattern.AttributeValueForeColor, pattern.AttributeValueBackColor, pattern.Font);
+                        str4 = CreateRtfPatternStyle(pattern.AttributeNameForeColor, pattern.AttributeNameBackColor, pattern.Style.Font);
+                        str5 = CreateRtfPatternStyle(pattern.AttributeValueForeColor, pattern.AttributeValueBackColor, pattern.Style.Font);
                     }
                     builder.AppendFormat(format, str3, m.Groups["openTag"].Value);
                     builder.Append(m.Groups["ws1"].Value);
@@ -106,7 +106,7 @@ namespace Wayloop.Highlight.Engines
                     return ("{" + builder + "}");
                 }
                 if (pattern2 is WordPattern) {
-                    str2 = CreateRtfPatternStyle(pattern2.ForeColor, pattern2.BackColor, pattern2.Font);
+                    str2 = CreateRtfPatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
                     return ("{" + string.Format(format, str2, m.Value) + "}");
                 }
             }

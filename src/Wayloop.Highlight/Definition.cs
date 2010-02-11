@@ -73,19 +73,19 @@ namespace Wayloop.Highlight
                     if (blockPatterns.Length > 1) {
                         blockPatterns.Append("|");
                     }
-                    blockPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.PatternString);
+                    blockPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
                 }
                 else if (pattern is MarkupPattern) {
                     if (markupPatterns.Length > 1) {
                         markupPatterns.Append("|");
                     }
-                    markupPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.PatternString);
+                    markupPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
                 }
                 else if (pattern is WordPattern) {
                     if (wordPatterns.Length > 1) {
                         wordPatterns.Append("|");
                     }
-                    wordPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.PatternString);
+                    wordPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
                 }
             }
             if (blockPatterns.Length > 0) {

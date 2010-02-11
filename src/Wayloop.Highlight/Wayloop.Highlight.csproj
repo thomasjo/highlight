@@ -48,12 +48,14 @@
     <Compile Include="Engines\HtmlEngine.cs" />
     <Compile Include="Engines\RtfEngine.cs" />
     <Compile Include="Engines\XmlEngine.cs" />
+    <Compile Include="Extensions\XmlNodeExtensions.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="OutputType.cs" />
     <Compile Include="Patterns\BlockPattern.cs" />
     <Compile Include="Patterns\MarkupPattern.cs" />
     <Compile Include="Patterns\Pattern.cs" />
+    <Compile Include="Patterns\PatternStyle.cs" />
     <Compile Include="Patterns\WordPattern.cs" />
     <Compile Include="PatternType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
