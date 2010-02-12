@@ -25,6 +25,7 @@
 
 using System.Drawing;
 using System.Xml;
+using Wayloop.Highlight.Extensions;
 
 
 namespace Wayloop.Highlight.Patterns
@@ -39,19 +40,21 @@ namespace Wayloop.Highlight.Patterns
 
         public MarkupPattern(XmlNode patternNode) : base(patternNode)
         {
-            HighlightAttributes = true;
-            HighlightAttributes = bool.Parse(patternNode.Attributes["highlightAttributes"].Value);
+            HighlightAttributes = bool.Parse(patternNode.GetAttributeValue("highlightAttributes"));
             var node = patternNode.SelectSingleNode("font/bracketStyle");
-            BracketForeColor = Color.FromName(node.Attributes["foreColor"].Value);
-            BracketBackColor = Color.FromName(node.Attributes["backColor"].Value);
-            if (HighlightAttributes) {
-                var node2 = patternNode.SelectSingleNode("font/attributeNameStyle");
-                AttributeNameForeColor = Color.FromName(node2.Attributes["foreColor"].Value);
-                AttributeNameBackColor = Color.FromName(node2.Attributes["backColor"].Value);
-                var node3 = patternNode.SelectSingleNode("font/attributeValueStyle");
-                AttributeValueForeColor = Color.FromName(node3.Attributes["foreColor"].Value);
-                AttributeValueBackColor = Color.FromName(node3.Attributes["backColor"].Value);
+            BracketForeColor = Color.FromName(node.GetAttributeValue("foreColor"));
+            BracketBackColor = Color.FromName(node.GetAttributeValue("backColor"));
+            if (!HighlightAttributes) {
+                return;
             }
+
+            var node2 = patternNode.SelectSingleNode("font/attributeNameStyle");
+            AttributeNameForeColor = Color.FromName(node2.GetAttributeValue("foreColor"));
+            AttributeNameBackColor = Color.FromName(node2.GetAttributeValue("backColor"));
+
+            var node3 = patternNode.SelectSingleNode("font/attributeValueStyle");
+            AttributeValueForeColor = Color.FromName(node3.GetAttributeValue("foreColor"));
+            AttributeValueBackColor = Color.FromName(node3.GetAttributeValue("backColor"));
         }
 
 
