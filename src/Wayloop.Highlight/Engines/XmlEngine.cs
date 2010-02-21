@@ -23,6 +23,7 @@
 #endregion
 
 
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using Wayloop.Highlight.Patterns;
@@ -32,17 +33,29 @@ namespace Wayloop.Highlight.Engines
 {
     public class XmlEngine : Engine
     {
+        protected override string PreHighlight(Definition definition, string input)
+        {
+            return Global.HtmlEncode(input);
+        }
+
+
+        protected override string PostHighlight(Definition definition, string input)
+        {
+            return String.Format("<highlightedInput>{0}</highlightedInput>", input);
+        }
+
+
         protected override string ElementMatchHandler(Definition definition, Match match)
         {
             var builder = new StringBuilder();
             var builder2 = new StringBuilder();
             const string format = "<{0}>{1}</{0}>";
-            foreach (Pattern pattern in definition.Patterns) {
+            foreach (var pattern in definition.Patterns) {
                 if (!match.Groups[pattern.Name].Success) {
                     continue;
                 }
                 if (pattern is BlockPattern) {
-                    return string.Format(format, pattern.Name, match.Value);
+                    return String.Format(format, pattern.Name, match.Value);
                 }
                 if (pattern is MarkupPattern) {
                     builder.AppendFormat(format, "openTag", match.Groups["openTag"].Value);
@@ -58,25 +71,14 @@ namespace Wayloop.Highlight.Engines
                     builder.AppendFormat(format, "whitespace", match.Groups["ws5"].Value);
                     builder.AppendFormat(format, "closeTag", match.Groups["closeTag"].Value);
 
-                    return string.Format(format, pattern.Name, builder);
+                    return String.Format(format, pattern.Name, builder);
                 }
                 if (pattern is WordPattern) {
-                    return string.Format(format, pattern.Name, match.Value);
+                    return String.Format(format, pattern.Name, match.Value);
                 }
             }
 
             return match.Value;
         }
-
-
-/*
-        protected override void Highlight()
-        {
-            var evaluator = new MatchEvaluator(ElementMatchHandler);
-            var patterns = Definition.GetPatterns();
-            Input = string.Format("<highlightedInput>{0}</highlightedInput>", Input);
-            Input = Regex.Replace(Input, patterns, evaluator);
-        }
-*/
     }
 }

@@ -25,19 +25,20 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 
 namespace Wayloop.Highlight.Collections
 {
-    public class DefinitionCollection : ArrayList
+    public class DefinitionCollection : List<Definition>
     {
         public DefinitionCollection()
         {
         }
 
 
-        public DefinitionCollection(ICollection c) : base(c)
+        public DefinitionCollection(IEnumerable<Definition> collection) : base(collection)
         {
         }
 

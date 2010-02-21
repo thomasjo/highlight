@@ -37,7 +37,6 @@ namespace Wayloop.Highlight
         public Highlighter()
         {
             xmlConfiguration = new XmlDocument();
-            ConfigurationFile = string.Empty;
             Engine = new HtmlEngine();
         }
 
@@ -59,15 +58,7 @@ namespace Wayloop.Highlight
             }
             var definition = new Definition(xmlConfiguration, definitionName);
             if (definition.Name != string.Empty) {
-                if (Engine is HtmlEngine) {
-                    return Engine.Highlight(definition, Global.HtmlEncode(input));
-                }
-                if (Engine is XmlEngine) {
-                    return Engine.Highlight(definition, Global.HtmlEncode(input));
-                }
-                if (Engine is RtfEngine) {
-                    return Global.HtmlDecode(Engine.Highlight(definition, Global.HtmlEncode(input)));
-                }
+                return Engine.Highlight(definition, input);
             }
 
             return input;

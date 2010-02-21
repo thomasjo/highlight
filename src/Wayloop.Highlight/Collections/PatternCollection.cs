@@ -23,31 +23,31 @@
 #endregion
 
 
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 using Wayloop.Highlight.Patterns;
 
 
 namespace Wayloop.Highlight.Collections
 {
-    public class PatternCollection : ArrayList
+    public class PatternCollection : List<Pattern>
     {
         public PatternCollection()
         {
         }
 
 
-        public PatternCollection(ICollection c) : base(c)
+        public PatternCollection(IEnumerable<Pattern> collection) : base(collection)
         {
         }
 
 
-        public static PatternCollection GetAllPatterns(XmlDocument xmlDocument, Definition parent)
+        public static PatternCollection GetAllPatterns(XmlDocument xmlConfiguration, Definition definition)
         {
             var document = new XmlDocument();
-            document.LoadXml(xmlDocument.OuterXml);
+            document.LoadXml(xmlConfiguration.OuterXml);
             var patterns = new PatternCollection();
-            var xpath = string.Format("definitions/definition[@name='{0}']/pattern", parent.Name);
+            var xpath = string.Format("definitions/definition[@name='{0}']/pattern", definition.Name);
             var patternNodes = document.SelectNodes(xpath);
             if (patternNodes != null) {
                 foreach (XmlNode node in patternNodes) {

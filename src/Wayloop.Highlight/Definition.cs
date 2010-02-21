@@ -35,21 +35,18 @@ namespace Wayloop.Highlight
 {
     public class Definition
     {
-        public Definition()
-        {
-        }
-
-
         public Definition(XmlDocument xmlDocument, string name)
         {
             var xpath = String.Format("definitions/definition[translate(@name,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')='{0}']", name.ToUpper());
             var definitionNode = xmlDocument.SelectSingleNode(xpath);
-            if (definitionNode != null) {
-                Name = definitionNode.Attributes["name"].InnerText;
-                Patterns = PatternCollection.GetAllPatterns(xmlDocument, this);
-                CaseSensitive = bool.Parse(definitionNode.Attributes["caseSensitive"].InnerText);
-                SetDefaults(definitionNode);
+            if (definitionNode == null) {
+                throw new InvalidOperationException(String.Format("No definition matching the name '{0}' was found.", name));
             }
+
+            Name = definitionNode.Attributes["name"].InnerText;
+            Patterns = PatternCollection.GetAllPatterns(xmlDocument, this);
+            CaseSensitive = bool.Parse(definitionNode.Attributes["caseSensitive"].InnerText);
+            SetDefaults(definitionNode);
         }
 
 
@@ -68,7 +65,7 @@ namespace Wayloop.Highlight
             var markupPatterns = new StringBuilder();
             var wordPatterns = new StringBuilder();
 
-            foreach (Pattern pattern in Patterns) {
+            foreach (var pattern in Patterns) {
                 if (pattern is BlockPattern) {
                     if (blockPatterns.Length > 1) {
                         blockPatterns.Append("|");
