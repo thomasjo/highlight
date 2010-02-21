@@ -40,47 +40,26 @@ namespace Wayloop.Highlight.Engines
         private readonly ArrayList fonts = new ArrayList();
 
 
-        private string BuildColorList()
-        {
-            var builder = new StringBuilder();
-            foreach (var color in colors) {
-                var hexColor = (HexColor) color;
-                builder.AppendFormat(@"\red{0}\green{1}\blue{2};", hexColor.Red, hexColor.Green, hexColor.Blue);
-            }
-            return builder.ToString();
-        }
-
-
-        private string BuildFontList()
-        {
-            var builder = new StringBuilder();
-            for (var i = 0; i < fonts.Count; i++) {
-                builder.AppendFormat(@"\f{0} {1};", i, fonts[i]);
-            }
-            return builder.ToString();
-        }
-
-
         private string CreateRtfPatternStyle(Color foreColor, Color backColor, Font font)
         {
             return string.Concat(new object[] { @"\cf", GetIndexOfColor(foreColor), @"\highlight", GetIndexOfColor(backColor), @"\f", GetIndexOfFont(font.Name), @"\fs", font.Size * 2f });
         }
 
 
-        protected override string ElementMatchHandler(Match m)
+        protected override string ElementMatchHandler(Definition definition, Match match)
         {
             var builder = new StringBuilder();
             const string format = "{0} {1}";
             var str4 = string.Empty;
             var str5 = string.Empty;
-            foreach (Pattern pattern2 in Definition.Patterns) {
-                if (!m.Groups[pattern2.Name].Success) {
+            foreach (Pattern pattern2 in definition.Patterns) {
+                if (!match.Groups[pattern2.Name].Success) {
                     continue;
                 }
                 string str2;
                 if (pattern2 is BlockPattern) {
                     str2 = CreateRtfPatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
-                    return ("{" + string.Format(format, str2, m.Value) + "}");
+                    return ("{" + string.Format(format, str2, match.Value) + "}");
                 }
                 if (pattern2 is MarkupPattern) {
                     var pattern = (MarkupPattern) pattern2;
@@ -90,27 +69,27 @@ namespace Wayloop.Highlight.Engines
                         str4 = CreateRtfPatternStyle(pattern.AttributeNameForeColor, pattern.AttributeNameBackColor, pattern.Style.Font);
                         str5 = CreateRtfPatternStyle(pattern.AttributeValueForeColor, pattern.AttributeValueBackColor, pattern.Style.Font);
                     }
-                    builder.AppendFormat(format, str3, m.Groups["openTag"].Value);
-                    builder.Append(m.Groups["ws1"].Value);
-                    builder.AppendFormat(format, str2, m.Groups["tagName"].Value);
+                    builder.AppendFormat(format, str3, match.Groups["openTag"].Value);
+                    builder.Append(match.Groups["ws1"].Value);
+                    builder.AppendFormat(format, str2, match.Groups["tagName"].Value);
                     if (str4 != null) {
-                        for (var i = 0; i < m.Groups["attribName"].Captures.Count; i++) {
-                            builder.Append(m.Groups["ws2"].Captures[i].Value);
-                            builder.AppendFormat(format, str4, m.Groups["attribName"].Captures[i].Value);
-                            builder.Append(m.Groups["ws3"].Captures[i].Value);
-                            builder.AppendFormat(format, str5, m.Groups["attribSign"].Captures[i].Value + m.Groups["ws4"].Captures[i].Value + m.Groups["attribValue"].Captures[i].Value);
+                        for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+                            builder.Append(match.Groups["ws2"].Captures[i].Value);
+                            builder.AppendFormat(format, str4, match.Groups["attribName"].Captures[i].Value);
+                            builder.Append(match.Groups["ws3"].Captures[i].Value);
+                            builder.AppendFormat(format, str5, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                         }
                     }
-                    builder.Append(m.Groups["ws5"].Value);
-                    builder.AppendFormat(format, str3, m.Groups["closeTag"].Value);
+                    builder.Append(match.Groups["ws5"].Value);
+                    builder.AppendFormat(format, str3, match.Groups["closeTag"].Value);
                     return ("{" + builder + "}");
                 }
                 if (pattern2 is WordPattern) {
                     str2 = CreateRtfPatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
-                    return ("{" + string.Format(format, str2, m.Value) + "}");
+                    return ("{" + string.Format(format, str2, match.Value) + "}");
                 }
             }
-            return m.Value;
+            return match.Value;
         }
 
 
@@ -147,6 +126,7 @@ namespace Wayloop.Highlight.Engines
         }
 
 
+/*
         protected override void Highlight()
         {
             string str2;
@@ -162,6 +142,49 @@ namespace Wayloop.Highlight.Engines
             str2 = str2.Replace("\r\n", @"\par ");
             Input = @"{\rtf1\ansi{\fonttbl{" + BuildFontList() + @"}}{\colortbl;" + BuildColorList() + "}" + str2 + "}";
         }
+
+
+        private string BuildColorList()
+        {
+            var builder = new StringBuilder();
+            foreach (var color in colors) {
+                var hexColor = (HexColor) color;
+                builder.AppendFormat(@"\red{0}\green{1}\blue{2};", hexColor.Red, hexColor.Green, hexColor.Blue);
+            }
+            return builder.ToString();
+        }
+
+
+        private string BuildFontList()
+        {
+            var builder = new StringBuilder();
+            for (var i = 0; i < fonts.Count; i++) {
+                builder.AppendFormat(@"\f{0} {1};", i, fonts[i]);
+            }
+            return builder.ToString();
+        }
+
+
+        private string BuildColorList()
+        {
+            var builder = new StringBuilder();
+            foreach (var color in colors) {
+                var hexColor = (HexColor) color;
+                builder.AppendFormat(@"\red{0}\green{1}\blue{2};", hexColor.Red, hexColor.Green, hexColor.Blue);
+            }
+            return builder.ToString();
+        }
+
+
+        private string BuildFontList()
+        {
+            var builder = new StringBuilder();
+            for (var i = 0; i < fonts.Count; i++) {
+                builder.AppendFormat(@"\f{0} {1};", i, fonts[i]);
+            }
+            return builder.ToString();
+        }
+*/
 
 
         [StructLayout(LayoutKind.Sequential)]

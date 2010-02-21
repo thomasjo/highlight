@@ -42,17 +42,17 @@ namespace Wayloop.Highlight.Collections
         }
 
 
-        public static DefinitionCollection GetAllDefinitions(XmlDocument xmlDocument)
+        public static DefinitionCollection GetAllDefinitions(XmlDocument xmlConfiguration)
         {
-            if (xmlDocument == null) {
-                throw new ArgumentNullException("xmlDocument");
+            if (xmlConfiguration == null) {
+                throw new ArgumentNullException("xmlConfiguration");
             }
 
             var definitions = new DefinitionCollection();
-            var definitionNodes = xmlDocument.SelectNodes("definitions/definition");
+            var definitionNodes = xmlConfiguration.SelectNodes("definitions/definition");
             if (definitionNodes != null) {
                 foreach (XmlNode node in definitionNodes) {
-                    var definition = new Definition(node.Attributes["name"].InnerText, xmlDocument);
+                    var definition = new Definition(xmlConfiguration, node.Attributes["name"].InnerText);
                     definitions.Add(definition);
                 }
             }

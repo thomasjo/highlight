@@ -30,26 +30,29 @@ namespace Wayloop.Highlight.Engines
 {
     public abstract class Engine
     {
-        protected Engine()
+        protected abstract string ElementMatchHandler(Definition definition, Match match);
+
+
+        public string Highlight(Definition definition, string input)
         {
-            Input = string.Empty;
+            var evaluator = GetMatchEvaluator(definition);
+            var patterns = definition.GetPatterns();
+
+            string output;
+            if (definition.CaseSensitive) {
+                output = Regex.Replace(input, patterns, evaluator, RegexOptions.ExplicitCapture);
+            }
+            else {
+                output = Regex.Replace(input, patterns, evaluator, RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+            }
+
+            return output;
         }
 
 
-        protected Definition Definition { get; set; }
-        protected string Input { get; set; }
-
-        protected abstract string ElementMatchHandler(Match match);
-        protected abstract void Highlight();
-
-
-        public string Highlight(string input, Definition definition)
+        private MatchEvaluator GetMatchEvaluator(Definition definition)
         {
-            Definition = definition;
-            Input = input;
-            Highlight();
-
-            return Input;
+            return match => ElementMatchHandler(definition, match);
         }
     }
 }

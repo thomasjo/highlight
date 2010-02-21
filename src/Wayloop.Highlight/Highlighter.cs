@@ -31,50 +31,42 @@ namespace Wayloop.Highlight
 {
     public class Highlighter
     {
-        private XmlDocument xmlDocument;
+        private XmlDocument xmlConfiguration;
 
 
         public Highlighter()
         {
-            xmlDocument = new XmlDocument();
+            xmlConfiguration = new XmlDocument();
             ConfigurationFile = string.Empty;
-            OutputType = OutputType.Html;
+            Engine = new HtmlEngine();
         }
 
 
-        public Highlighter(XmlDocument xmlDocument)
+        public Highlighter(XmlDocument xmlConfiguration) : this()
         {
-            this.xmlDocument = xmlDocument;
+            this.xmlConfiguration = xmlConfiguration;
         }
 
 
         public string ConfigurationFile { get; set; }
-        public OutputType OutputType { get; set; }
+        public Engine Engine { get; set; }
 
 
-        public string Highlight(string input, string definitionName)
+        public string Highlight(string definitionName, string input)
         {
-            if (xmlDocument.OuterXml.Length == 0) {
-                xmlDocument = Global.GetConfiguration(ConfigurationFile);
+            if (xmlConfiguration.OuterXml.Length == 0) {
+                xmlConfiguration = Global.GetConfiguration(ConfigurationFile);
             }
-            var definition = new Definition(definitionName, xmlDocument);
+            var definition = new Definition(xmlConfiguration, definitionName);
             if (definition.Name != string.Empty) {
-                Engine engine;
-                if (OutputType == OutputType.Html) {
-                    engine = new HtmlEngine();
-                    return engine.Highlight(Global.HtmlEncode(input), definition);
+                if (Engine is HtmlEngine) {
+                    return Engine.Highlight(definition, Global.HtmlEncode(input));
                 }
-                if (OutputType == OutputType.HtmlCss) {
-                    engine = new HtmlEngine { UseCss = true };
-                    return engine.Highlight(Global.HtmlEncode(input), definition);
+                if (Engine is XmlEngine) {
+                    return Engine.Highlight(definition, Global.HtmlEncode(input));
                 }
-                if (OutputType == OutputType.Xml) {
-                    engine = new XmlEngine();
-                    return engine.Highlight(Global.HtmlEncode(input), definition);
-                }
-                if (OutputType == OutputType.Rtf) {
-                    engine = new RtfEngine();
-                    return Global.HtmlDecode(engine.Highlight(Global.HtmlEncode(input), definition));
+                if (Engine is RtfEngine) {
+                    return Global.HtmlDecode(Engine.Highlight(definition, Global.HtmlEncode(input)));
                 }
             }
 

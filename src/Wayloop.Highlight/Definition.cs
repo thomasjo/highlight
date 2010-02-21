@@ -40,7 +40,7 @@ namespace Wayloop.Highlight
         }
 
 
-        public Definition(string name, XmlDocument xmlDocument)
+        public Definition(XmlDocument xmlDocument, string name)
         {
             var xpath = String.Format("definitions/definition[translate(@name,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')='{0}']", name.ToUpper());
             var definitionNode = xmlDocument.SelectSingleNode(xpath);

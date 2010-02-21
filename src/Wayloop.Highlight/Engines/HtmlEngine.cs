@@ -35,7 +35,7 @@ namespace Wayloop.Highlight.Engines
         public bool UseCss { get; set; }
 
 
-        protected override string ElementMatchHandler(Match m)
+        protected override string ElementMatchHandler(Definition definition, Match match)
         {
             var builder = new StringBuilder();
             const string format = "<span style=\"{0}\">{1}</span>";
@@ -44,16 +44,16 @@ namespace Wayloop.Highlight.Engines
             var str4 = string.Empty;
             var str5 = string.Empty;
             var str6 = string.Empty;
-            foreach (Pattern pattern2 in Definition.Patterns) {
-                if (!m.Groups[pattern2.Name].Success) {
+            foreach (Pattern pattern2 in definition.Patterns) {
+                if (!match.Groups[pattern2.Name].Success) {
                     continue;
                 }
                 if (pattern2 is BlockPattern) {
                     if (!UseCss) {
                         str3 = Global.CreatePatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
-                        return string.Format(format, str3, m.Value);
+                        return string.Format(format, str3, match.Value);
                     }
-                    return string.Format(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name), m.Value);
+                    return string.Format(str2, Global.CreateCssClassName(definition.Name, pattern2.Name), match.Value);
                 }
                 if (pattern2 is MarkupPattern) {
                     var pattern = (MarkupPattern) pattern2;
@@ -66,57 +66,57 @@ namespace Wayloop.Highlight.Engines
                         }
                     }
                     if (!UseCss) {
-                        builder.AppendFormat(format, str4, m.Groups["openTag"].Value);
+                        builder.AppendFormat(format, str4, match.Groups["openTag"].Value);
                     }
                     else {
-                        builder.AppendFormat(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name + "Bracket"), m.Groups["openTag"].Value);
+                        builder.AppendFormat(str2, Global.CreateCssClassName(definition.Name, pattern2.Name + "Bracket"), match.Groups["openTag"].Value);
                     }
-                    builder.Append(m.Groups["ws1"].Value);
+                    builder.Append(match.Groups["ws1"].Value);
                     if (!UseCss) {
-                        builder.AppendFormat(format, str3, m.Groups["tagName"].Value);
+                        builder.AppendFormat(format, str3, match.Groups["tagName"].Value);
                     }
                     else {
-                        builder.AppendFormat(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name + "TagName"), m.Groups["tagName"].Value);
+                        builder.AppendFormat(str2, Global.CreateCssClassName(definition.Name, pattern2.Name + "TagName"), match.Groups["tagName"].Value);
                     }
                     if (pattern.HighlightAttributes) {
-                        for (var i = 0; i < m.Groups["attribName"].Captures.Count; i++) {
-                            builder.Append(m.Groups["ws2"].Captures[i].Value);
+                        for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+                            builder.Append(match.Groups["ws2"].Captures[i].Value);
                             if (!UseCss) {
-                                builder.AppendFormat(format, str5, m.Groups["attribName"].Captures[i].Value);
+                                builder.AppendFormat(format, str5, match.Groups["attribName"].Captures[i].Value);
                             }
                             else {
-                                builder.AppendFormat(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name + "AttributeName"), m.Groups["attribName"].Captures[i].Value);
+                                builder.AppendFormat(str2, Global.CreateCssClassName(definition.Name, pattern2.Name + "AttributeName"), match.Groups["attribName"].Captures[i].Value);
                             }
-                            builder.Append(m.Groups["ws3"].Captures[i].Value);
+                            builder.Append(match.Groups["ws3"].Captures[i].Value);
                             if (!UseCss) {
-                                builder.AppendFormat(format, str6, m.Groups["attribSign"].Captures[i].Value + m.Groups["ws4"].Captures[i].Value + m.Groups["attribValue"].Captures[i].Value);
+                                builder.AppendFormat(format, str6, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                             }
                             else {
-                                builder.AppendFormat(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name + "AttributeValue"), m.Groups["attribSign"].Captures[i].Value + m.Groups["ws4"].Captures[i].Value + m.Groups["attribValue"].Captures[i].Value);
+                                builder.AppendFormat(str2, Global.CreateCssClassName(definition.Name, pattern2.Name + "AttributeValue"), match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                             }
                         }
                     }
-                    builder.Append(m.Groups["ws5"].Value);
+                    builder.Append(match.Groups["ws5"].Value);
                     if (!UseCss) {
-                        builder.AppendFormat(format, str4, m.Groups["closeTag"].Value);
+                        builder.AppendFormat(format, str4, match.Groups["closeTag"].Value);
                     }
                     else {
-                        builder.AppendFormat(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name + "Bracket"), m.Groups["closeTag"].Value);
+                        builder.AppendFormat(str2, Global.CreateCssClassName(definition.Name, pattern2.Name + "Bracket"), match.Groups["closeTag"].Value);
                     }
                     return builder.ToString();
                 }
                 if (pattern2 is WordPattern) {
                     if (!UseCss) {
                         str3 = Global.CreatePatternStyle(pattern2.Style.ForeColor, pattern2.Style.BackColor, pattern2.Style.Font);
-                        return string.Format(format, str3, m.Value);
+                        return string.Format(format, str3, match.Value);
                     }
-                    return string.Format(str2, Global.CreateCssClassName(Definition.Name, pattern2.Name), m.Value);
+                    return string.Format(str2, Global.CreateCssClassName(definition.Name, pattern2.Name), match.Value);
                 }
             }
-            return m.Value;
+            return match.Value;
         }
 
-
+/*
         protected override void Highlight()
         {
             var evaluator = new MatchEvaluator(ElementMatchHandler);
@@ -134,5 +134,6 @@ namespace Wayloop.Highlight.Engines
                 Input = string.Format("<span class=\"{0}\">{1}</span>", Global.CreateCssClassName(Definition.Name, null), Input);
             }
         }
+*/
     }
 }
