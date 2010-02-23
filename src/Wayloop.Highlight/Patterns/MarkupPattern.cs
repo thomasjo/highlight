@@ -69,7 +69,28 @@ namespace Wayloop.Highlight.Patterns
 
         public override string GetPatternString()
         {
-            return "(?'openTag'&lt;\\??/?)(?'ws1'\\s*?)(?'tagName'[\\w\\:]+)((?'ws2'\\s*?)(?'attribute'(?'attribName'[\\w\\:-]+)(?:(?'ws3'\\s*)(?'attribSign'=)(?'ws4'\\s*))(?'attribValue'(?:\\'[^\\']*\\'|\"[^\"]*\"|\\w+)))|(?'ws5'\\s*?)(?'closeTag'[\\/\\?]?&gt;))+";
+            //(?'openTag'&lt;\??/?)
+            //(?'ws1'\s*?)
+            //(?'tagName'[\w\:]+)
+            //(
+            //    (?'ws2'\s*?)
+            //    (?'attribute'
+            //        (?'attribName'[\w\:-]+)
+            //        (?:
+            //            (?'ws3'\s*)
+            //            (?'attribSign'=)
+            //            (?'ws4'\s*)
+            //        )
+            //        (?'attribValue'
+            //            (?:\'[^\']*\'|""[^""]*""|\w+)
+            //        )
+            //    )
+            //    |
+            //    (?'ws5'\s*?)
+            //    (?'closeTag'[\/\?]?&gt;)
+            //)+";
+
+            return @"(?'openTag'&lt;\??/?)(?'ws1'\s*?)(?'tagName'[\w\:]+)((?'ws2'\s*?)(?'attribute'(?'attribName'[\w\:-]+)(?:(?'ws3'\s*)(?'attribSign'=)(?'ws4'\s*))(?'attribValue'(?:\'[^\']*\'|""[^""]*""|\w+)))|(?'ws5'\s*?)(?'closeTag'[\/\?]?&gt;))+";
         }
     }
 }
