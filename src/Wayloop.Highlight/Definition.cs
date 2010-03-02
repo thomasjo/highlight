@@ -86,13 +86,13 @@ namespace Wayloop.Highlight
                 }
             }
             if (blockPatterns.Length > 0) {
-                allPatterns.AppendFormat("(?'blocks'{0})+", blockPatterns);
+                allPatterns.AppendFormat("(?'blocks'{0})+?", blockPatterns);
             }
             if (markupPatterns.Length > 0) {
-                allPatterns.AppendFormat("|(?'markup'{0})+", markupPatterns);
+                allPatterns.AppendFormat("|(?'markup'{0})+?", markupPatterns);
             }
             if (wordPatterns.Length > 0) {
-                allPatterns.AppendFormat("|(?'words'{0})+", wordPatterns);
+                allPatterns.AppendFormat("|(?'words'{0})+?", wordPatterns);
             }
 
             return allPatterns.ToString();

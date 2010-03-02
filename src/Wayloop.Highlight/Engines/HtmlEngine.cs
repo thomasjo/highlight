@@ -60,24 +60,18 @@ namespace Wayloop.Highlight.Engines
         {
             var matchedPatterns = definition.Patterns.Where(pattern => match.Groups[pattern.Name].Success);
             foreach (var pattern in matchedPatterns) {
-                if (pattern is BlockPattern) {
-                    return HandleBlockPattern(definition, match, pattern);
-                }
-
                 if (pattern is MarkupPattern) {
                     return HandleMarkupPattern(definition, match, pattern);
                 }
 
-                if (pattern is WordPattern) {
-                    return HandleWordPattern(definition, match, pattern);
-                }
+                return HandlePattern(definition, match, pattern);
             }
 
             return match.Value;
         }
 
 
-        private string HandleBlockPattern(Definition definition, Match match, Pattern pattern)
+        private string HandlePattern(Definition definition, Capture match, Pattern pattern)
         {
             if (!UseCss) {
                 var patternStyle = Global.CreatePatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
@@ -145,18 +139,6 @@ namespace Wayloop.Highlight.Engines
             }
 
             return builder.ToString();
-        }
-
-
-        private string HandleWordPattern(Definition definition, Match match, Pattern pattern)
-        {
-            if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
-
-                return String.Format(StyleSpanFormat, patternStyle, match.Value);
-            }
-
-            return String.Format(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name), match.Value);
         }
     }
 }

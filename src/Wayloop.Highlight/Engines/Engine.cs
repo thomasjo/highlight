@@ -32,15 +32,16 @@ namespace Wayloop.Highlight.Engines
     {
         public string Highlight(Definition definition, string input)
         {
+            const RegexOptions regexOptions = RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace;
             var evaluator = GetMatchEvaluator(definition);
             var patterns = definition.GetPatterns();
 
             var output = PreHighlight(definition, input);
             if (definition.CaseSensitive) {
-                output = Regex.Replace(output, patterns, evaluator, RegexOptions.ExplicitCapture);
+                output = Regex.Replace(output, patterns, evaluator, regexOptions);
             }
             else {
-                output = Regex.Replace(output, patterns, evaluator, RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+                output = Regex.Replace(output, patterns, evaluator, regexOptions | RegexOptions.IgnoreCase);
             }
             output = PostHighlight(definition, output);
 
