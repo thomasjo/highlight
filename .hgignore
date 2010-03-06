@@ -1,3 +1,5 @@
-﻿# Ignore default build artifact folders.
+﻿# ========================
+#  Build artifact folders
+# ========================
 (?i)/obj/
 (?i)/bin/
