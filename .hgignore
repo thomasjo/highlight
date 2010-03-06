@@ -1,0 +1,3 @@
+﻿# Ignore default build artifact folders.
+(?i)/obj/
+(?i)/bin/
