@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 // Copyright (c) 2010 Thomas Andre H. Johansen
 // 
@@ -23,13 +23,14 @@
 #endregion
 
 
-namespace Wayloop.Highlight
-{
-    public enum OutputType
-    {
-        Html,
-        HtmlCss,
-        Xml,
-        Rtf
-    }
-}
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+
+[assembly: AssemblyTitle("Wayloop.Highlight.Tests")]
+[assembly: AssemblyProduct("Wayloop.Highlight.Tests")]
+[assembly: AssemblyCopyright("Copyright © 2010 Thomas Andre H. Johansen")]
+[assembly: ComVisible(false)]
+[assembly: Guid("b3d97577-72bc-47f1-ac5e-8a36ce544259")]
+[assembly: AssemblyVersion("2.5.*")]
+[assembly: AssemblyFileVersion("2.5.0.0")]
