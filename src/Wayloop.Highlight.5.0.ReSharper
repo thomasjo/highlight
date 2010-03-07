@@ -9,6 +9,18 @@
         <Variables />
         <CustomProperties />
       </Template>
+      <Template uid="57e48c2f-9475-4cc1-87b7-92381a76162e" shortcut="aaa" description="Arrange, Act and Assert" text="[Test]&#xD;&#xA;public void $MethodName$_$Scenario$_$ExpectedResult$()&#xD;&#xA;{&#xD;&#xA;    // Arrange&#xD;&#xA;    $END$&#xD;&#xA;&#xD;&#xA;    // Act&#xD;&#xA;&#xD;&#xA;    // Assert&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="MethodName" expression="" initialRange="0" />
+          <Variable name="Scenario" expression="" initialRange="0" />
+          <Variable name="ExpectedResult" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
     </LiveTemplates>
   </SharedSolutionTemplateManager>
   <CodeStyleSettings>
