@@ -35,7 +35,7 @@ namespace Wayloop.Highlight.Patterns
     {
         public PatternStyle()
         {
-            Font = new Font("Courier New", 10f, FontStyle.Regular);
+            Font = new Font("Courier New", 11f, FontStyle.Regular);
             ForeColor = Color.Empty;
             BackColor = Color.Empty;
         }
@@ -53,27 +53,35 @@ namespace Wayloop.Highlight.Patterns
             }
 
             var fontFamilyValue = fontNode.GetAttributeValue("name");
-            var fontSizeValue = fontNode.GetAttributeValue("size");
-            var fontStyleValue = fontNode.GetAttributeValue("style");
             if (fontFamilyValue != null) {
-                var emSize = (fontSizeValue != null) ? Convert.ToSingle(fontSizeValue) : 10f;
+                var fontSizeValue = fontNode.GetAttributeValue("size");
+                var fontStyleValue = fontNode.GetAttributeValue("style");
+                var emSize = (fontSizeValue != null) ? Convert.ToSingle(fontSizeValue) : 11f;
                 var style = (fontStyleValue != null) ? ((FontStyle) Enum.Parse(typeof (FontStyle), fontStyleValue, true)) : FontStyle.Regular;
                 Font = new Font(fontFamilyValue, emSize, style);
             }
 
             var foreColorValue = fontNode.GetAttributeValue("foreColor");
-            var backColorValue = fontNode.GetAttributeValue("backColor");
             if (foreColorValue != null) {
                 ForeColor = Color.FromName(foreColorValue);
             }
+            var backColorValue = fontNode.GetAttributeValue("backColor");
             if (backColorValue != null) {
                 BackColor = Color.FromName(backColorValue);
             }
         }
 
 
+        public PatternStyle(Color foreColor, Color backColor, Font font)
+        {
+            ForeColor = foreColor;
+            BackColor = backColor;
+            Font = font;
+        }
+
+
+        public Color ForeColor { get; private set; }
         public Color BackColor { get; private set; }
         public Font Font { get; private set; }
-        public Color ForeColor { get; private set; }
     }
 }

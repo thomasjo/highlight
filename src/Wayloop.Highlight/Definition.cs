@@ -50,11 +50,9 @@ namespace Wayloop.Highlight
         }
 
 
-        public Color BackColor { get; private set; }
-        public bool CaseSensitive { get; private set; }
-        public Font Font { get; private set; }
-        public Color ForeColor { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
+        public bool CaseSensitive { get; set; }
+        public DefinitionStyle Style { get; set; }
         public PatternCollection Patterns { get; private set; }
 
 
@@ -106,9 +104,10 @@ namespace Wayloop.Highlight
             var innerText = node.Attributes["name"].InnerText;
             var emSize = Convert.ToSingle(node.Attributes["size"].InnerText);
             var style = (FontStyle) Enum.Parse(typeof (FontStyle), node.Attributes["style"].InnerText, true);
-            Font = new Font(innerText, emSize, style);
-            ForeColor = Color.FromName(node.Attributes["foreColor"].InnerText);
-            BackColor = Color.FromName(node.Attributes["backColor"].InnerText);
+            var font = new Font(innerText, emSize, style);
+            var foreColor = Color.FromName(node.Attributes["foreColor"].InnerText);
+            var backColor = Color.FromName(node.Attributes["backColor"].InnerText);
+            Style = new DefinitionStyle(foreColor, backColor, font);
         }
 
 

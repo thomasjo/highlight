@@ -28,16 +28,9 @@ using System.Runtime.InteropServices;
 
 
 [assembly: AssemblyTitle("Wayloop.Highlight")]
-[assembly: AssemblyDescription("Syntax Highlighter")]
-//[assembly: AssemblyConfiguration("")]
-//[assembly: AssemblyCompany("")]
-
 [assembly: AssemblyProduct("Wayloop.Highlight")]
 [assembly: AssemblyCopyright("Copyright © 2010 Thomas Andre H. Johansen")]
-//[assembly: AssemblyTrademark("")]
-//[assembly: AssemblyCulture("")]
-
+[assembly: ComVisible(false)]
 [assembly: Guid("c9b61ba8-5772-4035-9601-24177ecce236")]
 [assembly: AssemblyVersion("2.5.*")]
 [assembly: AssemblyFileVersion("2.5.0.0")]
-[assembly: ComVisible(false)]

@@ -52,7 +52,7 @@ namespace Wayloop.Highlight.Engines
                 return String.Format(ClassSpanFormat, Global.CreateCssClassName(definition.Name, null), input);
             }
 
-            return String.Format(StyleSpanFormat, Global.CreatePatternStyle(definition.ForeColor, definition.BackColor, definition.Font), input);
+            return String.Format(StyleSpanFormat, Global.CreatePatternStyle(definition.Style.ForeColor, definition.Style.BackColor, definition.Style.Font), input);
         }
 
 

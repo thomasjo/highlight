@@ -44,6 +44,7 @@
     <Compile Include="Collections\PatternCollection.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="Definition.cs" />
+    <Compile Include="DefinitionStyle.cs" />
     <Compile Include="Engines\Engine.cs" />
     <Compile Include="Engines\HtmlEngine.cs" />
     <Compile Include="Engines\RtfEngine.cs" />
@@ -51,7 +52,6 @@
     <Compile Include="Extensions\XmlNodeExtensions.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Highlighter.cs" />
-    <Compile Include="OutputType.cs" />
     <Compile Include="Patterns\BlockPattern.cs" />
     <Compile Include="Patterns\MarkupPattern.cs" />
     <Compile Include="Patterns\Pattern.cs" />
