@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 
@@ -64,10 +65,8 @@ namespace Wayloop.Highlight.Patterns
         {
             var input = string.Join("", (string[]) Words.ToArray(typeof (string)));
             var list = new ArrayList();
-            foreach (Match match in Regex.Matches(input, @"\W")) {
-                if (!list.Contains(match.Value)) {
-                    list.Add(match.Value);
-                }
+            foreach (var match in Regex.Matches(input, @"\W").Cast<Match>().Where(x => !list.Contains(x.Value))) {
+                list.Add(match.Value);
             }
 
             return string.Join("", (string[]) list.ToArray(typeof (string)));

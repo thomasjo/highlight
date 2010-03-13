@@ -27,6 +27,7 @@ using System;
 using System.Collections;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -65,10 +66,7 @@ namespace Wayloop.Highlight.Engines
             const string format = "{0} {1}";
             var str4 = string.Empty;
             var str5 = string.Empty;
-            foreach (var pattern in definition.Patterns) {
-                if (!match.Groups[pattern.Name].Success) {
-                    continue;
-                }
+            foreach (var pattern in definition.Patterns.Where(pattern => match.Groups[pattern.Name].Success)) {
                 string str2;
                 if (pattern is BlockPattern) {
                     str2 = CreateRtfPatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
@@ -154,8 +152,7 @@ namespace Wayloop.Highlight.Engines
         private string BuildColorList()
         {
             var builder = new StringBuilder();
-            foreach (var color in colors) {
-                var hexColor = (HexColor) color;
+            foreach (var hexColor in colors.Cast<HexColor>()) {
                 builder.AppendFormat(@"\red{0}\green{1}\blue{2};", hexColor.Red, hexColor.Green, hexColor.Blue);
             }
             return builder.ToString();

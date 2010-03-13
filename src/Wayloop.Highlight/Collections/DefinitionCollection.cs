@@ -26,6 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 
@@ -52,10 +53,7 @@ namespace Wayloop.Highlight.Collections
             var definitions = new DefinitionCollection();
             var definitionNodes = xmlConfiguration.SelectNodes("definitions/definition");
             if (definitionNodes != null) {
-                foreach (XmlNode node in definitionNodes) {
-                    var definition = new Definition(xmlConfiguration, node.Attributes["name"].InnerText);
-                    definitions.Add(definition);
-                }
+                definitions.AddRange(from XmlNode node in definitionNodes select new Definition(xmlConfiguration, node.Attributes["name"].InnerText));
             }
 
             return definitions;

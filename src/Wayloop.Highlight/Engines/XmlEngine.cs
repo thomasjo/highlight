@@ -24,6 +24,7 @@
 
 
 using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Wayloop.Highlight.Patterns;
@@ -50,10 +51,7 @@ namespace Wayloop.Highlight.Engines
             var builder = new StringBuilder();
             var builder2 = new StringBuilder();
             const string format = "<{0}>{1}</{0}>";
-            foreach (var pattern in definition.Patterns) {
-                if (!match.Groups[pattern.Name].Success) {
-                    continue;
-                }
+            foreach (var pattern in definition.Patterns.Where(x => match.Groups[x.Name].Success)) {
                 if (pattern is BlockPattern) {
                     return String.Format(format, pattern.Name, match.Value);
                 }
