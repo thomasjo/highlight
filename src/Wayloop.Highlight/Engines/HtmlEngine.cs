@@ -42,12 +42,20 @@ namespace Wayloop.Highlight.Engines
 
         protected override string PreHighlight(Definition definition, string input)
         {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+
             return Global.HtmlEncode(input);
         }
 
 
         protected override string PostHighlight(Definition definition, string input)
         {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+
             if (UseCss) {
                 return String.Format(ClassSpanFormat, Global.CreateCssClassName(definition.Name, null), input);
             }
@@ -58,6 +66,13 @@ namespace Wayloop.Highlight.Engines
 
         protected override string ElementMatchHandler(Definition definition, Match match)
         {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+            if (match == null) {
+                throw new ArgumentNullException("match");
+            }
+
             var matchedPatterns = definition.Patterns.Where(pattern => match.Groups[pattern.Name].Success);
             foreach (var pattern in matchedPatterns) {
                 if (pattern is MarkupPattern) {
@@ -73,6 +88,16 @@ namespace Wayloop.Highlight.Engines
 
         private string HandlePattern(Definition definition, Capture match, Pattern pattern)
         {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+            if (match == null) {
+                throw new ArgumentNullException("match");
+            }
+            if (pattern == null) {
+                throw new ArgumentNullException("pattern");
+            }
+
             if (!UseCss) {
                 var patternStyle = Global.CreatePatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
 
@@ -85,6 +110,16 @@ namespace Wayloop.Highlight.Engines
 
         private string HandleMarkupPattern(Definition definition, Match match, Pattern pattern)
         {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+            if (match == null) {
+                throw new ArgumentNullException("match");
+            }
+            if (pattern == null) {
+                throw new ArgumentNullException("pattern");
+            }
+
             var builder = new StringBuilder();
             var markupPattern = (MarkupPattern) pattern;
             if (!UseCss) {

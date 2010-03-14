@@ -23,6 +23,7 @@
 #endregion
 
 
+using System;
 using System.Xml;
 using Wayloop.Highlight.Engines;
 
@@ -53,6 +54,10 @@ namespace Wayloop.Highlight
 
         public string Highlight(string definitionName, string input)
         {
+            if (definitionName == null) {
+                throw new ArgumentNullException("definitionName");
+            }
+
             if (xmlConfiguration.OuterXml.Length == 0) {
                 xmlConfiguration = Global.GetConfiguration(ConfigurationFile);
             }

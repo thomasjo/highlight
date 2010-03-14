@@ -34,12 +34,23 @@ namespace Wayloop.Highlight.Tests.Engines
     [TestFixture]
     public class HtmlEngineTests
     {
+        private Engine engine;
+        private Configurator configurator;
+
+
+        [TestFixtureSetUp]
+        public void FixtureSetUp()
+        {
+            engine = new HtmlEngine();
+            configurator = new Configurator { ConfigurationFile = Global.ConfigurationFile };
+        }
+
+
         [Test]
         public void Highlight_CsharpDefinitionAndCsharpInput_ReturnsExpectedOutput()
         {
             // Arrange
-            var engine = new HtmlEngine();
-            var definition = new Configurator { ConfigurationFile = Global.ConfigurationFile }.Definitions.Single(x => x.Name.Equals("C#", StringComparison.InvariantCultureIgnoreCase));
+            var definition = configurator.Definitions.Single(x => x.Name.Equals("C#", StringComparison.InvariantCultureIgnoreCase));
             const string input = @"public class A
 {
     // Comment
@@ -69,8 +80,7 @@ namespace Wayloop.Highlight.Tests.Engines
         public void Highlight_HtmlDefinitionAndHtmlInput_ReturnsExpectedOutput()
         {
             // Arrange
-            var engine = new HtmlEngine();
-            var definition = new Configurator { ConfigurationFile = Global.ConfigurationFile }.Definitions.Single(x => x.Name.Equals("HTML", StringComparison.InvariantCultureIgnoreCase));
+            var definition = configurator.Definitions.Single(x => x.Name.Equals("HTML", StringComparison.InvariantCultureIgnoreCase));
             const string input = @"<script type=""text/javascript"" src=""http://example.org/file.js""></script>
 <div id=""test""><a href=""#"">Link</a></div>";
             const string expectedOutput = @"<span style=""color: Black;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;""><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">script</span> <span style=""color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">type</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">=""text/javascript""</span> <span style=""color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">src</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">=""http://example.org/file.js""</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;/</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">script</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span>

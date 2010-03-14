@@ -23,6 +23,7 @@
 #endregion
 
 
+using System;
 using System.Text.RegularExpressions;
 
 
@@ -32,6 +33,10 @@ namespace Wayloop.Highlight.Engines
     {
         public string Highlight(Definition definition, string input)
         {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+
             const RegexOptions regexOptions = RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace;
             var evaluator = GetMatchEvaluator(definition);
             var patterns = definition.GetPatterns();
