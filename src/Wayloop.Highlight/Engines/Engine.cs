@@ -29,7 +29,7 @@ using System.Text.RegularExpressions;
 
 namespace Wayloop.Highlight.Engines
 {
-    public abstract class Engine
+    public abstract class Engine : IEngine
     {
         public string Highlight(Definition definition, string input)
         {

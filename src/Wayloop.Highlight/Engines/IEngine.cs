@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 // Copyright (c) 2010 Thomas Andre H. Johansen
 // 
@@ -23,39 +23,10 @@
 #endregion
 
 
-using System.Xml;
-using Wayloop.Highlight.Collections;
-
-
-namespace Wayloop.Highlight
+namespace Wayloop.Highlight.Engines
 {
-    public class Configurator
+    public interface IEngine
     {
-        private XmlDocument xmlDocument;
-
-
-        public Configurator()
-        {
-            xmlDocument = new XmlDocument();
-        }
-
-
-        public Configurator(XmlDocument xmlDocument)
-        {
-            this.xmlDocument = xmlDocument;
-        }
-
-
-        public string ConfigurationFile { get; set; }
-
-        public DefinitionCollection Definitions
-        {
-            get
-            {
-                xmlDocument = Global.GetConfiguration(ConfigurationFile);
-
-                return DefinitionCollection.GetAllDefinitions(xmlDocument);
-            }
-        }
+        string Highlight(Definition definition, string input);
     }
 }

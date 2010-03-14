@@ -23,54 +23,12 @@
 #endregion
 
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
 
 
 namespace Wayloop.Highlight.Collections
 {
     public class DefinitionCollection : List<Definition>
     {
-        public DefinitionCollection()
-        {
-        }
-
-
-        public DefinitionCollection(IEnumerable<Definition> collection) : base(collection)
-        {
-        }
-
-
-        public static DefinitionCollection GetAllDefinitions(XmlDocument xmlConfiguration)
-        {
-            if (xmlConfiguration == null) {
-                throw new ArgumentNullException("xmlConfiguration");
-            }
-
-            var definitions = new DefinitionCollection();
-            var definitionNodes = xmlConfiguration.SelectNodes("definitions/definition");
-            if (definitionNodes != null) {
-                definitions.AddRange(from XmlNode node in definitionNodes select new Definition(xmlConfiguration, node.Attributes["name"].InnerText));
-            }
-
-            return definitions;
-        }
-
-
-        public static ArrayList GetDefinitionNames()
-        {
-            var list = new ArrayList();
-            var definitionNodes = Global.GetConfiguration(Global.ConfigurationFile).SelectNodes("definitions/definition");
-            if (definitionNodes != null) {
-                foreach (XmlNode node in definitionNodes) {
-                    list.Add(node.Attributes["name"].InnerText);
-                }
-            }
-
-            return list;
-        }
     }
 }

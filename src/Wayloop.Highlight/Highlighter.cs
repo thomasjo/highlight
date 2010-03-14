@@ -24,7 +24,8 @@
 
 
 using System;
-using System.Xml;
+using System.Linq;
+using Wayloop.Highlight.Configuration;
 using Wayloop.Highlight.Engines;
 
 
@@ -32,24 +33,15 @@ namespace Wayloop.Highlight
 {
     public class Highlighter
     {
-        private XmlDocument xmlConfiguration;
-
-
         public Highlighter()
         {
-            xmlConfiguration = new XmlDocument();
+            Configuration = new XmlConfiguration(Global.GetConfiguration(Global.ConfigurationFile));
             Engine = new HtmlEngine();
         }
 
 
-        public Highlighter(XmlDocument xmlConfiguration) : this()
-        {
-            this.xmlConfiguration = xmlConfiguration;
-        }
-
-
-        public string ConfigurationFile { get; set; }
-        public Engine Engine { get; set; }
+        public IConfiguration Configuration { get; set; }
+        public IEngine Engine { get; set; }
 
 
         public string Highlight(string definitionName, string input)
@@ -58,11 +50,8 @@ namespace Wayloop.Highlight
                 throw new ArgumentNullException("definitionName");
             }
 
-            if (xmlConfiguration.OuterXml.Length == 0) {
-                xmlConfiguration = Global.GetConfiguration(ConfigurationFile);
-            }
-            var definition = new Definition(xmlConfiguration, definitionName);
-            if (definition.Name != string.Empty) {
+            var definition = Configuration.GetDefinitions().SingleOrDefault(x => x.Name.Equals(definitionName));
+            if (definition != null) {
                 return Engine.Highlight(definition, input);
             }
 

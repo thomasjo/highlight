@@ -23,13 +23,13 @@
 #endregion
 
 
-using System.Collections.Generic;
-using Wayloop.Highlight.Patterns;
+using Wayloop.Highlight.Collections;
 
 
-namespace Wayloop.Highlight.Collections
+namespace Wayloop.Highlight.Configuration
 {
-    public class PatternCollection : List<Pattern>
+    public interface IConfiguration
     {
+        DefinitionCollection GetDefinitions();
     }
 }

@@ -23,10 +23,7 @@
 #endregion
 
 
-using System;
-using System.Drawing;
 using System.Text;
-using System.Xml;
 using Wayloop.Highlight.Collections;
 using Wayloop.Highlight.Patterns;
 
@@ -35,18 +32,12 @@ namespace Wayloop.Highlight
 {
     public class Definition
     {
-        public Definition(XmlDocument xmlDocument, string name)
+        public Definition(string name, bool caseSensitive, DefinitionStyle style, PatternCollection patterns)
         {
-            var xpath = String.Format("definitions/definition[translate(@name,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')='{0}']", name.ToUpper());
-            var definitionNode = xmlDocument.SelectSingleNode(xpath);
-            if (definitionNode == null) {
-                throw new InvalidOperationException(String.Format("No definition matching the name '{0}' was found.", name));
-            }
-
-            Name = definitionNode.Attributes["name"].InnerText;
-            Patterns = PatternCollection.GetAllPatterns(xmlDocument, this);
-            CaseSensitive = bool.Parse(definitionNode.Attributes["caseSensitive"].InnerText);
-            SetDefaults(definitionNode);
+            Name = name;
+            CaseSensitive = caseSensitive;
+            Style = style;
+            Patterns = patterns;
         }
 
 
@@ -94,20 +85,6 @@ namespace Wayloop.Highlight
             }
 
             return allPatterns.ToString();
-        }
-
-
-        private void SetDefaults(XmlNode definitionNode)
-        {
-            const string xpath = "default/font";
-            var node = definitionNode.SelectSingleNode(xpath);
-            var innerText = node.Attributes["name"].InnerText;
-            var emSize = Convert.ToSingle(node.Attributes["size"].InnerText);
-            var style = (FontStyle) Enum.Parse(typeof (FontStyle), node.Attributes["style"].InnerText, true);
-            var font = new Font(innerText, emSize, style);
-            var foreColor = Color.FromName(node.Attributes["foreColor"].InnerText);
-            var backColor = Color.FromName(node.Attributes["backColor"].InnerText);
-            Style = new DefinitionStyle(foreColor, backColor, font);
         }
 
 

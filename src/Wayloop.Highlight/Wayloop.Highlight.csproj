@@ -43,16 +43,17 @@
   <ItemGroup>
     <Compile Include="Collections\DefinitionCollection.cs" />
     <Compile Include="Collections\PatternCollection.cs" />
-    <Compile Include="Configurator.cs" />
     <Compile Include="Definition.cs" />
     <Compile Include="DefinitionStyle.cs" />
     <Compile Include="Engines\Engine.cs" />
     <Compile Include="Engines\HtmlEngine.cs" />
+    <Compile Include="Engines\IEngine.cs" />
     <Compile Include="Engines\RtfEngine.cs" />
     <Compile Include="Engines\XmlEngine.cs" />
     <Compile Include="Extensions\XmlNodeExtensions.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Highlighter.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Patterns\BlockPattern.cs" />
     <Compile Include="Patterns\MarkupPattern.cs" />
     <Compile Include="Patterns\Pattern.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Patterns\WordPattern.cs" />
     <Compile Include="Patterns\PatternType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Configuration\XmlConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Definitions.xsd">
