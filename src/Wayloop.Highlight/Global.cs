@@ -1,6 +1,6 @@
 #region License
 
-// Copyright (c) 2010 Thomas Andre H. Johansen
+// Copyright (c) 2004-2010 Thomas Andre H. Johansen
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -172,10 +172,12 @@ namespace Wayloop.Highlight
             get { return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", ""); }
         }
 
+
         public static string CacheKey
         {
             get { return "HighlightConfiguration"; }
         }
+
 
         public static string ConfigurationFile
         {
@@ -187,6 +189,7 @@ namespace Wayloop.Highlight
                 return string.Format(@"{0}\Definitions.xml", ApplicationDirectory);
             }
         }
+
 
         public static bool IsWebForm
         {

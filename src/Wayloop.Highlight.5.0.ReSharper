@@ -1,14 +1,6 @@
 <Configuration>
   <SharedSolutionTemplateManager>
     <LiveTemplates>
-      <Template uid="243008d2-2b1c-4e51-8b7e-34e07382528c" shortcut="lic" description="License Header" text="#region License&#xD;&#xA;&#xD;&#xA;// Copyright (c) 2010 Thomas A. H. Johansen&#xD;&#xA;//&#xD;&#xA;// Permission is hereby granted, free of charge, to any person obtaining a copy&#xD;&#xA;// of this software and associated documentation files (the &quot;Software&quot;), to deal&#xD;&#xA;// in the Software without restriction, including without limitation the rights&#xD;&#xA;// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell&#xD;&#xA;// copies of the Software, and to permit persons to whom the Software is&#xD;&#xA;// furnished to do so, subject to the following conditions:&#xD;&#xA;//&#xD;&#xA;// The above copyright notice and this permission notice shall be included in&#xD;&#xA;// all copies or substantial portions of the Software.&#xD;&#xA;//&#xD;&#xA;// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR&#xD;&#xA;// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,&#xD;&#xA;// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE&#xD;&#xA;// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER&#xD;&#xA;// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,&#xD;&#xA;// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN&#xD;&#xA;// THE SOFTWARE.&#xD;&#xA;&#xD;&#xA;#endregion&#xD;&#xA;" reformat="True" shortenQualifiedReferences="True">
-        <Context>
-          <CSharpContext context="TypeAndNamespace" minimumLanguageVersion="2.0" />
-        </Context>
-        <Categories />
-        <Variables />
-        <CustomProperties />
-      </Template>
       <Template uid="57e48c2f-9475-4cc1-87b7-92381a76162e" shortcut="aaa" description="Arrange, Act and Assert" text="[Test]&#xD;&#xA;public void $MethodName$_$Scenario$_$ExpectedResult$()&#xD;&#xA;{&#xD;&#xA;    // Arrange&#xD;&#xA;    $END$&#xD;&#xA;&#xD;&#xA;    // Act&#xD;&#xA;&#xD;&#xA;    // Assert&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
         <Context>
           <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
@@ -19,6 +11,14 @@
           <Variable name="Scenario" expression="" initialRange="0" />
           <Variable name="ExpectedResult" expression="" initialRange="0" />
         </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="243008d2-2b1c-4e51-8b7e-34e07382528c" shortcut="lic" description="License Header" text="#region License&#xD;&#xA;&#xD;&#xA;// Copyright (c) 2004-2010 Thomas A. H. Johansen&#xD;&#xA;//&#xD;&#xA;// Permission is hereby granted, free of charge, to any person obtaining a copy&#xD;&#xA;// of this software and associated documentation files (the &quot;Software&quot;), to deal&#xD;&#xA;// in the Software without restriction, including without limitation the rights&#xD;&#xA;// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell&#xD;&#xA;// copies of the Software, and to permit persons to whom the Software is&#xD;&#xA;// furnished to do so, subject to the following conditions:&#xD;&#xA;//&#xD;&#xA;// The above copyright notice and this permission notice shall be included in&#xD;&#xA;// all copies or substantial portions of the Software.&#xD;&#xA;//&#xD;&#xA;// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR&#xD;&#xA;// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,&#xD;&#xA;// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE&#xD;&#xA;// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER&#xD;&#xA;// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,&#xD;&#xA;// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN&#xD;&#xA;// THE SOFTWARE.&#xD;&#xA;&#xD;&#xA;#endregion&#xD;&#xA;" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeAndNamespace" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
         <CustomProperties />
       </Template>
     </LiveTemplates>
@@ -94,7 +94,7 @@
     <XML>
       <FormatSettings />
     </XML>
-    <FileHeader Region="License"><![CDATA[Copyright (c) 2010 Thomas Andre H. Johansen
+    <FileHeader Region="License"><![CDATA[Copyright (c) 2004-2010 Thomas Andre H. Johansen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

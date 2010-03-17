@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2010 Thomas Andre H. Johansen
+// Copyright (c) 2004-2010 Thomas Andre H. Johansen
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Wayloop.Highlight")]
 [assembly: AssemblyProduct("Wayloop.Highlight")]
-[assembly: AssemblyCopyright("Copyright © 2010 Thomas Andre H. Johansen")]
+[assembly: AssemblyCopyright("Copyright © 2004-2010 Thomas Andre H. Johansen")]
 [assembly: ComVisible(false)]
 [assembly: Guid("c9b61ba8-5772-4035-9601-24177ecce236")]
-[assembly: AssemblyVersion("2.5.*")]
-[assembly: AssemblyFileVersion("2.5.0.0")]
+[assembly: AssemblyVersion("3.0.*")]
+[assembly: AssemblyFileVersion("3.0.0.0")]
