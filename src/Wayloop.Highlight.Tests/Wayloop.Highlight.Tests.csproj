@@ -42,6 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\HtmlEngineTests.cs" />
+    <Compile Include="Engines\SyntaxSample.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SyntaxSample.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +54,12 @@
       <Project>{A78FD882-5894-4AA8-9BE5-D5E6F16E9A78}</Project>
       <Name>Wayloop.Highlight</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Engines\SyntaxSample.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SyntaxSample.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

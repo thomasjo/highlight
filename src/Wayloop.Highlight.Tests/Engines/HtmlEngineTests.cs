@@ -52,22 +52,8 @@ namespace Wayloop.Highlight.Tests.Engines
         {
             // Arrange
             var definition = configuration.GetDefinitions().Single(x => x.Name.Equals("C#", StringComparison.InvariantCultureIgnoreCase));
-            const string input = @"public class A
-{
-    // Comment
-    public void Test()
-    {
-        return;
-    }
-}";
-            const string expectedOutout = @"<span style=""color: Black;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;""><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">public</span> <span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">class</span> A
-{
-    <span style=""color: Green;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">// Comment</span>
-    <span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">public</span> <span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">void</span> Test()
-    {
-        <span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">return</span>;
-    }
-}</span>";
+            var input = SyntaxSample.CSharp_Sample1;
+            var expectedOutout = SyntaxSample.CSharp_Sample1_HtmlOutput;
 
             // Act
             var output = engine.Highlight(definition, input);
@@ -82,10 +68,8 @@ namespace Wayloop.Highlight.Tests.Engines
         {
             // Arrange
             var definition = configuration.GetDefinitions().Single(x => x.Name.Equals("HTML", StringComparison.InvariantCultureIgnoreCase));
-            const string input = @"<script type=""text/javascript"" src=""http://example.org/file.js""></script>
-<div id=""test""><a href=""#"">Link</a></div>";
-            const string expectedOutput = @"<span style=""color: Black;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;""><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">script</span> <span style=""color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">type</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">=""text/javascript""</span> <span style=""color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">src</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">=""http://example.org/file.js""</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;/</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">script</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span>
-<span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">div</span> <span style=""color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">id</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">=""test""</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">a</span> <span style=""color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">href</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">=""#""</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span>Link<span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;/</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">a</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&lt;/</span><span style=""color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">div</span><span style=""color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;"">&gt;</span></span>";
+            var input = SyntaxSample.Html_Sample1;
+            var expectedOutput = SyntaxSample.Html_Sample1_HtmlOutput;
 
             // Act
             var output = engine.Highlight(definition, input);
