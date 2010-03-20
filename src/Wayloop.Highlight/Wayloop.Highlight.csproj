@@ -56,10 +56,10 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Patterns\BlockPattern.cs" />
     <Compile Include="Patterns\MarkupPattern.cs" />
+    <Compile Include="Patterns\MarkupPatternStyle.cs" />
     <Compile Include="Patterns\Pattern.cs" />
     <Compile Include="Patterns\PatternStyle.cs" />
     <Compile Include="Patterns\WordPattern.cs" />
-    <Compile Include="Patterns\PatternType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\XmlConfiguration.cs" />
   </ItemGroup>

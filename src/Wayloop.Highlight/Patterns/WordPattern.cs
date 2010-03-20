@@ -34,12 +34,6 @@ namespace Wayloop.Highlight.Patterns
 {
     public class WordPattern : Pattern
     {
-        public WordPattern()
-        {
-            Words = new ArrayList();
-        }
-
-
         public WordPattern(XmlNode patternNode) : base(patternNode)
         {
             if (patternNode == null) {

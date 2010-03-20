@@ -33,14 +33,6 @@ namespace Wayloop.Highlight.Patterns
 {
     public class PatternStyle
     {
-        public PatternStyle()
-        {
-            Font = new Font("Courier New", 11f, FontStyle.Regular);
-            ForeColor = Color.Empty;
-            BackColor = Color.Empty;
-        }
-
-
         public PatternStyle(XmlNode patternNode)
         {
             if (patternNode == null) {

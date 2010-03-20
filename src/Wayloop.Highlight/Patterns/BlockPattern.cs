@@ -23,8 +23,10 @@
 #endregion
 
 
+using System;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Wayloop.Highlight.Extensions;
 
 
 namespace Wayloop.Highlight.Patterns
@@ -33,12 +35,13 @@ namespace Wayloop.Highlight.Patterns
     {
         public BlockPattern(XmlNode patternNode) : base(patternNode)
         {
-            BeginsWith = patternNode.Attributes["beginsWith"].InnerText;
-            EndsWith = patternNode.Attributes["endsWith"].InnerText;
-
-            if (patternNode.Attributes["escapesWith"] != null) {
-                EscapesWith = patternNode.Attributes["escapesWith"].InnerText;
+            if (patternNode == null) {
+                throw new ArgumentNullException("patternNode");
             }
+
+            BeginsWith = patternNode.GetAttributeValue("beginsWith");
+            EndsWith = patternNode.GetAttributeValue("endsWith");
+            EscapesWith = patternNode.GetAttributeValue("escapesWith");
         }
 
 
@@ -49,15 +52,15 @@ namespace Wayloop.Highlight.Patterns
 
         public override string GetPatternString()
         {
-            if (string.IsNullOrEmpty(EscapesWith)) {
+            if (String.IsNullOrEmpty(EscapesWith)) {
                 if (EndsWith.CompareTo(@"\n") == 0) {
-                    return string.Format(@"{0}[^\n\r]*", Global.Escape(BeginsWith));
+                    return String.Format(@"{0}[^\n\r]*", Global.Escape(BeginsWith));
                 }
 
-                return string.Format(@"{0}[^{1}]*[\w\W\s\S]*?{2}", Global.Escape(BeginsWith), Global.Escape(EndsWith), Global.Escape(EndsWith));
+                return String.Format(@"{0}[^{1}]*[\w\W\s\S]*?{2}", Global.Escape(BeginsWith), Global.Escape(EndsWith), Global.Escape(EndsWith));
             }
 
-            return string.Format("{0}(?>{1}.|[^{2}]|.)*?{3}", new object[] { Regex.Escape(BeginsWith), Regex.Escape(EscapesWith.Substring(0, 1)), Regex.Escape(EndsWith.Substring(0, 1)), Regex.Escape(EndsWith) });
+            return String.Format("{0}(?>{1}.|[^{2}]|.)*?{3}", new object[] { Regex.Escape(BeginsWith), Regex.Escape(EscapesWith.Substring(0, 1)), Regex.Escape(EndsWith.Substring(0, 1)), Regex.Escape(EndsWith) });
         }
     }
 }

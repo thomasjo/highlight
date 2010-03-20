@@ -34,6 +34,9 @@ namespace Wayloop.Highlight.Engines
 {
     public class XmlEngine : Engine
     {
+        private const string ElementFormat = "<{0}>{1}</{0}>";
+
+
         protected override string PreHighlight(Definition definition, string input)
         {
             return Global.HtmlEncode(input);
@@ -48,35 +51,44 @@ namespace Wayloop.Highlight.Engines
 
         protected override string ElementMatchHandler(Definition definition, Match match)
         {
-            var builder = new StringBuilder();
-            var builder2 = new StringBuilder();
-            const string format = "<{0}>{1}</{0}>";
             foreach (var pattern in definition.Patterns.Where(x => match.Groups[x.Name].Success)) {
-                if (pattern is BlockPattern) {
-                    return String.Format(format, pattern.Name, match.Value);
-                }
                 if (pattern is MarkupPattern) {
-                    builder.AppendFormat(format, "openTag", match.Groups["openTag"].Value);
-                    builder.AppendFormat(format, "whitespace", match.Groups["ws1"].Value);
-                    builder.AppendFormat(format, "tagName", match.Groups["tagName"].Value);
-                    for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
-                        builder2.AppendFormat(format, "whitespace", match.Groups["ws2"].Captures[i].Value);
-                        builder2.AppendFormat(format, "attribName", match.Groups["attribName"].Captures[i].Value);
-                        builder2.AppendFormat(format, "whitespace", match.Groups["ws3"].Captures[i].Value);
-                        builder2.AppendFormat(format, "attribValue", match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
-                        builder.AppendFormat(format, "attribute", builder2);
-                    }
-                    builder.AppendFormat(format, "whitespace", match.Groups["ws5"].Value);
-                    builder.AppendFormat(format, "closeTag", match.Groups["closeTag"].Value);
+                    return HandleMarkupPattern(match, pattern);
+                }
 
-                    return String.Format(format, pattern.Name, builder);
-                }
-                if (pattern is WordPattern) {
-                    return String.Format(format, pattern.Name, match.Value);
-                }
+                return HandlePattern(match, pattern);
             }
 
             return match.Value;
+        }
+
+
+        private string HandleMarkupPattern(Match match, Pattern pattern)
+        {
+            var builder = new StringBuilder();
+            builder.AppendFormat(ElementFormat, "openTag", match.Groups["openTag"].Value);
+            builder.AppendFormat(ElementFormat, "whitespace", match.Groups["ws1"].Value);
+            builder.AppendFormat(ElementFormat, "tagName", match.Groups["tagName"].Value);
+
+            var builder2 = new StringBuilder();
+            for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+                builder2.AppendFormat(ElementFormat, "whitespace", match.Groups["ws2"].Captures[i].Value);
+                builder2.AppendFormat(ElementFormat, "attribName", match.Groups["attribName"].Captures[i].Value);
+                builder2.AppendFormat(ElementFormat, "whitespace", match.Groups["ws3"].Captures[i].Value);
+                builder2.AppendFormat(ElementFormat, "attribValue", match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
+            }
+            builder.AppendFormat(ElementFormat, "attribute", builder2);
+
+            builder.AppendFormat(ElementFormat, "whitespace", match.Groups["ws5"].Value);
+            builder.AppendFormat(ElementFormat, "closeTag", match.Groups["closeTag"].Value);
+
+            return String.Format(ElementFormat, pattern.Name, builder);
+        }
+
+
+        private string HandlePattern(Capture match, Pattern pattern)
+        {
+            return String.Format(ElementFormat, pattern.Name, match.Value);
         }
     }
 }

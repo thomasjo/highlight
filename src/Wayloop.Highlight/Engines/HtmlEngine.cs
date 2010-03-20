@@ -76,17 +76,17 @@ namespace Wayloop.Highlight.Engines
             var matchedPatterns = definition.Patterns.Where(pattern => match.Groups[pattern.Name].Success);
             foreach (var pattern in matchedPatterns) {
                 if (pattern is MarkupPattern) {
-                    return HandleMarkupPattern(definition, match, pattern);
+                    return HandleMarkupPattern(definition, pattern, match);
                 }
 
-                return HandlePattern(definition, match, pattern);
+                return HandlePattern(definition, pattern, match);
             }
 
             return match.Value;
         }
 
 
-        private string HandlePattern(Definition definition, Capture match, Pattern pattern)
+        private string HandlePattern(Definition definition, Pattern pattern, Capture match)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
@@ -108,7 +108,7 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        private string HandleMarkupPattern(Definition definition, Match match, Pattern pattern)
+        private string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
@@ -123,7 +123,7 @@ namespace Wayloop.Highlight.Engines
             var builder = new StringBuilder();
             var markupPattern = (MarkupPattern) pattern;
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.BracketForeColor, markupPattern.BracketBackColor, markupPattern.Style.Font);
+                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketForeColor, markupPattern.Style.BracketBackColor, markupPattern.Style.Font);
                 builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["openTag"].Value);
             }
             else {
@@ -144,7 +144,7 @@ namespace Wayloop.Highlight.Engines
                 for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
                     builder.Append(match.Groups["ws2"].Captures[i].Value);
                     if (!UseCss) {
-                        var patternStyle = Global.CreatePatternStyle(markupPattern.AttributeNameForeColor, markupPattern.AttributeNameBackColor, markupPattern.Style.Font);
+                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeNameForeColor, markupPattern.Style.AttributeNameBackColor, markupPattern.Style.Font);
                         builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribName"].Captures[i].Value);
                     }
                     else {
@@ -154,7 +154,7 @@ namespace Wayloop.Highlight.Engines
                     builder.Append(match.Groups["ws3"].Captures[i].Value);
 
                     if (!UseCss) {
-                        var patternStyle = Global.CreatePatternStyle(markupPattern.AttributeValueForeColor, markupPattern.AttributeValueBackColor, markupPattern.Style.Font);
+                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeValueForeColor, markupPattern.Style.AttributeValueBackColor, markupPattern.Style.Font);
                         builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                     }
                     else {
@@ -166,7 +166,7 @@ namespace Wayloop.Highlight.Engines
             builder.Append(match.Groups["ws5"].Value);
 
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.BracketForeColor, markupPattern.BracketBackColor, markupPattern.Style.Font);
+                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketForeColor, markupPattern.Style.BracketBackColor, markupPattern.Style.Font);
                 builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["closeTag"].Value);
             }
             else {

@@ -42,10 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engines\HtmlEngineTests.cs" />
-    <Compile Include="Engines\SyntaxSample.Designer.cs">
+    <Compile Include="Engines\Resources\InputOutput.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SyntaxSample.resx</DependentUpon>
+      <DependentUpon>InputOutput.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,9 +56,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Engines\SyntaxSample.resx">
+    <EmbeddedResource Include="Engines\Resources\InputOutput.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SyntaxSample.Designer.cs</LastGenOutput>
+      <LastGenOutput>InputOutput.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

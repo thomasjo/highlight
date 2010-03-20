@@ -23,47 +23,34 @@
 #endregion
 
 
-using System.Drawing;
+using System;
 using System.Xml;
 using Wayloop.Highlight.Extensions;
 
 
 namespace Wayloop.Highlight.Patterns
 {
+    //public class MarkupPattern : Pattern<MarkupPatternStyle>
     public class MarkupPattern : Pattern
     {
-        public MarkupPattern()
-        {
-            HighlightAttributes = true;
-        }
-
-
         public MarkupPattern(XmlNode patternNode) : base(patternNode)
         {
-            HighlightAttributes = bool.Parse(patternNode.GetAttributeValue("highlightAttributes"));
-            var node = patternNode.SelectSingleNode("font/bracketStyle");
-            BracketForeColor = Color.FromName(node.GetAttributeValue("foreColor"));
-            BracketBackColor = Color.FromName(node.GetAttributeValue("backColor"));
-            if (!HighlightAttributes) {
-                return;
+            if (patternNode == null) {
+                throw new ArgumentNullException("patternNode");
             }
 
-            var node2 = patternNode.SelectSingleNode("font/attributeNameStyle");
-            AttributeNameForeColor = Color.FromName(node2.GetAttributeValue("foreColor"));
-            AttributeNameBackColor = Color.FromName(node2.GetAttributeValue("backColor"));
-
-            var node3 = patternNode.SelectSingleNode("font/attributeValueStyle");
-            AttributeValueForeColor = Color.FromName(node3.GetAttributeValue("foreColor"));
-            AttributeValueBackColor = Color.FromName(node3.GetAttributeValue("backColor"));
+            HighlightAttributes = bool.Parse(patternNode.GetAttributeValue("highlightAttributes"));
+            Style = new MarkupPatternStyle(patternNode);
         }
 
 
-        public Color AttributeNameBackColor { get; private set; }
-        public Color AttributeNameForeColor { get; private set; }
-        public Color AttributeValueBackColor { get; private set; }
-        public Color AttributeValueForeColor { get; private set; }
-        public Color BracketBackColor { get; private set; }
-        public Color BracketForeColor { get; private set; }
+        public new MarkupPatternStyle Style
+        {
+            get { return (MarkupPatternStyle) base.Style; }
+            protected set { base.Style = value; }
+        }
+
+
         public bool HighlightAttributes { get; private set; }
 
 

@@ -28,6 +28,7 @@ using System.Linq;
 using NUnit.Framework;
 using Wayloop.Highlight.Configuration;
 using Wayloop.Highlight.Engines;
+using Wayloop.Highlight.Tests.Engines.Resources;
 
 
 namespace Wayloop.Highlight.Tests.Engines
@@ -52,8 +53,8 @@ namespace Wayloop.Highlight.Tests.Engines
         {
             // Arrange
             var definition = configuration.GetDefinitions().Single(x => x.Name.Equals("C#", StringComparison.InvariantCultureIgnoreCase));
-            var input = SyntaxSample.CSharp_Sample1;
-            var expectedOutout = SyntaxSample.CSharp_Sample1_HtmlOutput;
+            var input = InputOutput.CSharp_Sample1;
+            var expectedOutout = InputOutput.CSharp_Sample1_HtmlOutput;
 
             // Act
             var output = engine.Highlight(definition, input);
@@ -68,8 +69,8 @@ namespace Wayloop.Highlight.Tests.Engines
         {
             // Arrange
             var definition = configuration.GetDefinitions().Single(x => x.Name.Equals("HTML", StringComparison.InvariantCultureIgnoreCase));
-            var input = SyntaxSample.Html_Sample1;
-            var expectedOutput = SyntaxSample.Html_Sample1_HtmlOutput;
+            var input = InputOutput.Html_Sample1;
+            var expectedOutput = InputOutput.Html_Sample1_HtmlOutput;
 
             // Act
             var output = engine.Highlight(definition, input);

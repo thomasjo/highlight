@@ -76,10 +76,10 @@ namespace Wayloop.Highlight.Engines
                 if (pattern is MarkupPattern) {
                     var markupPattern = (MarkupPattern) pattern;
                     str2 = CreateRtfPatternStyle(markupPattern.Style.ForeColor, markupPattern.Style.BackColor, markupPattern.Style.Font);
-                    var str3 = CreateRtfPatternStyle(markupPattern.BracketForeColor, markupPattern.BracketBackColor, markupPattern.Style.Font);
+                    var str3 = CreateRtfPatternStyle(markupPattern.Style.BracketForeColor, markupPattern.Style.BracketBackColor, markupPattern.Style.Font);
                     if (markupPattern.HighlightAttributes) {
-                        str4 = CreateRtfPatternStyle(markupPattern.AttributeNameForeColor, markupPattern.AttributeNameBackColor, markupPattern.Style.Font);
-                        str5 = CreateRtfPatternStyle(markupPattern.AttributeValueForeColor, markupPattern.AttributeValueBackColor, markupPattern.Style.Font);
+                        str4 = CreateRtfPatternStyle(markupPattern.Style.AttributeNameForeColor, markupPattern.Style.AttributeNameBackColor, markupPattern.Style.Font);
+                        str5 = CreateRtfPatternStyle(markupPattern.Style.AttributeValueForeColor, markupPattern.Style.AttributeValueBackColor, markupPattern.Style.Font);
                     }
                     builder.AppendFormat(format, str3, match.Groups["openTag"].Value);
                     builder.Append(match.Groups["ws1"].Value);
