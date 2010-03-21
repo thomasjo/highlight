@@ -36,8 +36,10 @@ using Wayloop.Highlight.Patterns;
 
 namespace Wayloop.Highlight.Engines
 {
+    // TODO: Clean up and refactor big methods into smaller, more manageable chunks.
     public class RtfEngine : Engine
     {
+        private const string RtfFormat = "{0} {1}";
         private readonly ArrayList colors = new ArrayList();
         private readonly ArrayList fonts = new ArrayList();
 
@@ -60,51 +62,41 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected override string ElementMatchHandler(Definition definition, Match match)
+        protected override string HandlePattern(Definition definition, Pattern pattern, Match match)
+        {
+            var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+
+            return ("{" + String.Format(RtfFormat, style, match.Value) + "}");
+        }
+
+
+        protected override string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
         {
             var builder = new StringBuilder();
-            const string format = "{0} {1}";
-            var str4 = string.Empty;
-            var str5 = string.Empty;
-            foreach (var pattern in definition.Patterns.Where(pattern => match.Groups[pattern.Name].Success)) {
-                string str2;
-                if (pattern is BlockPattern) {
-                    str2 = CreateRtfPatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
-
-                    return ("{" + String.Format(format, str2, match.Value) + "}");
-                }
-                if (pattern is MarkupPattern) {
-                    var markupPattern = (MarkupPattern) pattern;
-                    str2 = CreateRtfPatternStyle(markupPattern.Style.ForeColor, markupPattern.Style.BackColor, markupPattern.Style.Font);
-                    var str3 = CreateRtfPatternStyle(markupPattern.Style.BracketForeColor, markupPattern.Style.BracketBackColor, markupPattern.Style.Font);
-                    if (markupPattern.HighlightAttributes) {
-                        str4 = CreateRtfPatternStyle(markupPattern.Style.AttributeNameForeColor, markupPattern.Style.AttributeNameBackColor, markupPattern.Style.Font);
-                        str5 = CreateRtfPatternStyle(markupPattern.Style.AttributeValueForeColor, markupPattern.Style.AttributeValueBackColor, markupPattern.Style.Font);
-                    }
-                    builder.AppendFormat(format, str3, match.Groups["openTag"].Value);
-                    builder.Append(match.Groups["ws1"].Value);
-                    builder.AppendFormat(format, str2, match.Groups["tagName"].Value);
-                    if (str4 != null) {
-                        for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
-                            builder.Append(match.Groups["ws2"].Captures[i].Value);
-                            builder.AppendFormat(format, str4, match.Groups["attribName"].Captures[i].Value);
-                            builder.Append(match.Groups["ws3"].Captures[i].Value);
-                            builder.AppendFormat(format, str5, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
-                        }
-                    }
-                    builder.Append(match.Groups["ws5"].Value);
-                    builder.AppendFormat(format, str3, match.Groups["closeTag"].Value);
-
-                    return ("{" + builder + "}");
-                }
-                if (pattern is WordPattern) {
-                    str2 = CreateRtfPatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
-
-                    return ("{" + String.Format(format, str2, match.Value) + "}");
+            var markupPattern = (MarkupPattern) pattern;
+            var style = CreateRtfPatternStyle(markupPattern.Style.Colors.ForeColor, markupPattern.Style.Colors.BackColor, markupPattern.Style.Font);
+            var bracketStyle = CreateRtfPatternStyle(markupPattern.Style.BracketColors.ForeColor, markupPattern.Style.BracketColors.BackColor, markupPattern.Style.Font);
+            string attributeNameStyle = null;
+            string attributeValueStyle = null;
+            if (markupPattern.HighlightAttributes) {
+                attributeNameStyle = CreateRtfPatternStyle(markupPattern.Style.AttributeNameColors.ForeColor, markupPattern.Style.AttributeNameColors.BackColor, markupPattern.Style.Font);
+                attributeValueStyle = CreateRtfPatternStyle(markupPattern.Style.AttributeValueColors.ForeColor, markupPattern.Style.AttributeValueColors.BackColor, markupPattern.Style.Font);
+            }
+            builder.AppendFormat(RtfFormat, bracketStyle, match.Groups["openTag"].Value);
+            builder.Append(match.Groups["ws1"].Value);
+            builder.AppendFormat(RtfFormat, style, match.Groups["tagName"].Value);
+            if (attributeNameStyle != null) {
+                for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+                    builder.Append(match.Groups["ws2"].Captures[i].Value);
+                    builder.AppendFormat(RtfFormat, attributeNameStyle, match.Groups["attribName"].Captures[i].Value);
+                    builder.Append(match.Groups["ws3"].Captures[i].Value);
+                    builder.AppendFormat(RtfFormat, attributeValueStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                 }
             }
+            builder.Append(match.Groups["ws5"].Value);
+            builder.AppendFormat(RtfFormat, bracketStyle, match.Groups["closeTag"].Value);
 
-            return match.Value;
+            return ("{" + builder + "}");
         }
 
 

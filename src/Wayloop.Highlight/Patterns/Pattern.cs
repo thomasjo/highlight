@@ -23,32 +23,21 @@
 #endregion
 
 
-using System.Xml;
-using Wayloop.Highlight.Extensions;
-
-
 namespace Wayloop.Highlight.Patterns
 {
-    //public abstract class Pattern<TStyle> where TStyle : PatternStyle
     public abstract class Pattern
     {
-        protected Pattern(XmlNode patternNode)
+        public string Name { get; set; }
+        public PatternStyle Style { get; set; }
+
+
+        protected Pattern(string name, PatternStyle style)
         {
-            Name = patternNode.GetAttributeValue("name");
-            Style = new PatternStyle(patternNode);
+            Name = name;
+            Style = style;
         }
-
-
-        public string Name { get; protected set; }
-        public PatternStyle Style { get; protected set; }
 
 
         public abstract string GetPatternString();
-
-
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }

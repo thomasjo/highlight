@@ -25,29 +25,23 @@
 
 using System;
 using System.Text.RegularExpressions;
-using System.Xml;
-using Wayloop.Highlight.Extensions;
 
 
 namespace Wayloop.Highlight.Patterns
 {
     public class BlockPattern : Pattern
     {
-        public BlockPattern(XmlNode patternNode) : base(patternNode)
-        {
-            if (patternNode == null) {
-                throw new ArgumentNullException("patternNode");
-            }
-
-            BeginsWith = patternNode.GetAttributeValue("beginsWith");
-            EndsWith = patternNode.GetAttributeValue("endsWith");
-            EscapesWith = patternNode.GetAttributeValue("escapesWith");
-        }
-
-
         public string BeginsWith { get; private set; }
         public string EndsWith { get; private set; }
         public string EscapesWith { get; private set; }
+
+
+        public BlockPattern(string name, PatternStyle style, string beginsWith, string endsWith, string escapesWith) : base(name, style)
+        {
+            BeginsWith = beginsWith;
+            EndsWith = endsWith;
+            EscapesWith = escapesWith;
+        }
 
 
         public override string GetPatternString()

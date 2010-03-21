@@ -23,59 +23,45 @@
 #endregion
 
 
-using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml;
 
 
 namespace Wayloop.Highlight.Patterns
 {
     public class WordPattern : Pattern
     {
-        public WordPattern(XmlNode patternNode) : base(patternNode)
+        public IEnumerable<string> Words { get; private set; }
+
+
+        public WordPattern(string name, PatternStyle style, IEnumerable<string> words) : base(name, style)
         {
-            if (patternNode == null) {
-                throw new ArgumentNullException("patternNode");
-            }
-
-            Words = new ArrayList();
-            var wordNodes = patternNode.SelectNodes("word");
-            if (wordNodes == null) {
-                throw new NotImplementedException();
-            }
-
-            foreach (XmlNode wordNode in wordNodes) {
-                Words.Add(Regex.Escape(wordNode.InnerText));
-            }
-        }
-
-
-        public ArrayList Words { get; private set; }
-
-
-        private string GetNonWords()
-        {
-            var input = string.Join("", (string[]) Words.ToArray(typeof (string)));
-            var list = new ArrayList();
-            foreach (var match in Regex.Matches(input, @"\W").Cast<Match>().Where(x => !list.Contains(x.Value))) {
-                list.Add(match.Value);
-            }
-
-            return string.Join("", (string[]) list.ToArray(typeof (string)));
+            Words = words;
         }
 
 
         public override string GetPatternString()
         {
             var str = string.Empty;
-            if (Words.Count > 0) {
+            if (Words.Count() > 0) {
                 var nonWords = GetNonWords();
-                str = string.Format(@"(?<![\w{0}])(?=[\w{0}])({1})(?<=[\w{0}])(?![\w{0}])", nonWords, string.Join("|", (string[]) Words.ToArray(typeof (string))));
+                str = string.Format(@"(?<![\w{0}])(?=[\w{0}])({1})(?<=[\w{0}])(?![\w{0}])", nonWords, string.Join("|", Words.ToArray()));
             }
 
             return str;
+        }
+
+
+        private string GetNonWords()
+        {
+            var input = string.Join("", Words.ToArray());
+            var list = new List<string>();
+            foreach (var match in Regex.Matches(input, @"\W").Cast<Match>().Where(x => !list.Contains(x.Value))) {
+                list.Add(match.Value);
+            }
+
+            return string.Join("", list.ToArray());
         }
     }
 }

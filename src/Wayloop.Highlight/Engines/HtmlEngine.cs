@@ -24,7 +24,6 @@
 
 
 using System;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Wayloop.Highlight.Patterns;
@@ -64,42 +63,20 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected override string ElementMatchHandler(Definition definition, Match match)
+        protected override string HandlePattern(Definition definition, Pattern pattern, Match match)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
-            }
-            if (match == null) {
-                throw new ArgumentNullException("match");
-            }
-
-            var matchedPatterns = definition.Patterns.Where(pattern => match.Groups[pattern.Name].Success);
-            foreach (var pattern in matchedPatterns) {
-                if (pattern is MarkupPattern) {
-                    return HandleMarkupPattern(definition, pattern, match);
-                }
-
-                return HandlePattern(definition, pattern, match);
-            }
-
-            return match.Value;
-        }
-
-
-        private string HandlePattern(Definition definition, Pattern pattern, Capture match)
-        {
-            if (definition == null) {
-                throw new ArgumentNullException("definition");
-            }
-            if (match == null) {
-                throw new ArgumentNullException("match");
             }
             if (pattern == null) {
                 throw new ArgumentNullException("pattern");
             }
+            if (match == null) {
+                throw new ArgumentNullException("match");
+            }
 
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(pattern.Style.ForeColor, pattern.Style.BackColor, pattern.Style.Font);
+                var patternStyle = Global.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
 
                 return String.Format(StyleSpanFormat, patternStyle, match.Value);
             }
@@ -108,22 +85,22 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        private string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
+        protected override string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
             }
-            if (match == null) {
-                throw new ArgumentNullException("match");
-            }
             if (pattern == null) {
                 throw new ArgumentNullException("pattern");
+            }
+            if (match == null) {
+                throw new ArgumentNullException("match");
             }
 
             var builder = new StringBuilder();
             var markupPattern = (MarkupPattern) pattern;
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketForeColor, markupPattern.Style.BracketBackColor, markupPattern.Style.Font);
+                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketColors.ForeColor, markupPattern.Style.BracketColors.BackColor, markupPattern.Style.Font);
                 builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["openTag"].Value);
             }
             else {
@@ -133,7 +110,7 @@ namespace Wayloop.Highlight.Engines
             builder.Append(match.Groups["ws1"].Value);
 
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.ForeColor, markupPattern.Style.BackColor, markupPattern.Style.Font);
+                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.Colors.ForeColor, markupPattern.Style.Colors.BackColor, markupPattern.Style.Font);
                 builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["tagName"].Value);
             }
             else {
@@ -144,7 +121,7 @@ namespace Wayloop.Highlight.Engines
                 for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
                     builder.Append(match.Groups["ws2"].Captures[i].Value);
                     if (!UseCss) {
-                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeNameForeColor, markupPattern.Style.AttributeNameBackColor, markupPattern.Style.Font);
+                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeNameColors.ForeColor, markupPattern.Style.AttributeNameColors.BackColor, markupPattern.Style.Font);
                         builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribName"].Captures[i].Value);
                     }
                     else {
@@ -154,7 +131,7 @@ namespace Wayloop.Highlight.Engines
                     builder.Append(match.Groups["ws3"].Captures[i].Value);
 
                     if (!UseCss) {
-                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeValueForeColor, markupPattern.Style.AttributeValueBackColor, markupPattern.Style.Font);
+                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeValueColors.ForeColor, markupPattern.Style.AttributeValueColors.BackColor, markupPattern.Style.Font);
                         builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                     }
                     else {
@@ -166,7 +143,7 @@ namespace Wayloop.Highlight.Engines
             builder.Append(match.Groups["ws5"].Value);
 
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketForeColor, markupPattern.Style.BracketBackColor, markupPattern.Style.Font);
+                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketColors.ForeColor, markupPattern.Style.BracketColors.BackColor, markupPattern.Style.Font);
                 builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["closeTag"].Value);
             }
             else {

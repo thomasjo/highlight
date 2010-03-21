@@ -24,7 +24,6 @@
 
 
 using System;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Wayloop.Highlight.Patterns;
@@ -49,21 +48,13 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected override string ElementMatchHandler(Definition definition, Match match)
+        protected override string HandlePattern(Definition definition, Pattern pattern, Match match)
         {
-            foreach (var pattern in definition.Patterns.Where(x => match.Groups[x.Name].Success)) {
-                if (pattern is MarkupPattern) {
-                    return HandleMarkupPattern(match, pattern);
-                }
-
-                return HandlePattern(match, pattern);
-            }
-
-            return match.Value;
+            return String.Format(ElementFormat, pattern.Name, match.Value);
         }
 
 
-        private string HandleMarkupPattern(Match match, Pattern pattern)
+        protected override string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
         {
             var builder = new StringBuilder();
             builder.AppendFormat(ElementFormat, "openTag", match.Groups["openTag"].Value);
@@ -83,12 +74,6 @@ namespace Wayloop.Highlight.Engines
             builder.AppendFormat(ElementFormat, "closeTag", match.Groups["closeTag"].Value);
 
             return String.Format(ElementFormat, pattern.Name, builder);
-        }
-
-
-        private string HandlePattern(Capture match, Pattern pattern)
-        {
-            return String.Format(ElementFormat, pattern.Name, match.Value);
         }
     }
 }

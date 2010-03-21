@@ -24,7 +24,9 @@
 
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
+using Wayloop.Highlight.Patterns;
 
 
 namespace Wayloop.Highlight.Engines
@@ -66,7 +68,30 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected abstract string ElementMatchHandler(Definition definition, Match match);
+        protected string ElementMatchHandler(Definition definition, Match match)
+        {
+            if (definition == null) {
+                throw new ArgumentNullException("definition");
+            }
+            if (match == null) {
+                throw new ArgumentNullException("match");
+            }
+            
+            var pattern = definition.Patterns.SingleOrDefault(x => match.Groups[x.Name].Success);
+            if (pattern != null) {
+                if (pattern is MarkupPattern) {
+                    return HandleMarkupPattern(definition, pattern, match);
+                }
+
+                return HandlePattern(definition, pattern, match);
+            }
+
+            return match.Value;
+        }
+
+
+        protected abstract string HandlePattern(Definition definition, Pattern pattern, Match match);
+        protected abstract string HandleMarkupPattern(Definition definition, Pattern pattern, Match match);
 
 
         private MatchEvaluator GetMatchEvaluator(Definition definition)

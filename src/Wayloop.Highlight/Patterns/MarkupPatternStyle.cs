@@ -24,39 +24,22 @@
 
 
 using System.Drawing;
-using System.Xml;
-using Wayloop.Highlight.Extensions;
 
 
 namespace Wayloop.Highlight.Patterns
 {
     public class MarkupPatternStyle : PatternStyle
     {
-        public MarkupPatternStyle(XmlNode patternNode) : base(patternNode)
+        public ColorPair BracketColors { get; set; }
+        public ColorPair AttributeNameColors { get; set; }
+        public ColorPair AttributeValueColors { get; set; }
+
+
+        public MarkupPatternStyle(ColorPair colors, Font font, ColorPair bracketColors, ColorPair attributeNameColors, ColorPair attributeValueColors) : base(colors, font)
         {
-            var node = patternNode.SelectSingleNode("font/bracketStyle");
-            BracketForeColor = Color.FromName(node.GetAttributeValue("foreColor"));
-            BracketBackColor = Color.FromName(node.GetAttributeValue("backColor"));
-
-            var node2 = patternNode.SelectSingleNode("font/attributeNameStyle");
-            if (node2 != null) {
-                AttributeNameForeColor = Color.FromName(node2.GetAttributeValue("foreColor"));
-                AttributeNameBackColor = Color.FromName(node2.GetAttributeValue("backColor"));
-            }
-
-            var node3 = patternNode.SelectSingleNode("font/attributeValueStyle");
-            if (node3 != null) {
-                AttributeValueForeColor = Color.FromName(node3.GetAttributeValue("foreColor"));
-                AttributeValueBackColor = Color.FromName(node3.GetAttributeValue("backColor"));
-            }
+            BracketColors = bracketColors;
+            AttributeNameColors = attributeNameColors;
+            AttributeValueColors = attributeValueColors;
         }
-
-
-        public Color AttributeNameBackColor { get; set; }
-        public Color AttributeNameForeColor { get; set; }
-        public Color AttributeValueBackColor { get; set; }
-        public Color AttributeValueForeColor { get; set; }
-        public Color BracketBackColor { get; set; }
-        public Color BracketForeColor { get; set; }
     }
 }

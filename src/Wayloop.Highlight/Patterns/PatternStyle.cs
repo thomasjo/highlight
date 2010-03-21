@@ -23,57 +23,21 @@
 #endregion
 
 
-using System;
 using System.Drawing;
-using System.Xml;
-using Wayloop.Highlight.Extensions;
 
 
 namespace Wayloop.Highlight.Patterns
 {
     public class PatternStyle
     {
-        public PatternStyle(XmlNode patternNode)
+        public PatternStyle(ColorPair colors, Font font)
         {
-            if (patternNode == null) {
-                throw new ArgumentNullException("patternNode");
-            }
-
-            var fontNode = patternNode.SelectSingleNode("font");
-            if (fontNode == null) {
-                return;
-            }
-
-            var fontFamilyValue = fontNode.GetAttributeValue("name");
-            if (fontFamilyValue != null) {
-                var fontSizeValue = fontNode.GetAttributeValue("size");
-                var fontStyleValue = fontNode.GetAttributeValue("style");
-                var emSize = (fontSizeValue != null) ? Convert.ToSingle(fontSizeValue) : 11f;
-                var style = (fontStyleValue != null) ? ((FontStyle) Enum.Parse(typeof (FontStyle), fontStyleValue, true)) : FontStyle.Regular;
-                Font = new Font(fontFamilyValue, emSize, style);
-            }
-
-            var foreColorValue = fontNode.GetAttributeValue("foreColor");
-            if (foreColorValue != null) {
-                ForeColor = Color.FromName(foreColorValue);
-            }
-            var backColorValue = fontNode.GetAttributeValue("backColor");
-            if (backColorValue != null) {
-                BackColor = Color.FromName(backColorValue);
-            }
-        }
-
-
-        public PatternStyle(Color foreColor, Color backColor, Font font)
-        {
-            ForeColor = foreColor;
-            BackColor = backColor;
+            Colors = colors;
             Font = font;
         }
 
 
-        public Color ForeColor { get; private set; }
-        public Color BackColor { get; private set; }
+        public ColorPair Colors { get; private set; }
         public Font Font { get; private set; }
     }
 }

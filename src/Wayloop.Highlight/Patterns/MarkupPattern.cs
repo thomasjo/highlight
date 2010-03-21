@@ -23,35 +23,25 @@
 #endregion
 
 
-using System;
-using System.Xml;
-using Wayloop.Highlight.Extensions;
-
-
 namespace Wayloop.Highlight.Patterns
 {
-    //public class MarkupPattern : Pattern<MarkupPatternStyle>
     public class MarkupPattern : Pattern
     {
-        public MarkupPattern(XmlNode patternNode) : base(patternNode)
-        {
-            if (patternNode == null) {
-                throw new ArgumentNullException("patternNode");
-            }
-
-            HighlightAttributes = bool.Parse(patternNode.GetAttributeValue("highlightAttributes"));
-            Style = new MarkupPatternStyle(patternNode);
-        }
-
-
         public new MarkupPatternStyle Style
         {
             get { return (MarkupPatternStyle) base.Style; }
-            protected set { base.Style = value; }
+            set { base.Style = value; }
         }
 
 
-        public bool HighlightAttributes { get; private set; }
+        public bool HighlightAttributes { get; set; }
+
+
+        public MarkupPattern(string name, MarkupPatternStyle style, bool highlightAttributes) : base(name, style)
+        {
+            Style = style;
+            HighlightAttributes = highlightAttributes;
+        }
 
 
         public override string GetPatternString()
