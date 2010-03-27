@@ -23,6 +23,7 @@
 #endregion
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -43,10 +44,10 @@ namespace Wayloop.Highlight.Patterns
 
         public override string GetPatternString()
         {
-            var str = string.Empty;
+            var str = String.Empty;
             if (Words.Count() > 0) {
                 var nonWords = GetNonWords();
-                str = string.Format(@"(?<![\w{0}])(?=[\w{0}])({1})(?<=[\w{0}])(?![\w{0}])", nonWords, string.Join("|", Words.ToArray()));
+                str = String.Format(@"(?<![\w{0}])(?=[\w{0}])({1})(?<=[\w{0}])(?![\w{0}])", nonWords, String.Join("|", Words.ToArray()));
             }
 
             return str;
@@ -55,13 +56,13 @@ namespace Wayloop.Highlight.Patterns
 
         private string GetNonWords()
         {
-            var input = string.Join("", Words.ToArray());
+            var input = String.Join("", Words.ToArray());
             var list = new List<string>();
             foreach (var match in Regex.Matches(input, @"\W").Cast<Match>().Where(x => !list.Contains(x.Value))) {
                 list.Add(match.Value);
             }
 
-            return string.Join("", list.ToArray());
+            return String.Join("", list.ToArray());
         }
     }
 }

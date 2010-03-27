@@ -92,7 +92,7 @@ namespace Wayloop.Highlight
         {
             input = Regex.Replace(input, @"\<br\ ?\/?>", "\n", RegexOptions.IgnoreCase);
             input = Regex.Replace(input, @"\<p\>", "\n\n", RegexOptions.IgnoreCase);
-            input = Regex.Replace(input, @"\<\/p\>", string.Empty, RegexOptions.IgnoreCase);
+            input = Regex.Replace(input, @"\<\/p\>", String.Empty, RegexOptions.IgnoreCase);
             input = input.Replace("\r\n", "\n");
             input = HttpUtility.HtmlDecode(input);
             input = input
@@ -115,16 +115,16 @@ namespace Wayloop.Highlight
                 }
             }
             if (document.OuterXml.Length == 0) {
-                if (configurationFile == string.Empty) {
+                if (configurationFile == String.Empty) {
                     if (ConfigurationManager.AppSettings["configurationFile"] != null) {
                         configurationFile = ConfigurationManager.AppSettings["configurationFile"];
                     }
                     else {
-                        configurationFile = string.Format(Path.Combine("{0}", "Definitions.xml"), ApplicationDirectory);
+                        configurationFile = Path.Combine("ApplicationDirectory", "Definitions.xml");
                     }
                 }
                 if (!File.Exists(configurationFile)) {
-                    throw new FileNotFoundException(string.Format("The configuration file does not exist at location <i>{0}</i>", configurationFile), configurationFile);
+                    throw new FileNotFoundException(String.Format("The configuration file does not exist at location <i>{0}</i>", configurationFile), configurationFile);
                 }
                 using (var stream = new FileStream(configurationFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
                     var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Wayloop.Highlight.Resources.Definitions.xsd");
@@ -186,7 +186,7 @@ namespace Wayloop.Highlight
                 if (ConfigurationManager.AppSettings["configurationFile"] != null) {
                     return ConfigurationManager.AppSettings["configurationFile"];
                 }
-                return string.Format(@"{0}\Definitions.xml", ApplicationDirectory);
+                return Path.Combine(ApplicationDirectory, "Definitions.xml");
             }
         }
 
