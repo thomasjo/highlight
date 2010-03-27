@@ -1378,7 +1378,7 @@
     <default>
       <font name="Courier New" size="11" style="regular" foreColor="black" backColor="transparent"/>
     </default>
-    <pattern name="MultiLineComment" type="block" beginsWith="&amp;lt;!-" endsWith="-&amp;gt;">
+    <pattern name="MultiLineComment" type="block" beginsWith="&amp;lt;!--" endsWith="--&amp;gt;">
       <font name="Courier New" size="11" style="regular" foreColor="green" backColor="transparent"/>
     </pattern>
     <pattern name="Markup" type="markup" highlightAttributes="true">

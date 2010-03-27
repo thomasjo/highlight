@@ -90,34 +90,40 @@ namespace Wayloop.Highlight.Engines
             if (!UseCss) {
                 var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
                 result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["openTag"].Value);
-            }
-            else {
-                result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "Bracket"), match.Groups["openTag"].Value);
-            }
 
-            result.Append(match.Groups["ws1"].Value);
+                result.Append(match.Groups["ws1"].Value);
 
-            if (!UseCss) {
-                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+                patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
                 result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["tagName"].Value);
-            }
-            else {
-                result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "TagName"), match.Groups["tagName"].Value);
-            }
 
-            if (pattern.HighlightAttributes) {
-                var highlightedAttributes = ProcessMarkupPatternAttributeMatches(definition, pattern, match);
-                result.Append(highlightedAttributes);
-            }
+                if (pattern.HighlightAttributes) {
+                    var highlightedAttributes = ProcessMarkupPatternAttributeMatches(definition, pattern, match);
+                    result.Append(highlightedAttributes);
+                }
 
-            result.Append(match.Groups["ws5"].Value);
+                result.Append(match.Groups["ws5"].Value);
 
-            if (!UseCss) {
-                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
+                patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
                 result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["closeTag"].Value);
             }
             else {
-                result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "Bracket"), match.Groups["closeTag"].Value);
+                var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "Bracket");
+                result.AppendFormat(ClassSpanFormat, cssClassName, match.Groups["openTag"].Value);
+
+                result.Append(match.Groups["ws1"].Value);
+
+                cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "TagName");
+                result.AppendFormat(ClassSpanFormat, cssClassName, match.Groups["tagName"].Value);
+
+                if (pattern.HighlightAttributes) {
+                    var highlightedAttributes = ProcessMarkupPatternAttributeMatches(definition, pattern, match);
+                    result.Append(highlightedAttributes);
+                }
+
+                result.Append(match.Groups["ws5"].Value);
+
+                cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "Bracket");
+                result.AppendFormat(ClassSpanFormat, cssClassName, match.Groups["closeTag"].Value);
             }
 
             return result.ToString();

@@ -51,7 +51,7 @@ namespace Wayloop.Highlight.Patterns
                     return String.Format(@"{0}[^\n\r]*", Global.Escape(BeginsWith));
                 }
 
-                return String.Format(@"{0}.*?{1}", Global.Escape(BeginsWith), Global.Escape(EndsWith));
+                return String.Format(@"{0}[\w\W\s\S]*?{1}", Global.Escape(BeginsWith), Global.Escape(EndsWith));
             }
 
             return String.Format("{0}(?>{1}.|[^{2}]|.)*?{3}", new object[] { Regex.Escape(BeginsWith), Regex.Escape(EscapesWith.Substring(0, 1)), Regex.Escape(EndsWith.Substring(0, 1)), Regex.Escape(EndsWith) });
