@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Collections\DefinitionCollection.cs" />
     <Compile Include="Collections\PatternCollection.cs" />
+    <Compile Include="Engines\HtmlEngineHelper.cs" />
     <Compile Include="Patterns\ColorPair.cs" />
     <Compile Include="Definition.cs" />
     <Compile Include="DefinitionStyle.cs" />

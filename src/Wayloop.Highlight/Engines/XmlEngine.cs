@@ -26,6 +26,7 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using Wayloop.Highlight.Patterns;
 
 
@@ -38,7 +39,7 @@ namespace Wayloop.Highlight.Engines
 
         protected override string PreHighlight(Definition definition, string input)
         {
-            return Global.HtmlEncode(input);
+            return HttpUtility.HtmlEncode(input);
         }
 
 
@@ -48,13 +49,13 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected override string HandlePattern(Definition definition, Pattern pattern, Match match)
+        protected override string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match)
         {
-            return String.Format(ElementFormat, pattern.Name, match.Value);
+            return ProcessPatternMatch(pattern, match);
         }
 
 
-        protected override string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
+        protected override string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match)
         {
             var builder = new StringBuilder();
             builder.AppendFormat(ElementFormat, "openTag", match.Groups["openTag"].Value);
@@ -74,6 +75,18 @@ namespace Wayloop.Highlight.Engines
             builder.AppendFormat(ElementFormat, "closeTag", match.Groups["closeTag"].Value);
 
             return String.Format(ElementFormat, pattern.Name, builder);
+        }
+
+
+        protected override string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match)
+        {
+            return ProcessPatternMatch(pattern, match);
+        }
+
+
+        private string ProcessPatternMatch(Pattern pattern, Match match)
+        {
+            return String.Format(ElementFormat, pattern.Name, match.Value);
         }
     }
 }

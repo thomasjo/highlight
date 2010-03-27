@@ -336,10 +336,10 @@
       <word>&amp;</word>
       <word>|</word>
     </pattern>
-    <pattern name="String" type="block" beginsWith="&quot;" endsWith="&quot;" escapesWith="\">
+    <pattern name="String" type="block" beginsWith="&amp;quot;" endsWith="&amp;quot;" escapesWith="\">
       <font name="Courier New" size="11" style="regular" foreColor="#666666" backColor="transparent"/>
     </pattern>
-    <pattern name="VerbatimString" type="block" beginsWith="@&quot;" endsWith="&quot;">
+    <pattern name="VerbatimString" type="block" beginsWith="@&amp;quot;" endsWith="&amp;quot;">
       <font name="Courier New" size="11" style="regular" foreColor="#666666" backColor="transparent"/>
     </pattern>
     <pattern name="Comment" type="block" beginsWith="//" endsWith="\n">

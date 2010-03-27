@@ -66,6 +66,8 @@ namespace Wayloop.Highlight.Tests.Engines.Resources {
         ///    // Comment
         ///    public void Test()
         ///    {
+        ///        string test = &quot;ABC&quot;;
+        ///
         ///        return;
         ///    }
         ///}.
@@ -89,7 +91,7 @@ namespace Wayloop.Highlight.Tests.Engines.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot; src=&quot;http://example.org/file.js&quot;&gt;&lt;/script&gt;
-        ///&lt;div id=&quot;test&quot;&gt;&lt;a href=&quot;#&quot;&gt;Link&lt;/a&gt;&lt;/div&gt;.
+        ///&lt;div id=&quot;test&quot;&gt;&lt;a href=&quot;#&quot; title=&quot;Link&quot;&gt;Link&lt;/a&gt;&lt;/div&gt;.
         /// </summary>
         internal static string Html_Sample1 {
             get {

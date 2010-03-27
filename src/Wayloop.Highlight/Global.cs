@@ -25,10 +25,8 @@
 
 using System;
 using System.Configuration;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
@@ -40,44 +38,6 @@ namespace Wayloop.Highlight
 {
     public class Global
     {
-        public static string CreateCssClassName(string definition, string pattern)
-        {
-            var cssClassName = definition
-                .Replace("#", "sharp")
-                .Replace("+", "plus")
-                .Replace(".", "dot")
-                .Replace("-", "");
-
-            return String.Concat(cssClassName, pattern);
-        }
-
-
-        public static string CreatePatternStyle(Color foreColor, Color backColor, Font font)
-        {
-            var patternStyle = new StringBuilder();
-            if (foreColor != Color.Empty) {
-                patternStyle.Append("color: " + foreColor.Name + ";");
-            }
-            if (backColor != Color.Empty) {
-                patternStyle.Append("background-color: " + backColor.Name + ";");
-            }
-            if (font.Name != null) {
-                patternStyle.Append("font-family: " + font.Name + ";");
-            }
-            if (font.Size > 0f) {
-                patternStyle.Append("font-size: " + font.Size + "px;");
-            }
-            if (font.Style == FontStyle.Regular) {
-                patternStyle.Append("font-weight: normal;");
-            }
-            if (font.Style == FontStyle.Bold) {
-                patternStyle.Append("font-weight: bold;");
-            }
-
-            return patternStyle.ToString();
-        }
-
-
         public static string Escape(string str)
         {
             if (str != @"\n") {
@@ -85,21 +45,6 @@ namespace Wayloop.Highlight
             }
 
             return str;
-        }
-
-
-        public static string GetCleanInput(string input)
-        {
-            input = Regex.Replace(input, @"\<br\ ?\/?>", "\n", RegexOptions.IgnoreCase);
-            input = Regex.Replace(input, @"\<p\>", "\n\n", RegexOptions.IgnoreCase);
-            input = Regex.Replace(input, @"\<\/p\>", String.Empty, RegexOptions.IgnoreCase);
-            input = input.Replace("\r\n", "\n");
-            input = HttpUtility.HtmlDecode(input);
-            input = input
-                .TrimStart(new[] { '\n' })
-                .TrimEnd(new[] { '\n' });
-
-            return input;
         }
 
 
@@ -146,24 +91,6 @@ namespace Wayloop.Highlight
                 }
             }
             return document;
-        }
-
-
-        public static string HtmlDecode(string str)
-        {
-            str = Regex.Replace(str, "&amp;", "&");
-            str = Regex.Replace(str, "&lt;", "<");
-            str = Regex.Replace(str, "&gt;", ">");
-            return str;
-        }
-
-
-        public static string HtmlEncode(string str)
-        {
-            str = Regex.Replace(str, "&", "&amp;");
-            str = Regex.Replace(str, "<", "&lt;");
-            str = Regex.Replace(str, ">", "&gt;");
-            return str;
         }
 
 

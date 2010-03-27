@@ -76,22 +76,27 @@ namespace Wayloop.Highlight.Engines
             if (match == null) {
                 throw new ArgumentNullException("match");
             }
-            
+
             var pattern = definition.Patterns.SingleOrDefault(x => match.Groups[x.Name].Success);
             if (pattern != null) {
-                if (pattern is MarkupPattern) {
-                    return HandleMarkupPattern(definition, pattern, match);
+                if (pattern is BlockPattern) {
+                    return ProcessBlockPatternMatch(definition, (BlockPattern) pattern, match);
                 }
-
-                return HandlePattern(definition, pattern, match);
+                if (pattern is MarkupPattern) {
+                    return ProcessMarkupPatternMatch(definition, (MarkupPattern) pattern, match);
+                }
+                if (pattern is WordPattern) {
+                    return ProcessWordPatternMatch(definition, (WordPattern) pattern, match);
+                }
             }
 
             return match.Value;
         }
 
 
-        protected abstract string HandlePattern(Definition definition, Pattern pattern, Match match);
-        protected abstract string HandleMarkupPattern(Definition definition, Pattern pattern, Match match);
+        protected abstract string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match);
+        protected abstract string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match);
+        protected abstract string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match);
 
 
         private MatchEvaluator GetMatchEvaluator(Definition definition)

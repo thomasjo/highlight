@@ -53,7 +53,7 @@ namespace Wayloop.Highlight.Patterns
                 (?>
                     (?!=[\/\?]?&gt;)
                     (?'ws2'\s*?)
-                    (?'attribute'(?'attribName'[\w\:-]+)(?:(?'ws3'\s*)(?'attribSign'=)(?'ws4'\s*))(?'attribValue'(?:\'[^\']*\'|""[^""]*""|\w+)))
+                    (?'attribute'(?'attribName'[\w\:-]+)(?:(?'ws3'\s*)(?'attribSign'=)(?'ws4'\s*))(?'attribValue'(?:\'.*?\'|&quot;.*?&quot;|\w+)))
                 )*
                 (?'ws5'\s*?)
                 (?'closeTag'[\/\?]?&gt;)

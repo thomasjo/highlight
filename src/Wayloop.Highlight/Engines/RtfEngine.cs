@@ -31,6 +31,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using Wayloop.Highlight.Patterns;
 
 
@@ -46,7 +47,7 @@ namespace Wayloop.Highlight.Engines
 
         protected override string PreHighlight(Definition definition, string input)
         {
-            return Global.HtmlEncode(input);
+            return HttpUtility.HtmlEncode(input);
         }
 
 
@@ -62,25 +63,22 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected override string HandlePattern(Definition definition, Pattern pattern, Match match)
+        protected override string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match)
         {
-            var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
-
-            return ("{" + String.Format(RtfFormat, style, match.Value) + "}");
+            return ProcessPattern(pattern, match);
         }
 
 
-        protected override string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
+        protected override string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match)
         {
             var builder = new StringBuilder();
-            var markupPattern = (MarkupPattern) pattern;
-            var style = CreateRtfPatternStyle(markupPattern.Style.Colors.ForeColor, markupPattern.Style.Colors.BackColor, markupPattern.Style.Font);
-            var bracketStyle = CreateRtfPatternStyle(markupPattern.Style.BracketColors.ForeColor, markupPattern.Style.BracketColors.BackColor, markupPattern.Style.Font);
+            var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+            var bracketStyle = CreateRtfPatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
             string attributeNameStyle = null;
             string attributeValueStyle = null;
-            if (markupPattern.HighlightAttributes) {
-                attributeNameStyle = CreateRtfPatternStyle(markupPattern.Style.AttributeNameColors.ForeColor, markupPattern.Style.AttributeNameColors.BackColor, markupPattern.Style.Font);
-                attributeValueStyle = CreateRtfPatternStyle(markupPattern.Style.AttributeValueColors.ForeColor, markupPattern.Style.AttributeValueColors.BackColor, markupPattern.Style.Font);
+            if (pattern.HighlightAttributes) {
+                attributeNameStyle = CreateRtfPatternStyle(pattern.Style.AttributeNameColors.ForeColor, pattern.Style.AttributeNameColors.BackColor, pattern.Style.Font);
+                attributeValueStyle = CreateRtfPatternStyle(pattern.Style.AttributeValueColors.ForeColor, pattern.Style.AttributeValueColors.BackColor, pattern.Style.Font);
             }
             builder.AppendFormat(RtfFormat, bracketStyle, match.Groups["openTag"].Value);
             builder.Append(match.Groups["ws1"].Value);
@@ -97,6 +95,20 @@ namespace Wayloop.Highlight.Engines
             builder.AppendFormat(RtfFormat, bracketStyle, match.Groups["closeTag"].Value);
 
             return ("{" + builder + "}");
+        }
+
+
+        protected override string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match)
+        {
+            return ProcessPattern(pattern, match);
+        }
+
+
+        private string ProcessPattern(Pattern pattern, Match match)
+        {
+            var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+
+            return ("{" + String.Format(RtfFormat, style, match.Value) + "}");
         }
 
 

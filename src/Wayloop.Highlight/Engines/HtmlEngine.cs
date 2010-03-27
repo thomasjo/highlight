@@ -26,6 +26,7 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using Wayloop.Highlight.Patterns;
 
 
@@ -45,7 +46,7 @@ namespace Wayloop.Highlight.Engines
                 throw new ArgumentNullException("definition");
             }
 
-            return Global.HtmlEncode(input);
+            return HttpUtility.HtmlEncode(input);
         }
 
 
@@ -56,14 +57,24 @@ namespace Wayloop.Highlight.Engines
             }
 
             if (UseCss) {
-                return String.Format(ClassSpanFormat, Global.CreateCssClassName(definition.Name, null), input);
+                var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, null);
+
+                return String.Format(ClassSpanFormat, cssClassName, input);
             }
 
-            return String.Format(StyleSpanFormat, Global.CreatePatternStyle(definition.Style.ForeColor, definition.Style.BackColor, definition.Style.Font), input);
+            var cssStyle = HtmlEngineHelper.CreatePatternStyle(definition.Style.ForeColor, definition.Style.BackColor, definition.Style.Font);
+
+            return String.Format(StyleSpanFormat, cssStyle, input);
         }
 
 
-        protected override string HandlePattern(Definition definition, Pattern pattern, Match match)
+        protected override string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match)
+        {
+            return ProcessPatternMatch(definition, pattern, match);
+        }
+
+
+        protected override string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
@@ -75,82 +86,87 @@ namespace Wayloop.Highlight.Engines
                 throw new ArgumentNullException("match");
             }
 
+            var result = new StringBuilder();
             if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
+                result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["openTag"].Value);
+            }
+            else {
+                result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "Bracket"), match.Groups["openTag"].Value);
+            }
+
+            result.Append(match.Groups["ws1"].Value);
+
+            if (!UseCss) {
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+                result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["tagName"].Value);
+            }
+            else {
+                result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "TagName"), match.Groups["tagName"].Value);
+            }
+
+            if (pattern.HighlightAttributes) {
+                var highlightedAttributes = ProcessMarkupPatternAttributeMatches(definition, pattern, match);
+                result.Append(highlightedAttributes);
+            }
+
+            result.Append(match.Groups["ws5"].Value);
+
+            if (!UseCss) {
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
+                result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["closeTag"].Value);
+            }
+            else {
+                result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "Bracket"), match.Groups["closeTag"].Value);
+            }
+
+            return result.ToString();
+        }
+
+
+        protected override string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match)
+        {
+            return ProcessPatternMatch(definition, pattern, match);
+        }
+
+
+        private string ProcessPatternMatch(Definition definition, Pattern pattern, Match match)
+        {
+            if (!UseCss) {
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
 
                 return String.Format(StyleSpanFormat, patternStyle, match.Value);
             }
 
-            return String.Format(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name), match.Value);
+            return String.Format(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name), match.Value);
         }
 
 
-        protected override string HandleMarkupPattern(Definition definition, Pattern pattern, Match match)
+        private string ProcessMarkupPatternAttributeMatches(Definition definition, MarkupPattern pattern, Match match)
         {
-            if (definition == null) {
-                throw new ArgumentNullException("definition");
-            }
-            if (pattern == null) {
-                throw new ArgumentNullException("pattern");
-            }
-            if (match == null) {
-                throw new ArgumentNullException("match");
-            }
+            var result = new StringBuilder();
+            for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+                result.Append(match.Groups["ws2"].Captures[i].Value);
+                if (!UseCss) {
+                    var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.AttributeNameColors.ForeColor, pattern.Style.AttributeNameColors.BackColor, pattern.Style.Font);
+                    result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribName"].Captures[i].Value);
+                }
+                else {
+                    result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeName"), match.Groups["attribName"].Captures[i].Value);
+                }
 
-            var builder = new StringBuilder();
-            var markupPattern = (MarkupPattern) pattern;
-            if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketColors.ForeColor, markupPattern.Style.BracketColors.BackColor, markupPattern.Style.Font);
-                builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["openTag"].Value);
-            }
-            else {
-                builder.AppendFormat(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name + "Bracket"), match.Groups["openTag"].Value);
-            }
+                result.Append(match.Groups["ws3"].Captures[i].Value);
 
-            builder.Append(match.Groups["ws1"].Value);
-
-            if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.Colors.ForeColor, markupPattern.Style.Colors.BackColor, markupPattern.Style.Font);
-                builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["tagName"].Value);
-            }
-            else {
-                builder.AppendFormat(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name + "TagName"), match.Groups["tagName"].Value);
-            }
-
-            if (markupPattern.HighlightAttributes) {
-                for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
-                    builder.Append(match.Groups["ws2"].Captures[i].Value);
-                    if (!UseCss) {
-                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeNameColors.ForeColor, markupPattern.Style.AttributeNameColors.BackColor, markupPattern.Style.Font);
-                        builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribName"].Captures[i].Value);
-                    }
-                    else {
-                        builder.AppendFormat(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name + "AttributeName"), match.Groups["attribName"].Captures[i].Value);
-                    }
-
-                    builder.Append(match.Groups["ws3"].Captures[i].Value);
-
-                    if (!UseCss) {
-                        var patternStyle = Global.CreatePatternStyle(markupPattern.Style.AttributeValueColors.ForeColor, markupPattern.Style.AttributeValueColors.BackColor, markupPattern.Style.Font);
-                        builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
-                    }
-                    else {
-                        builder.AppendFormat(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name + "AttributeValue"), match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
-                    }
+                if (!UseCss) {
+                    var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.AttributeValueColors.ForeColor, pattern.Style.AttributeValueColors.BackColor, pattern.Style.Font);
+                    result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
+                }
+                else {
+                    result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeValue"), match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
                 }
             }
 
-            builder.Append(match.Groups["ws5"].Value);
-
-            if (!UseCss) {
-                var patternStyle = Global.CreatePatternStyle(markupPattern.Style.BracketColors.ForeColor, markupPattern.Style.BracketColors.BackColor, markupPattern.Style.Font);
-                builder.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["closeTag"].Value);
-            }
-            else {
-                builder.AppendFormat(ClassSpanFormat, Global.CreateCssClassName(definition.Name, pattern.Name + "Bracket"), match.Groups["closeTag"].Value);
-            }
-
-            return builder.ToString();
+            return result.ToString();
         }
     }
 }
