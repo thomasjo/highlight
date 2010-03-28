@@ -30,14 +30,14 @@ namespace Wayloop.Highlight.Patterns
 {
     public class PatternStyle
     {
+        public ColorPair Colors { get; private set; }
+        public Font Font { get; private set; }
+
+
         public PatternStyle(ColorPair colors, Font font)
         {
             Colors = colors;
             Font = font;
         }
-
-
-        public ColorPair Colors { get; private set; }
-        public Font Font { get; private set; }
     }
 }

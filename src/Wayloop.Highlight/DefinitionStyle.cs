@@ -24,21 +24,20 @@
 
 
 using System.Drawing;
+using Wayloop.Highlight.Patterns;
 
 
 namespace Wayloop.Highlight
 {
     public class DefinitionStyle
     {
-        public Color ForeColor { get; private set; }
-        public Color BackColor { get; private set; }
+        public ColorPair Colors { get; private set; }
         public Font Font { get; private set; }
 
 
-        public DefinitionStyle(Color foreColor, Color backColor, Font font)
+        public DefinitionStyle(ColorPair colors, Font font)
         {
-            ForeColor = foreColor;
-            BackColor = backColor;
+            Colors = colors;
             Font = font;
         }
     }

@@ -33,7 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -41,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\DefinitionCollection.cs" />
-    <Compile Include="Collections\PatternCollection.cs" />
     <Compile Include="Engines\HtmlEngineHelper.cs" />
     <Compile Include="Patterns\ColorPair.cs" />
     <Compile Include="Definition.cs" />
@@ -54,7 +51,7 @@
     <Compile Include="Engines\XmlEngine.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\XmlNodeExtensions.cs" />
+    <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />

@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 // Copyright (c) 2004-2010 Thomas Andre H. Johansen
 // 
@@ -23,12 +23,26 @@
 #endregion
 
 
-using System.Collections.Generic;
+using System;
+using System.Xml.Linq;
 
 
-namespace Wayloop.Highlight.Collections
+namespace Wayloop.Highlight.Extensions
 {
-    public class DefinitionCollection : List<Definition>
+    public static class XmlExtensions
     {
+        public static string GetAttributeValue(this XElement element, XName name)
+        {
+            if (element == null) {
+                throw new ArgumentNullException("element");
+            }
+
+            var attribute = element.Attribute(name);
+            if (attribute == null) {
+                return null;
+            }
+
+            return attribute.Value;
+        }
     }
 }

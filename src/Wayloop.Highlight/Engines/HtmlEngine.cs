@@ -62,7 +62,7 @@ namespace Wayloop.Highlight.Engines
                 return String.Format(ClassSpanFormat, cssClassName, input);
             }
 
-            var cssStyle = HtmlEngineHelper.CreatePatternStyle(definition.Style.ForeColor, definition.Style.BackColor, definition.Style.Font);
+            var cssStyle = HtmlEngineHelper.CreatePatternStyle(definition.Style.Colors.ForeColor, definition.Style.Colors.BackColor, definition.Style.Font);
 
             return String.Format(StyleSpanFormat, cssStyle, input);
         }
@@ -160,6 +160,8 @@ namespace Wayloop.Highlight.Engines
                 else {
                     result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeName"), match.Groups["attribName"].Captures[i].Value);
                 }
+
+                if (match.Groups["ws3"].Captures.Count <= i) continue;
 
                 result.Append(match.Groups["ws3"].Captures[i].Value);
 

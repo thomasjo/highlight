@@ -23,8 +23,7 @@
 #endregion
 
 
-using System;
-using System.Linq;
+using System.Xml.Linq;
 using NUnit.Framework;
 using Wayloop.Highlight.Configuration;
 using Wayloop.Highlight.Engines;
@@ -44,7 +43,7 @@ namespace Wayloop.Highlight.Tests.Engines
         public void FixtureSetUp()
         {
             engine = new HtmlEngine();
-            configuration = new XmlConfiguration(Global.GetConfiguration(Global.ConfigurationFile));
+            configuration = new XmlConfiguration(XDocument.Load(("Definitions.xml")));
         }
 
 
@@ -52,7 +51,7 @@ namespace Wayloop.Highlight.Tests.Engines
         public void Highlight_CsharpDefinitionAndCsharpInput_ReturnsExpectedOutput()
         {
             // Arrange
-            var definition = configuration.GetDefinitions().Single(x => x.Name.Equals("C#", StringComparison.InvariantCultureIgnoreCase));
+            var definition = configuration.Definitions["C#"];
             var input = InputOutput.CSharp_Sample1;
             var expectedOutout = InputOutput.CSharp_Sample1_HtmlOutput;
 
@@ -65,10 +64,10 @@ namespace Wayloop.Highlight.Tests.Engines
 
 
         [Test]
-        public void Highlight_HtmlDefinitionAndHtmlInput_ReturnsExpectedOutput()
+        public void Highlight_HtmlDefinitionAndXtmlInput_ReturnsExpectedOutput()
         {
             // Arrange
-            var definition = configuration.GetDefinitions().Single(x => x.Name.Equals("HTML", StringComparison.InvariantCultureIgnoreCase));
+            var definition = configuration.Definitions["HTML"];
             var input = InputOutput.Html_Sample1;
             var expectedOutput = InputOutput.Html_Sample1_HtmlOutput;
 

@@ -23,13 +23,13 @@
 #endregion
 
 
-using Wayloop.Highlight.Collections;
+using System.Collections.Generic;
 
 
 namespace Wayloop.Highlight.Configuration
 {
     public interface IConfiguration
     {
-        DefinitionCollection GetDefinitions();
+        IDictionary<string, Definition> Definitions { get; }
     }
 }

@@ -23,8 +23,8 @@
 #endregion
 
 
+using System.Collections.Generic;
 using System.Text;
-using Wayloop.Highlight.Collections;
 using Wayloop.Highlight.Patterns;
 
 
@@ -32,7 +32,7 @@ namespace Wayloop.Highlight
 {
     public class Definition
     {
-        public Definition(string name, bool caseSensitive, DefinitionStyle style, PatternCollection patterns)
+        public Definition(string name, bool caseSensitive, DefinitionStyle style, IDictionary<string, Pattern> patterns)
         {
             Name = name;
             CaseSensitive = caseSensitive;
@@ -44,17 +44,17 @@ namespace Wayloop.Highlight
         public string Name { get; set; }
         public bool CaseSensitive { get; set; }
         public DefinitionStyle Style { get; set; }
-        public PatternCollection Patterns { get; private set; }
+        public IDictionary<string, Pattern> Patterns { get; private set; }
 
 
-        public string GetPatterns()
+        public string GetRegexPattern()
         {
             var allPatterns = new StringBuilder();
             var blockPatterns = new StringBuilder();
             var markupPatterns = new StringBuilder();
             var wordPatterns = new StringBuilder();
 
-            foreach (var pattern in Patterns) {
+            foreach (var pattern in Patterns.Values) {
                 if (pattern is BlockPattern) {
                     if (blockPatterns.Length > 1) {
                         blockPatterns.Append("|");
@@ -74,6 +74,7 @@ namespace Wayloop.Highlight
                     wordPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
                 }
             }
+
             if (blockPatterns.Length > 0) {
                 allPatterns.AppendFormat("(?'blocks'{0})+?", blockPatterns);
             }

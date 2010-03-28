@@ -33,23 +33,17 @@ namespace Wayloop.Highlight.Engines
 {
     public abstract class Engine : IEngine
     {
+        private const RegexOptions DefaultRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace;
+
+
         public string Highlight(Definition definition, string input)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
             }
 
-            const RegexOptions regexOptions = RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace;
-            var evaluator = GetMatchEvaluator(definition);
-            var patterns = definition.GetPatterns();
-
             var output = PreHighlight(definition, input);
-            if (definition.CaseSensitive) {
-                output = Regex.Replace(output, patterns, evaluator, regexOptions);
-            }
-            else {
-                output = Regex.Replace(output, patterns, evaluator, regexOptions | RegexOptions.IgnoreCase);
-            }
+            output = HighlightUsingRegex(definition, output);
             output = PostHighlight(definition, output);
 
             return output;
@@ -68,7 +62,28 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected string ElementMatchHandler(Definition definition, Match match)
+        private string HighlightUsingRegex(Definition definition, string input)
+        {
+            var regexOptions = GetRegexOptions(definition);
+            var evaluator = GetMatchEvaluator(definition);
+            var regexPattern = definition.GetRegexPattern();
+            var output = Regex.Replace(input, regexPattern, evaluator, regexOptions);
+
+            return output;
+        }
+
+
+        private RegexOptions GetRegexOptions(Definition definition)
+        {
+            if (definition.CaseSensitive) {
+                return DefaultRegexOptions | RegexOptions.IgnoreCase;
+            }
+
+            return DefaultRegexOptions;
+        }
+
+
+        private string ElementMatchHandler(Definition definition, Match match)
         {
             if (definition == null) {
                 throw new ArgumentNullException("definition");
@@ -77,7 +92,7 @@ namespace Wayloop.Highlight.Engines
                 throw new ArgumentNullException("match");
             }
 
-            var pattern = definition.Patterns.SingleOrDefault(x => match.Groups[x.Name].Success);
+            var pattern = definition.Patterns.First(x => match.Groups[x.Key].Success).Value;
             if (pattern != null) {
                 if (pattern is BlockPattern) {
                     return ProcessBlockPatternMatch(definition, (BlockPattern) pattern, match);
@@ -94,14 +109,14 @@ namespace Wayloop.Highlight.Engines
         }
 
 
-        protected abstract string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match);
-        protected abstract string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match);
-        protected abstract string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match);
-
-
         private MatchEvaluator GetMatchEvaluator(Definition definition)
         {
             return match => ElementMatchHandler(definition, match);
         }
+
+
+        protected abstract string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match);
+        protected abstract string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match);
+        protected abstract string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match);
     }
 }

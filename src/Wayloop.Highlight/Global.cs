@@ -23,15 +23,8 @@
 #endregion
 
 
-using System;
-using System.Configuration;
-using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Caching;
-using System.Xml;
-using System.Xml.Schema;
 
 
 namespace Wayloop.Highlight
@@ -45,76 +38,6 @@ namespace Wayloop.Highlight
             }
 
             return str;
-        }
-
-
-        public static XmlDocument GetConfiguration(string configurationFile)
-        {
-            var document = new XmlDocument();
-            if (IsWebForm) {
-                try {
-                    var xml = Convert.ToString(HttpContext.Current.Cache[CacheKey]);
-                    document.LoadXml(xml);
-                }
-                catch (XmlException) {
-                }
-            }
-            if (document.OuterXml.Length == 0) {
-                if (configurationFile == String.Empty) {
-                    if (ConfigurationManager.AppSettings["configurationFile"] != null) {
-                        configurationFile = ConfigurationManager.AppSettings["configurationFile"];
-                    }
-                    else {
-                        configurationFile = Path.Combine("ApplicationDirectory", "Definitions.xml");
-                    }
-                }
-                if (!File.Exists(configurationFile)) {
-                    throw new FileNotFoundException(String.Format("The configuration file does not exist at location <i>{0}</i>", configurationFile), configurationFile);
-                }
-                using (var stream = new FileStream(configurationFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-                    var manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Wayloop.Highlight.Resources.Definitions.xsd");
-                    try {
-                        if (manifestResourceStream != null) {
-                            var schema = XmlSchema.Read(manifestResourceStream, delegate(object sender, ValidationEventArgs e) { throw new Exception("An error occured while accessing the schema.\n" + e.Message); });
-                            var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
-                            settings.Schemas.Add(schema);
-                            var reader = XmlReader.Create(stream, settings);
-                            document.Load(reader);
-                            if (IsWebForm) {
-                                HttpContext.Current.Cache.Insert(CacheKey, document.OuterXml, new CacheDependency(configurationFile));
-                            }
-                        }
-                    }
-                    catch (Exception exception) {
-                        throw new Exception("An error occured while loading the schema.\n" + exception.Message + "\n");
-                    }
-                }
-            }
-            return document;
-        }
-
-
-        public static string ApplicationDirectory
-        {
-            get { return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", ""); }
-        }
-
-
-        public static string CacheKey
-        {
-            get { return "HighlightConfiguration"; }
-        }
-
-
-        public static string ConfigurationFile
-        {
-            get
-            {
-                if (ConfigurationManager.AppSettings["configurationFile"] != null) {
-                    return ConfigurationManager.AppSettings["configurationFile"];
-                }
-                return Path.Combine(ApplicationDirectory, "Definitions.xml");
-            }
         }
 
 

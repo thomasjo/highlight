@@ -28,8 +28,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml;
-using Wayloop.Highlight.Collections;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Wayloop.Highlight.Extensions;
 using Wayloop.Highlight.Patterns;
 
@@ -38,13 +38,19 @@ namespace Wayloop.Highlight.Configuration
 {
     public class XmlConfiguration : IConfiguration
     {
-        private DefinitionCollection definitions;
+        private IDictionary<string, Definition> definitions;
 
 
-        public XmlDocument XmlDocument { get; set; }
+        public IDictionary<string, Definition> Definitions
+        {
+            get { return GetDefinitions(); }
+        }
 
 
-        public XmlConfiguration(XmlDocument xmlDocument)
+        public XDocument XmlDocument { get; set; }
+
+
+        public XmlConfiguration(XDocument xmlDocument)
         {
             if (xmlDocument == null) {
                 throw new ArgumentNullException("xmlDocument");
@@ -54,112 +60,128 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        public DefinitionCollection GetDefinitions()
+        private IDictionary<string, Definition> GetDefinitions()
         {
             if (definitions == null) {
-                var definitionNodes = XmlDocument.SelectNodes("definitions/definition");
-                if (definitionNodes != null) {
-                    definitions = new DefinitionCollection();
-                    definitions.AddRange(from XmlNode node in definitionNodes select GetDefinition(node));
-                }
+                definitions = XmlDocument
+                    .Descendants("definition")
+                    .Select(GetDefinition)
+                    .ToDictionary(x => x.Name);
             }
 
             return definitions;
         }
 
 
-        private Definition GetDefinition(XmlNode definitionNode)
+        private Definition GetDefinition(XElement definitionElement)
         {
-            var name = definitionNode.GetAttributeValue("name");
-            var patterns = GetPatterns(definitionNode);
-            var caseSensitive = Boolean.Parse(definitionNode.GetAttributeValue("caseSensitive"));
-            var style = GetDefinitionStyle(definitionNode);
+            var name = definitionElement.GetAttributeValue("name");
+            var patterns = GetPatterns(definitionElement);
+            var caseSensitive = Boolean.Parse(definitionElement.GetAttributeValue("caseSensitive"));
+            var style = GetDefinitionStyle(definitionElement);
 
             return new Definition(name, caseSensitive, style, patterns);
         }
 
 
-        private PatternCollection GetPatterns(XmlNode definitionNode)
+        private IDictionary<string, Pattern> GetPatterns(XContainer definitionElement)
         {
-            var patterns = new PatternCollection();
-            var patternNodes = definitionNode.SelectNodes("pattern");
-            if (patternNodes != null) {
-                patterns.AddRange(from XmlNode node in patternNodes select GetPattern(node));
-            }
+            var patterns = definitionElement
+                .Descendants("pattern")
+                .Select(GetPattern)
+                .ToDictionary(x => x.Name);
 
             return patterns;
         }
 
 
-        private Pattern GetPattern(XmlNode patternNode)
+        private Pattern GetPattern(XElement patternElement)
         {
             const StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
-            var patternType = patternNode.GetAttributeValue("type");
+            var patternType = patternElement.GetAttributeValue("type");
             if (patternType.Equals("block", stringComparison)) {
-                var name = patternNode.GetAttributeValue("name");
-                var style = GetPatternStyle(patternNode);
-                var beginsWith = patternNode.GetAttributeValue("beginsWith");
-                var endsWith = patternNode.GetAttributeValue("endsWith");
-                var escapesWith = patternNode.GetAttributeValue("escapesWith");
-
-                return new BlockPattern(name, style, beginsWith, endsWith, escapesWith);
+                return GetBlockPattern(patternElement);
             }
             if (patternType.Equals("markup", stringComparison)) {
-                var name = patternNode.GetAttributeValue("name");
-                var style = GetMarkupPatternStyle(patternNode);
-                var highlightAttributes = Boolean.Parse(patternNode.GetAttributeValue("highlightAttributes"));
-
-                return new MarkupPattern(name, style, highlightAttributes);
+                return GetMarkupPattern(patternElement);
             }
             if (patternType.Equals("word", stringComparison)) {
-                var name = patternNode.GetAttributeValue("name");
-                var style = GetPatternStyle(patternNode);
-                var words = GetPatternWords(patternNode);
-
-                return new WordPattern(name, style, words);
+                return GetWordPattern(patternElement);
             }
 
             throw new InvalidOperationException(String.Format("Unknown pattern type: {0}", patternType));
         }
 
 
-        private IEnumerable<string> GetPatternWords(XmlNode patternNode)
+        private Pattern GetBlockPattern(XElement patternElement)
+        {
+            var name = patternElement.GetAttributeValue("name");
+            var style = GetPatternStyle(patternElement);
+            var beginsWith = patternElement.GetAttributeValue("beginsWith");
+            var endsWith = patternElement.GetAttributeValue("endsWith");
+            var escapesWith = patternElement.GetAttributeValue("escapesWith");
+
+            return new BlockPattern(name, style, beginsWith, endsWith, escapesWith);
+        }
+
+
+        private Pattern GetMarkupPattern(XElement patternElement)
+        {
+            var name = patternElement.GetAttributeValue("name");
+            var style = GetMarkupPatternStyle(patternElement);
+            var highlightAttributes = Boolean.Parse(patternElement.GetAttributeValue("highlightAttributes"));
+
+            return new MarkupPattern(name, style, highlightAttributes);
+        }
+
+
+        private Pattern GetWordPattern(XElement patternElement)
+        {
+            var name = patternElement.GetAttributeValue("name");
+            var style = GetPatternStyle(patternElement);
+            var words = GetPatternWords(patternElement);
+
+            return new WordPattern(name, style, words);
+        }
+
+
+        private IEnumerable<string> GetPatternWords(XContainer patternElement)
         {
             var words = new List<string>();
-            var wordNodes = patternNode.SelectNodes("word");
-            if (wordNodes != null) {
-                words.AddRange(from XmlNode wordNode in wordNodes select Regex.Escape(wordNode.InnerText));
+            var wordElements = patternElement.Descendants("word");
+            if (wordElements != null) {
+                words.AddRange(from wordElement in wordElements select Regex.Escape(wordElement.Value));
             }
 
             return words;
         }
 
 
-        private PatternStyle GetPatternStyle(XmlNode patternNode)
+        private PatternStyle GetPatternStyle(XContainer patternElement)
         {
-            var fontNode = patternNode.SelectSingleNode("font");
-            var colors = GetPatternColors(fontNode);
-            var font = GetPatternFont(fontNode);
+            var fontElement = patternElement.Descendants("font").Single();
+            var colors = GetPatternColors(fontElement);
+            var font = GetPatternFont(fontElement);
 
             return new PatternStyle(colors, font);
         }
 
 
-        private ColorPair GetPatternColors(XmlNode fontNode)
+        private ColorPair GetPatternColors(XElement fontElement)
         {
-            var foreColor = Color.FromName(fontNode.GetAttributeValue("foreColor"));
-            var backColor = Color.FromName(fontNode.GetAttributeValue("backColor"));
+            var foreColor = Color.FromName(fontElement.GetAttributeValue("foreColor"));
+            var backColor = Color.FromName(fontElement.GetAttributeValue("backColor"));
 
             return new ColorPair(foreColor, backColor);
         }
 
 
-        private Font GetPatternFont(XmlNode fontNode)
+        private Font GetPatternFont(XElement fontElement)
         {
-            var fontFamily = fontNode.GetAttributeValue("name");
+            var fontFamily = fontElement.GetAttributeValue("name");
             if (fontFamily != null) {
-                var emSize = fontNode.GetAttributeValue("size").ToSingle(11f);
-                var style = Enum<FontStyle>.Parse(fontNode.GetAttributeValue("style"), FontStyle.Regular, true);
+                var emSize = fontElement.GetAttributeValue("size").ToSingle(11f);
+                var style = Enum<FontStyle>.Parse(fontElement.GetAttributeValue("style"), FontStyle.Regular, true);
 
                 return new Font(fontFamily, emSize, style);
             }
@@ -168,45 +190,45 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        private MarkupPatternStyle GetMarkupPatternStyle(XmlNode patternNode)
+        private MarkupPatternStyle GetMarkupPatternStyle(XContainer patternElement)
         {
-            var patternStyle = GetPatternStyle(patternNode);
-            var fontNode = patternNode.SelectSingleNode("font");
-            var bracketColors = GetMarkupPatternBracketColors(fontNode);
-            var attributeNameColors = GetMarkupPatternAttributeNameColors(fontNode);
-            var attributeValueColors = GetMarkupPatternAttributeValueColors(fontNode);
+            var patternStyle = GetPatternStyle(patternElement);
+            var fontElement = patternElement.Descendants("font").Single();
+            var bracketColors = GetMarkupPatternBracketColors(fontElement);
+            var attributeNameColors = GetMarkupPatternAttributeNameColors(fontElement);
+            var attributeValueColors = GetMarkupPatternAttributeValueColors(fontElement);
 
             return new MarkupPatternStyle(patternStyle.Colors, patternStyle.Font, bracketColors, attributeNameColors, attributeValueColors);
         }
 
 
-        private ColorPair GetMarkupPatternBracketColors(XmlNode fontNode)
+        private ColorPair GetMarkupPatternBracketColors(XContainer fontElement)
         {
-            const string xpath = "bracketStyle";
-            return GetMarkupPatternColors(fontNode, xpath);
+            const string descendantName = "bracketStyle";
+            return GetMarkupPatternColors(fontElement, descendantName);
         }
 
 
-        private ColorPair GetMarkupPatternAttributeNameColors(XmlNode fontNode)
+        private ColorPair GetMarkupPatternAttributeNameColors(XContainer fontElement)
         {
-            const string xpath = "attributeNameStyle";
-            return GetMarkupPatternColors(fontNode, xpath);
+            const string descendantName = "attributeNameStyle";
+            return GetMarkupPatternColors(fontElement, descendantName);
         }
 
 
-        private ColorPair GetMarkupPatternAttributeValueColors(XmlNode fontNode)
+        private ColorPair GetMarkupPatternAttributeValueColors(XContainer fontElement)
         {
-            const string xpath = "attributeValueStyle";
-            return GetMarkupPatternColors(fontNode, xpath);
+            const string descendantName = "attributeValueStyle";
+            return GetMarkupPatternColors(fontElement, descendantName);
         }
 
 
-        private ColorPair GetMarkupPatternColors(XmlNode fontNode, string xpath)
+        private ColorPair GetMarkupPatternColors(XContainer fontElement, XName descendantName)
         {
-            var node = fontNode.SelectSingleNode(xpath);
-            if (node != null) {
-                var foreColor = Color.FromName(node.GetAttributeValue("foreColor"));
-                var backColor = Color.FromName(node.GetAttributeValue("backColor"));
+            var element = fontElement.Descendants(descendantName).SingleOrDefault();
+            if (element != null) {
+                var foreColor = Color.FromName(element.GetAttributeValue("foreColor"));
+                var backColor = Color.FromName(element.GetAttributeValue("backColor"));
 
                 return new ColorPair(foreColor, backColor);
             }
@@ -215,23 +237,31 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        private DefinitionStyle GetDefinitionStyle(XmlNode definitionNode)
+        private DefinitionStyle GetDefinitionStyle(XNode definitionElement)
         {
             const string xpath = "default/font";
-            var fontNode = definitionNode.SelectSingleNode(xpath);
-            var foreColor = Color.FromName(fontNode.GetAttributeValue("foreColor"));
-            var backColor = Color.FromName(fontNode.GetAttributeValue("backColor"));
-            var font = GetDefinitionFont(fontNode);
+            var fontElement = definitionElement.XPathSelectElement(xpath);
+            var colors = GetDefinitionColors(fontElement);
+            var font = GetDefinitionFont(fontElement);
 
-            return new DefinitionStyle(foreColor, backColor, font);
+            return new DefinitionStyle(colors, font);
         }
 
 
-        private Font GetDefinitionFont(XmlNode fontNode)
+        private ColorPair GetDefinitionColors(XElement fontElement)
         {
-            var fontName = fontNode.GetAttributeValue("name");
-            var fontSize = Convert.ToSingle(fontNode.GetAttributeValue("size"));
-            var fontStyle = (FontStyle) Enum.Parse(typeof (FontStyle), fontNode.GetAttributeValue("style"), true);
+            var foreColor = Color.FromName(fontElement.GetAttributeValue("foreColor"));
+            var backColor = Color.FromName(fontElement.GetAttributeValue("backColor"));
+
+            return new ColorPair(foreColor, backColor);
+        }
+
+
+        private Font GetDefinitionFont(XElement fontElement)
+        {
+            var fontName = fontElement.GetAttributeValue("name");
+            var fontSize = Convert.ToSingle(fontElement.GetAttributeValue("size"));
+            var fontStyle = (FontStyle) Enum.Parse(typeof (FontStyle), fontElement.GetAttributeValue("style"), true);
 
             return new Font(fontName, fontSize, fontStyle);
         }
