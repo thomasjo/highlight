@@ -84,11 +84,15 @@ namespace Wayloop.Highlight.Engines
             builder.Append(match.Groups["ws1"].Value);
             builder.AppendFormat(RtfFormat, style, match.Groups["tagName"].Value);
             if (attributeNameStyle != null) {
-                for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+                for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++) {
                     builder.Append(match.Groups["ws2"].Captures[i].Value);
                     builder.AppendFormat(RtfFormat, attributeNameStyle, match.Groups["attribName"].Captures[i].Value);
-                    builder.Append(match.Groups["ws3"].Captures[i].Value);
-                    builder.AppendFormat(RtfFormat, attributeValueStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
+                    
+                    if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
+                        continue;
+                    }
+
+                    builder.AppendFormat(RtfFormat, attributeValueStyle, match.Groups["attribValue"].Captures[i].Value);
                 }
             }
             builder.Append(match.Groups["ws5"].Value);

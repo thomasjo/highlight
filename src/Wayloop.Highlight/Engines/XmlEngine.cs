@@ -32,6 +32,7 @@ using Wayloop.Highlight.Patterns;
 
 namespace Wayloop.Highlight.Engines
 {
+    // TODO: Refactor this engine to build proper XML using XLinq.
     public class XmlEngine : Engine
     {
         private const string ElementFormat = "<{0}>{1}</{0}>";
@@ -63,11 +64,15 @@ namespace Wayloop.Highlight.Engines
             builder.AppendFormat(ElementFormat, "tagName", match.Groups["tagName"].Value);
 
             var builder2 = new StringBuilder();
-            for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+            for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++) {
                 builder2.AppendFormat(ElementFormat, "whitespace", match.Groups["ws2"].Captures[i].Value);
                 builder2.AppendFormat(ElementFormat, "attribName", match.Groups["attribName"].Captures[i].Value);
-                builder2.AppendFormat(ElementFormat, "whitespace", match.Groups["ws3"].Captures[i].Value);
-                builder2.AppendFormat(ElementFormat, "attribValue", match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
+
+                if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
+                    continue;
+                }
+
+                builder2.AppendFormat(ElementFormat, "attribValue", match.Groups["attribValue"].Captures[i].Value);
             }
             builder.AppendFormat(ElementFormat, "attribute", builder2);
 
