@@ -107,5 +107,23 @@ namespace Wayloop.Highlight.Tests.Engines.Resources {
                 return ResourceManager.GetString("Html_Sample1_HtmlOutput", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;input type=&quot;checkbox&quot; value=&quot;a&quot; checked disabled /&gt;.
+        /// </summary>
+        internal static string Html_Sample2 {
+            get {
+                return ResourceManager.GetString("Html_Sample2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span style=&quot;color: Black;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;&quot;&gt;&lt;span style=&quot;color: Blue;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&quot;color: Maroon;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;&quot;&gt;input&lt;/span&gt; &lt;span style=&quot;color: Red;background-color: Transparent;font-family: Courier New;font-size: 11px;font-weight: normal;&quot;&gt;type&lt;/span&gt;&lt;sp [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Html_Sample2_HtmlOutput {
+            get {
+                return ResourceManager.GetString("Html_Sample2_HtmlOutput", resourceCulture);
+            }
+        }
     }
 }

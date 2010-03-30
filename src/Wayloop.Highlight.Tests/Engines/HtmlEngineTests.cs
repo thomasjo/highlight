@@ -64,12 +64,28 @@ namespace Wayloop.Highlight.Tests.Engines
 
 
         [Test]
-        public void Highlight_HtmlDefinitionAndXtmlInput_ReturnsExpectedOutput()
+        public void Highlight_HtmlDefinitionAndXhtmlInput_ReturnsExpectedOutput()
         {
             // Arrange
             var definition = configuration.Definitions["HTML"];
             var input = InputOutput.Html_Sample1;
             var expectedOutput = InputOutput.Html_Sample1_HtmlOutput;
+
+            // Act
+            var output = engine.Highlight(definition, input);
+
+            // Assert
+            Assert.That(output, Is.EqualTo(expectedOutput));
+        }
+
+
+        [Test]
+        public void Highlight_HtmlDefinitionAndHtmlInput_ReturnsExpectedOutput()
+        {
+            // Arrange
+            var definition = configuration.Definitions["HTML"];
+            var input = InputOutput.Html_Sample2;
+            var expectedOutput = InputOutput.Html_Sample2_HtmlOutput;
 
             // Act
             var output = engine.Highlight(definition, input);

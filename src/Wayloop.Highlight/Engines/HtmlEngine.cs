@@ -151,7 +151,7 @@ namespace Wayloop.Highlight.Engines
         private string ProcessMarkupPatternAttributeMatches(Definition definition, MarkupPattern pattern, Match match)
         {
             var result = new StringBuilder();
-            for (var i = 0; i < match.Groups["attribName"].Captures.Count; i++) {
+            for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++) {
                 result.Append(match.Groups["ws2"].Captures[i].Value);
                 if (!UseCss) {
                     var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.AttributeNameColors.ForeColor, pattern.Style.AttributeNameColors.BackColor, pattern.Style.Font);
@@ -161,16 +161,16 @@ namespace Wayloop.Highlight.Engines
                     result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeName"), match.Groups["attribName"].Captures[i].Value);
                 }
 
-                if (match.Groups["ws3"].Captures.Count <= i) continue;
-
-                result.Append(match.Groups["ws3"].Captures[i].Value);
+                if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
+                    continue;
+                }
 
                 if (!UseCss) {
                     var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.AttributeValueColors.ForeColor, pattern.Style.AttributeValueColors.BackColor, pattern.Style.Font);
-                    result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
+                    result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribValue"].Captures[i].Value);
                 }
                 else {
-                    result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeValue"), match.Groups["attribSign"].Captures[i].Value + match.Groups["ws4"].Captures[i].Value + match.Groups["attribValue"].Captures[i].Value);
+                    result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeValue"), match.Groups["attribValue"].Captures[i].Value);
                 }
             }
 
