@@ -40,10 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engines\HtmlEngineHelper.cs" />
     <Compile Include="Patterns\ColorPair.cs" />
-    <Compile Include="Definition.cs" />
-    <Compile Include="DefinitionStyle.cs" />
+    <Compile Include="Engines\HtmlEngineHelper.cs" />
+    <Compile Include="Patterns\Definition.cs" />
     <Compile Include="Engines\Engine.cs" />
     <Compile Include="Engines\HtmlEngine.cs" />
     <Compile Include="Engines\IEngine.cs" />
@@ -52,14 +51,12 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
-    <Compile Include="Global.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Patterns\BlockPattern.cs" />
     <Compile Include="Patterns\MarkupPattern.cs" />
-    <Compile Include="Patterns\MarkupPatternStyle.cs" />
     <Compile Include="Patterns\Pattern.cs" />
-    <Compile Include="Patterns\PatternStyle.cs" />
+    <Compile Include="Patterns\Style.cs" />
     <Compile Include="Patterns\WordPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\XmlConfiguration.cs" />
@@ -72,6 +69,7 @@
   <ItemGroup>
     <Content Include="Definitions.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

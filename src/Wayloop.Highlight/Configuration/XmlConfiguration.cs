@@ -113,7 +113,7 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        private Pattern GetBlockPattern(XElement patternElement)
+        private BlockPattern GetBlockPattern(XElement patternElement)
         {
             var name = patternElement.GetAttributeValue("name");
             var style = GetPatternStyle(patternElement);
@@ -125,17 +125,20 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        private Pattern GetMarkupPattern(XElement patternElement)
+        private MarkupPattern GetMarkupPattern(XElement patternElement)
         {
             var name = patternElement.GetAttributeValue("name");
-            var style = GetMarkupPatternStyle(patternElement);
+            var style = GetPatternStyle(patternElement);
             var highlightAttributes = Boolean.Parse(patternElement.GetAttributeValue("highlightAttributes"));
+            var bracketColors = GetMarkupPatternBracketColors(patternElement);
+            var attributeNameColors = GetMarkupPatternAttributeNameColors(patternElement);
+            var attributeValueColors = GetMarkupPatternAttributeValueColors(patternElement);
 
-            return new MarkupPattern(name, style, highlightAttributes);
+            return new MarkupPattern(name, style, highlightAttributes, bracketColors, attributeNameColors, attributeValueColors);
         }
 
 
-        private Pattern GetWordPattern(XElement patternElement)
+        private WordPattern GetWordPattern(XElement patternElement)
         {
             var name = patternElement.GetAttributeValue("name");
             var style = GetPatternStyle(patternElement);
@@ -157,13 +160,13 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        private PatternStyle GetPatternStyle(XContainer patternElement)
+        private Style GetPatternStyle(XContainer patternElement)
         {
             var fontElement = patternElement.Descendants("font").Single();
             var colors = GetPatternColors(fontElement);
             var font = GetPatternFont(fontElement);
 
-            return new PatternStyle(colors, font);
+            return new Style(colors, font);
         }
 
 
@@ -176,7 +179,7 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        private Font GetPatternFont(XElement fontElement)
+        private Font GetPatternFont(XElement fontElement, Font defaultFont = null)
         {
             var fontFamily = fontElement.GetAttributeValue("name");
             if (fontFamily != null) {
@@ -186,65 +189,53 @@ namespace Wayloop.Highlight.Configuration
                 return new Font(fontFamily, emSize, style);
             }
 
+            return defaultFont;
+        }
+
+
+        private ColorPair GetMarkupPatternBracketColors(XContainer patternElement)
+        {
+            const string descendantName = "bracketStyle";
+            return GetMarkupPatternColors(patternElement, descendantName);
+        }
+
+
+        private ColorPair GetMarkupPatternAttributeNameColors(XContainer patternElement)
+        {
+            const string descendantName = "attributeNameStyle";
+            return GetMarkupPatternColors(patternElement, descendantName);
+        }
+
+
+        private ColorPair GetMarkupPatternAttributeValueColors(XContainer patternElement)
+        {
+            const string descendantName = "attributeValueStyle";
+            return GetMarkupPatternColors(patternElement, descendantName);
+        }
+
+
+        private ColorPair GetMarkupPatternColors(XContainer patternElement, XName descendantName)
+        {
+            var fontElement = patternElement.Descendants("font").Single();
+            var element = fontElement.Descendants(descendantName).SingleOrDefault();
+            if (element != null) {
+                var colors = GetPatternColors(element);
+
+                return colors;
+            }
+
             return null;
         }
 
 
-        private MarkupPatternStyle GetMarkupPatternStyle(XContainer patternElement)
-        {
-            var patternStyle = GetPatternStyle(patternElement);
-            var fontElement = patternElement.Descendants("font").Single();
-            var bracketColors = GetMarkupPatternBracketColors(fontElement);
-            var attributeNameColors = GetMarkupPatternAttributeNameColors(fontElement);
-            var attributeValueColors = GetMarkupPatternAttributeValueColors(fontElement);
-
-            return new MarkupPatternStyle(patternStyle.Colors, patternStyle.Font, bracketColors, attributeNameColors, attributeValueColors);
-        }
-
-
-        private ColorPair GetMarkupPatternBracketColors(XContainer fontElement)
-        {
-            const string descendantName = "bracketStyle";
-            return GetMarkupPatternColors(fontElement, descendantName);
-        }
-
-
-        private ColorPair GetMarkupPatternAttributeNameColors(XContainer fontElement)
-        {
-            const string descendantName = "attributeNameStyle";
-            return GetMarkupPatternColors(fontElement, descendantName);
-        }
-
-
-        private ColorPair GetMarkupPatternAttributeValueColors(XContainer fontElement)
-        {
-            const string descendantName = "attributeValueStyle";
-            return GetMarkupPatternColors(fontElement, descendantName);
-        }
-
-
-        private ColorPair GetMarkupPatternColors(XContainer fontElement, XName descendantName)
-        {
-            var element = fontElement.Descendants(descendantName).SingleOrDefault();
-            if (element != null) {
-                var foreColor = Color.FromName(element.GetAttributeValue("foreColor"));
-                var backColor = Color.FromName(element.GetAttributeValue("backColor"));
-
-                return new ColorPair(foreColor, backColor);
-            }
-
-            return new ColorPair();
-        }
-
-
-        private DefinitionStyle GetDefinitionStyle(XNode definitionElement)
+        private Style GetDefinitionStyle(XNode definitionElement)
         {
             const string xpath = "default/font";
             var fontElement = definitionElement.XPathSelectElement(xpath);
             var colors = GetDefinitionColors(fontElement);
             var font = GetDefinitionFont(fontElement);
 
-            return new DefinitionStyle(colors, font);
+            return new Style(colors, font);
         }
 
 

@@ -24,6 +24,7 @@
 
 
 using System.Collections.Generic;
+using Wayloop.Highlight.Patterns;
 
 
 namespace Wayloop.Highlight.Configuration

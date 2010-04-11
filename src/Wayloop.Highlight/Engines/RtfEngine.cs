@@ -65,7 +65,9 @@ namespace Wayloop.Highlight.Engines
 
         protected override string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match)
         {
-            return ProcessPattern(pattern, match);
+            var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+
+            return ("{" + String.Format(RtfFormat, style, match.Value) + "}");
         }
 
 
@@ -73,12 +75,12 @@ namespace Wayloop.Highlight.Engines
         {
             var builder = new StringBuilder();
             var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
-            var bracketStyle = CreateRtfPatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
+            var bracketStyle = CreateRtfPatternStyle(pattern.BracketColors.ForeColor, pattern.BracketColors.BackColor, pattern.Style.Font);
             string attributeNameStyle = null;
             string attributeValueStyle = null;
             if (pattern.HighlightAttributes) {
-                attributeNameStyle = CreateRtfPatternStyle(pattern.Style.AttributeNameColors.ForeColor, pattern.Style.AttributeNameColors.BackColor, pattern.Style.Font);
-                attributeValueStyle = CreateRtfPatternStyle(pattern.Style.AttributeValueColors.ForeColor, pattern.Style.AttributeValueColors.BackColor, pattern.Style.Font);
+                attributeNameStyle = CreateRtfPatternStyle(pattern.AttributeNameColors.ForeColor, pattern.AttributeNameColors.BackColor, pattern.Style.Font);
+                attributeValueStyle = CreateRtfPatternStyle(pattern.AttributeValueColors.ForeColor, pattern.AttributeValueColors.BackColor, pattern.Style.Font);
             }
             builder.AppendFormat(RtfFormat, bracketStyle, match.Groups["openTag"].Value);
             builder.Append(match.Groups["ws1"].Value);
@@ -87,7 +89,7 @@ namespace Wayloop.Highlight.Engines
                 for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++) {
                     builder.Append(match.Groups["ws2"].Captures[i].Value);
                     builder.AppendFormat(RtfFormat, attributeNameStyle, match.Groups["attribName"].Captures[i].Value);
-                    
+
                     if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
                         continue;
                     }
@@ -103,12 +105,6 @@ namespace Wayloop.Highlight.Engines
 
 
         protected override string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match)
-        {
-            return ProcessPattern(pattern, match);
-        }
-
-
-        private string ProcessPattern(Pattern pattern, Match match)
         {
             var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
 

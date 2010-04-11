@@ -27,17 +27,17 @@ namespace Wayloop.Highlight.Patterns
 {
     public abstract class Pattern
     {
-        public string Name { get; set; }
-        public PatternStyle Style { get; set; }
+        public string Name { get; private set; }
+        public Style Style { get; private set; }
 
 
-        protected Pattern(string name, PatternStyle style)
+        internal Pattern(string name, Style style)
         {
             Name = name;
             Style = style;
         }
 
 
-        public abstract string GetPatternString();
+        public abstract string GetRegexPattern();
     }
 }

@@ -31,18 +31,18 @@ using System.Text.RegularExpressions;
 
 namespace Wayloop.Highlight.Patterns
 {
-    public class WordPattern : Pattern
+    public sealed class WordPattern : Pattern
     {
         public IEnumerable<string> Words { get; private set; }
 
 
-        public WordPattern(string name, PatternStyle style, IEnumerable<string> words) : base(name, style)
+        public WordPattern(string name, Style style, IEnumerable<string> words) : base(name, style)
         {
             Words = words;
         }
 
 
-        public override string GetPatternString()
+        public override string GetRegexPattern()
         {
             var str = String.Empty;
             if (Words.Count() > 0) {

@@ -25,14 +25,13 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Wayloop.Highlight.Patterns;
 
 
-namespace Wayloop.Highlight
+namespace Wayloop.Highlight.Patterns
 {
     public class Definition
     {
-        public Definition(string name, bool caseSensitive, DefinitionStyle style, IDictionary<string, Pattern> patterns)
+        public Definition(string name, bool caseSensitive, Style style, IDictionary<string, Pattern> patterns)
         {
             Name = name;
             CaseSensitive = caseSensitive;
@@ -41,9 +40,9 @@ namespace Wayloop.Highlight
         }
 
 
-        public string Name { get; set; }
-        public bool CaseSensitive { get; set; }
-        public DefinitionStyle Style { get; set; }
+        public string Name { get; private set; }
+        public bool CaseSensitive { get; private set; }
+        public Style Style { get; private set; }
         public IDictionary<string, Pattern> Patterns { get; private set; }
 
 
@@ -59,19 +58,19 @@ namespace Wayloop.Highlight
                     if (blockPatterns.Length > 1) {
                         blockPatterns.Append("|");
                     }
-                    blockPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
+                    blockPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetRegexPattern());
                 }
                 else if (pattern is MarkupPattern) {
                     if (markupPatterns.Length > 1) {
                         markupPatterns.Append("|");
                     }
-                    markupPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
+                    markupPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetRegexPattern());
                 }
                 else if (pattern is WordPattern) {
                     if (wordPatterns.Length > 1) {
                         wordPatterns.Append("|");
                     }
-                    wordPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetPatternString());
+                    wordPatterns.AppendFormat("(?'{0}'{1})", pattern.Name, pattern.GetRegexPattern());
                 }
             }
 

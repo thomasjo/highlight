@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 // Copyright (c) 2004-2010 Thomas Andre H. Johansen
 // 
@@ -28,18 +28,16 @@ using System.Drawing;
 
 namespace Wayloop.Highlight.Patterns
 {
-    public class MarkupPatternStyle : PatternStyle
+    public class Style
     {
-        public ColorPair BracketColors { get; set; }
-        public ColorPair AttributeNameColors { get; set; }
-        public ColorPair AttributeValueColors { get; set; }
+        public ColorPair Colors { get; private set; }
+        public Font Font { get; private set; }
 
 
-        public MarkupPatternStyle(ColorPair colors, Font font, ColorPair bracketColors, ColorPair attributeNameColors, ColorPair attributeValueColors) : base(colors, font)
+        public Style(ColorPair colors, Font font)
         {
-            BracketColors = bracketColors;
-            AttributeNameColors = attributeNameColors;
-            AttributeValueColors = attributeValueColors;
+            Colors = colors;
+            Font = font;
         }
     }
 }

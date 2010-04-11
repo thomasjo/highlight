@@ -56,21 +56,29 @@ namespace Wayloop.Highlight.Engines
                 throw new ArgumentNullException("definition");
             }
 
-            if (UseCss) {
-                var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, null);
+            if (!UseCss) {
+                var cssStyle = HtmlEngineHelper.CreatePatternStyle(definition.Style);
 
-                return String.Format(ClassSpanFormat, cssClassName, input);
+                return String.Format(StyleSpanFormat, cssStyle, input);
             }
 
-            var cssStyle = HtmlEngineHelper.CreatePatternStyle(definition.Style.Colors.ForeColor, definition.Style.Colors.BackColor, definition.Style.Font);
+            var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, null);
 
-            return String.Format(StyleSpanFormat, cssStyle, input);
+            return String.Format(ClassSpanFormat, cssClassName, input);
         }
 
 
         protected override string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match)
         {
-            return ProcessPatternMatch(definition, pattern, match);
+            if (!UseCss) {
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style);
+
+                return String.Format(StyleSpanFormat, patternStyle, match.Value);
+            }
+
+            var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name);
+
+            return String.Format(ClassSpanFormat, cssClassName, match.Value);
         }
 
 
@@ -88,12 +96,12 @@ namespace Wayloop.Highlight.Engines
 
             var result = new StringBuilder();
             if (!UseCss) {
-                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.BracketColors, pattern.Style.Font);
                 result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["openTag"].Value);
 
                 result.Append(match.Groups["ws1"].Value);
 
-                patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+                patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style);
                 result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["tagName"].Value);
 
                 if (pattern.HighlightAttributes) {
@@ -103,7 +111,7 @@ namespace Wayloop.Highlight.Engines
 
                 result.Append(match.Groups["ws5"].Value);
 
-                patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.BracketColors.ForeColor, pattern.Style.BracketColors.BackColor, pattern.Style.Font);
+                patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.BracketColors, pattern.Style.Font);
                 result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["closeTag"].Value);
             }
             else {
@@ -132,19 +140,15 @@ namespace Wayloop.Highlight.Engines
 
         protected override string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match)
         {
-            return ProcessPatternMatch(definition, pattern, match);
-        }
-
-
-        private string ProcessPatternMatch(Definition definition, Pattern pattern, Match match)
-        {
             if (!UseCss) {
-                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
+                var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style);
 
                 return String.Format(StyleSpanFormat, patternStyle, match.Value);
             }
 
-            return String.Format(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name), match.Value);
+            var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name);
+
+            return String.Format(ClassSpanFormat, cssClassName, match.Value);
         }
 
 
@@ -154,23 +158,26 @@ namespace Wayloop.Highlight.Engines
             for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++) {
                 result.Append(match.Groups["ws2"].Captures[i].Value);
                 if (!UseCss) {
-                    var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.AttributeNameColors.ForeColor, pattern.Style.AttributeNameColors.BackColor, pattern.Style.Font);
+                    var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.AttributeNameColors, pattern.Style.Font);
                     result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribName"].Captures[i].Value);
-                }
-                else {
-                    result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeName"), match.Groups["attribName"].Captures[i].Value);
-                }
 
-                if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
-                    continue;
-                }
+                    if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
+                        continue;
+                    }
 
-                if (!UseCss) {
-                    var patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.Style.AttributeValueColors.ForeColor, pattern.Style.AttributeValueColors.BackColor, pattern.Style.Font);
+                    patternStyle = HtmlEngineHelper.CreatePatternStyle(pattern.AttributeValueColors, pattern.Style.Font);
                     result.AppendFormat(StyleSpanFormat, patternStyle, match.Groups["attribValue"].Captures[i].Value);
                 }
                 else {
-                    result.AppendFormat(ClassSpanFormat, HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeValue"), match.Groups["attribValue"].Captures[i].Value);
+                    var cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeName");
+                    result.AppendFormat(ClassSpanFormat, cssClassName, match.Groups["attribName"].Captures[i].Value);
+
+                    if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
+                        continue;
+                    }
+
+                    cssClassName = HtmlEngineHelper.CreateCssClassName(definition.Name, pattern.Name + "AttributeValue");
+                    result.AppendFormat(ClassSpanFormat, cssClassName, match.Groups["attribValue"].Captures[i].Value);
                 }
             }
 

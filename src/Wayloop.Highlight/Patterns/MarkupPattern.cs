@@ -25,26 +25,24 @@
 
 namespace Wayloop.Highlight.Patterns
 {
-    public class MarkupPattern : Pattern
+    public sealed class MarkupPattern : Pattern
     {
-        public new MarkupPatternStyle Style
-        {
-            get { return (MarkupPatternStyle) base.Style; }
-            set { base.Style = value; }
-        }
-
-
         public bool HighlightAttributes { get; set; }
+        public ColorPair BracketColors { get; set; }
+        public ColorPair AttributeNameColors { get; set; }
+        public ColorPair AttributeValueColors { get; set; }
 
 
-        public MarkupPattern(string name, MarkupPatternStyle style, bool highlightAttributes) : base(name, style)
+        public MarkupPattern(string name, Style style, bool highlightAttributes, ColorPair bracketColors, ColorPair attributeNameColors, ColorPair attributeValueColors) : base(name, style)
         {
-            Style = style;
             HighlightAttributes = highlightAttributes;
+            BracketColors = bracketColors;
+            AttributeNameColors = attributeNameColors;
+            AttributeValueColors = attributeValueColors;
         }
 
 
-        public override string GetPatternString()
+        public override string GetRegexPattern()
         {
             return @"
                 (?'openTag'&lt;\??/?)
