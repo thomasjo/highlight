@@ -43,6 +43,11 @@ namespace Wayloop.Highlight
         }
 
 
+        public Highlighter(IEngine engine)
+            : this(engine, new DefaultConfiguration())
+        {}
+
+
         public string Highlight(string definitionName, string input)
         {
             if (definitionName == null) {
