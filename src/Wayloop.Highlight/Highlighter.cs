@@ -32,14 +32,14 @@ namespace Wayloop.Highlight
 {
     public class Highlighter
     {
-        public IConfiguration Configuration { get; set; }
         public IEngine Engine { get; set; }
+        public IConfiguration Configuration { get; set; }
 
 
-        public Highlighter(IConfiguration configuration, IEngine engine)
+        public Highlighter(IEngine engine, IConfiguration configuration)
         {
-            Configuration = configuration;
             Engine = engine;
+            Configuration = configuration;
         }
 
 
