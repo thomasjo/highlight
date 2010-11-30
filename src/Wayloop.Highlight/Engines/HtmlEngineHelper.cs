@@ -31,7 +31,7 @@ using Wayloop.Highlight.Patterns;
 
 namespace Wayloop.Highlight.Engines
 {
-    public static class HtmlEngineHelper
+    internal static class HtmlEngineHelper
     {
         public static string CreateCssClassName(string definition, string pattern)
         {

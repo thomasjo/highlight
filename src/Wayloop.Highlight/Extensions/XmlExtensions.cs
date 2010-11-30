@@ -29,7 +29,7 @@ using System.Xml.Linq;
 
 namespace Wayloop.Highlight.Extensions
 {
-    public static class XmlExtensions
+    internal static class XmlExtensions
     {
         public static string GetAttributeValue(this XElement element, XName name)
         {

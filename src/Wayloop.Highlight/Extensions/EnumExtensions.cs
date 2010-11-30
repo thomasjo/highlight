@@ -28,12 +28,7 @@ using System;
 
 namespace Wayloop.Highlight.Extensions
 {
-    public static class EnumExtensions
-    {
-    }
-
-
-    public static class Enum<T> where T : struct
+    internal static class Enum<T> where T : struct
     {
         public static T Parse(string value, T defaultValue)
         {

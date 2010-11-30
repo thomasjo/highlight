@@ -28,7 +28,7 @@ using System;
 
 namespace Wayloop.Highlight.Extensions
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         public static float ToSingle(this string input, float defaultValue)
         {
