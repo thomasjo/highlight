@@ -43,7 +43,7 @@ namespace Wayloop.Highlight.Tests.Engines
         public void FixtureSetUp()
         {
             engine = new HtmlEngine();
-            configuration = new XmlConfiguration(XDocument.Load(@"Resources\DefaultDefinitions.xml"));
+            configuration = new DefaultConfiguration();
         }
 
 
