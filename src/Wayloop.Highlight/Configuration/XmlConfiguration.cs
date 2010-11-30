@@ -47,7 +47,7 @@ namespace Wayloop.Highlight.Configuration
         }
 
 
-        public XDocument XmlDocument { get; set; }
+        public XDocument XmlDocument { get; protected set; }
 
 
         public XmlConfiguration(XDocument xmlDocument)
@@ -57,6 +57,11 @@ namespace Wayloop.Highlight.Configuration
             }
 
             XmlDocument = xmlDocument;
+        }
+
+
+        protected XmlConfiguration()
+        {
         }
 
 
