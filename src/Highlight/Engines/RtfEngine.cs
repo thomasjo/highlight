@@ -1,28 +1,3 @@
-#region License
-
-// Copyright (c) 2004-2010 Thomas Andre H. Johansen
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-#endregion
-
-
 using System;
 using System.Collections;
 using System.Drawing;
@@ -34,7 +9,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Highlight.Patterns;
 
-
 namespace Highlight.Engines
 {
     // TODO: Clean up and refactor big methods into smaller, more manageable chunks.
@@ -44,12 +18,10 @@ namespace Highlight.Engines
         private readonly ArrayList colors = new ArrayList();
         private readonly ArrayList fonts = new ArrayList();
 
-
         protected override string PreHighlight(Definition definition, string input)
         {
             return HttpUtility.HtmlEncode(input);
         }
-
 
         protected override string PostHighlight(Definition definition, string input)
         {
@@ -62,14 +34,12 @@ namespace Highlight.Engines
             return String.Format(@"{{\rtf1\ansi{{\fonttbl{{{0}}}}}{{\colortbl;{1}}}{2}}}", fontList, colorList, result);
         }
 
-
         protected override string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match)
         {
             var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
 
             return ("{" + String.Format(RtfFormat, style, match.Value) + "}");
         }
-
 
         protected override string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match)
         {
@@ -103,7 +73,6 @@ namespace Highlight.Engines
             return ("{" + builder + "}");
         }
 
-
         protected override string ProcessWordPatternMatch(Definition definition, WordPattern pattern, Match match)
         {
             var style = CreateRtfPatternStyle(pattern.Style.Colors.ForeColor, pattern.Style.Colors.BackColor, pattern.Style.Font);
@@ -111,12 +80,10 @@ namespace Highlight.Engines
             return ("{" + String.Format(RtfFormat, style, match.Value) + "}");
         }
 
-
         private string CreateRtfPatternStyle(Color foreColor, Color backColor, Font font)
         {
             return String.Concat(new object[] { @"\cf", GetIndexOfColor(foreColor), @"\highlight", GetIndexOfColor(backColor), @"\f", GetIndexOfFont(font.Name), @"\fs", font.Size * 2f });
         }
-
 
         private int GetIndexOfColor(Color color)
         {
@@ -140,7 +107,6 @@ namespace Highlight.Engines
             return colors.Count;
         }
 
-
         private int GetIndexOfFont(string font)
         {
             var index = fonts.IndexOf(font);
@@ -152,7 +118,6 @@ namespace Highlight.Engines
             return fonts.Count;
         }
 
-
         private string BuildColorList()
         {
             var builder = new StringBuilder();
@@ -162,7 +127,6 @@ namespace Highlight.Engines
             return builder.ToString();
         }
 
-
         private string BuildFontList()
         {
             var builder = new StringBuilder();
@@ -171,7 +135,6 @@ namespace Highlight.Engines
             }
             return builder.ToString();
         }
-
 
         [StructLayout(LayoutKind.Sequential)]
         private struct HexColor

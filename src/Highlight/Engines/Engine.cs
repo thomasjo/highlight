@@ -1,40 +1,13 @@
-#region License
-
-// Copyright (c) 2004-2010 Thomas Andre H. Johansen
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-#endregion
-
-
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Highlight.Patterns;
-
 
 namespace Highlight.Engines
 {
     public abstract class Engine : IEngine
     {
         private const RegexOptions DefaultRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace;
-
 
         public string Highlight(Definition definition, string input)
         {
@@ -49,18 +22,15 @@ namespace Highlight.Engines
             return output;
         }
 
-
         protected virtual string PreHighlight(Definition definition, string input)
         {
             return input;
         }
 
-
         protected virtual string PostHighlight(Definition definition, string input)
         {
             return input;
         }
-
 
         private string HighlightUsingRegex(Definition definition, string input)
         {
@@ -72,7 +42,6 @@ namespace Highlight.Engines
             return output;
         }
 
-
         private RegexOptions GetRegexOptions(Definition definition)
         {
             if (definition.CaseSensitive) {
@@ -81,7 +50,6 @@ namespace Highlight.Engines
 
             return DefaultRegexOptions;
         }
-
 
         private string ElementMatchHandler(Definition definition, Match match)
         {
@@ -108,12 +76,10 @@ namespace Highlight.Engines
             return match.Value;
         }
 
-
         private MatchEvaluator GetMatchEvaluator(Definition definition)
         {
             return match => ElementMatchHandler(definition, match);
         }
-
 
         protected abstract string ProcessBlockPatternMatch(Definition definition, BlockPattern pattern, Match match);
         protected abstract string ProcessMarkupPatternMatch(Definition definition, MarkupPattern pattern, Match match);
