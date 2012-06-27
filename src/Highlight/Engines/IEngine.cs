@@ -23,10 +23,10 @@
 #endregion
 
 
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Engines
+namespace Highlight.Engines
 {
     public interface IEngine
     {

@@ -24,10 +24,10 @@
 
 
 using System.Collections.Generic;
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Configuration
+namespace Highlight.Configuration
 {
     public interface IConfiguration
     {

@@ -27,10 +27,10 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Engines
+namespace Highlight.Engines
 {
     public class HtmlEngine : Engine
     {

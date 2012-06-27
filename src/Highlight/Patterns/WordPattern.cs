@@ -29,7 +29,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 
-namespace Wayloop.Highlight.Patterns
+namespace Highlight.Patterns
 {
     public sealed class WordPattern : Pattern
     {

@@ -27,7 +27,7 @@ using System.Xml.Linq;
 using Highlight;
 
 
-namespace Wayloop.Highlight.Configuration
+namespace Highlight.Configuration
 {
     public class DefaultConfiguration : XmlConfiguration
     {

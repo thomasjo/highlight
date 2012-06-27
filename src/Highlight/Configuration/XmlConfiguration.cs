@@ -30,11 +30,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Wayloop.Highlight.Extensions;
-using Wayloop.Highlight.Patterns;
+using Highlight.Extensions;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Configuration
+namespace Highlight.Configuration
 {
     public class XmlConfiguration : IConfiguration
     {

@@ -26,10 +26,10 @@
 using System;
 using System.Drawing;
 using System.Text;
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Engines
+namespace Highlight.Engines
 {
     internal static class HtmlEngineHelper
     {

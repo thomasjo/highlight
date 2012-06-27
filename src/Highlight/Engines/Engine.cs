@@ -26,10 +26,10 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Engines
+namespace Highlight.Engines
 {
     public abstract class Engine : IEngine
     {

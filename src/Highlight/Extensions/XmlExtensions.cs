@@ -27,7 +27,7 @@ using System;
 using System.Xml.Linq;
 
 
-namespace Wayloop.Highlight.Extensions
+namespace Highlight.Extensions
 {
     internal static class XmlExtensions
     {

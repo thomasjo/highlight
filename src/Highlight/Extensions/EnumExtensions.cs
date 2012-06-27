@@ -26,7 +26,7 @@
 using System;
 
 
-namespace Wayloop.Highlight.Extensions
+namespace Highlight.Extensions
 {
     internal static class Enum<T> where T : struct
     {

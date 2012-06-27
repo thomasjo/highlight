@@ -27,7 +27,7 @@ using System;
 using System.Text.RegularExpressions;
 
 
-namespace Wayloop.Highlight.Patterns
+namespace Highlight.Patterns
 {
     public sealed class BlockPattern : Pattern
     {

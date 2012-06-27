@@ -32,10 +32,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Engines
+namespace Highlight.Engines
 {
     // TODO: Clean up and refactor big methods into smaller, more manageable chunks.
     public class RtfEngine : Engine

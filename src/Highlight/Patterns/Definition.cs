@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace Wayloop.Highlight.Patterns
+namespace Highlight.Patterns
 {
     public class Definition
     {

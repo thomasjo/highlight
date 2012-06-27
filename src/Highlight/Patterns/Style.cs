@@ -26,7 +26,7 @@
 using System.Drawing;
 
 
-namespace Wayloop.Highlight.Patterns
+namespace Highlight.Patterns
 {
     public class Style
     {

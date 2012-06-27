@@ -27,10 +27,10 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Wayloop.Highlight.Patterns;
+using Highlight.Patterns;
 
 
-namespace Wayloop.Highlight.Engines
+namespace Highlight.Engines
 {
     // TODO: Refactor this engine to build proper XML using XLinq.
     public class XmlEngine : Engine

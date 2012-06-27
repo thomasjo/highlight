@@ -25,12 +25,12 @@
 
 using System.Xml.Linq;
 using NUnit.Framework;
-using Wayloop.Highlight.Configuration;
-using Wayloop.Highlight.Engines;
+using Highlight.Configuration;
+using Highlight.Engines;
 using Highlight.Tests.Engines.Resources;
 
 
-namespace Wayloop.Highlight.Tests.Engines
+namespace Highlight.Tests.Engines
 {
     [TestFixture]
     public class HtmlEngineTests

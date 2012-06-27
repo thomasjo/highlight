@@ -23,7 +23,7 @@
 #endregion
 
 
-namespace Wayloop.Highlight.Patterns
+namespace Highlight.Patterns
 {
     public sealed class MarkupPattern : Pattern
     {

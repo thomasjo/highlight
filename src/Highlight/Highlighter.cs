@@ -24,11 +24,11 @@
 
 
 using System;
-using Wayloop.Highlight.Configuration;
-using Wayloop.Highlight.Engines;
+using Highlight.Configuration;
+using Highlight.Engines;
 
 
-namespace Wayloop.Highlight
+namespace Highlight
 {
     public class Highlighter
     {
