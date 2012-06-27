@@ -1,7 +1,13 @@
-﻿obj/
-bin/
+﻿[Bb]in/
+[Cc]sx/
+[Oo]bj/
+_ReSharper*/
+packages/
 
 *.user
 *.suo
+*.bak
+*.cache
+*.log
 
-_ReSharper*
+Thumbs.db
