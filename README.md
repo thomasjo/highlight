@@ -2,6 +2,10 @@
 A relatively simple and extensible syntax highlighter written in C#.
 
 ## TL;DR
+```powershell
+Install-Package Highlight
+```
+
 ```csharp
 var highlighter = new Highlighter(new HtmlEngine());
 var highlightedCode = highlighter.Highlight("C#", csharpCode);
