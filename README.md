@@ -47,6 +47,3 @@ The HtmlEngine supports inline styles which can be enabled by setting the **UseC
 var highlighter = new Highlighter(new HtmlEngine { UseCss = true });
 var highlightedCode = highlighter.Highlight("C#", csharpCode);
 ```
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/thomasjo/highlight/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
