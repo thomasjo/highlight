@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using Highlight.Patterns;
+using SixLabors.Fonts;
 
 namespace Highlight.Engines
 {

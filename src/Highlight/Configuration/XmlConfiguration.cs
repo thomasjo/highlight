@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Highlight.Extensions;
 using Highlight.Patterns;
+using SixLabors.Fonts;
 
 namespace Highlight.Configuration
 {
@@ -148,8 +149,8 @@ namespace Highlight.Configuration
             if (fontFamily != null) {
                 var emSize = fontElement.GetAttributeValue("size").ToSingle(11f);
                 var style = Enum<FontStyle>.Parse(fontElement.GetAttributeValue("style"), FontStyle.Regular, true);
-
-                return new Font(fontFamily, emSize, style);
+                 
+                return SystemFonts.CreateFont(fontFamily, emSize, style);
             }
 
             return defaultFont;
@@ -209,8 +210,8 @@ namespace Highlight.Configuration
             var fontName = fontElement.GetAttributeValue("name");
             var fontSize = Convert.ToSingle(fontElement.GetAttributeValue("size"));
             var fontStyle = (FontStyle) Enum.Parse(typeof(FontStyle), fontElement.GetAttributeValue("style"), true);
-
-            return new Font(fontName, fontSize, fontStyle);
+             
+            return SystemFonts.CreateFont(fontName, fontSize, fontStyle);
         }
     }
 }

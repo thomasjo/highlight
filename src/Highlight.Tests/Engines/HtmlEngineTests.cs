@@ -11,7 +11,7 @@ namespace Highlight.Tests.Engines
         private IEngine engine;
         private IConfiguration configuration;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void FixtureSetUp()
         {
             engine = new HtmlEngine();
