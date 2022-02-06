@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
     <Version>8.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta0008" />
-  </ItemGroup> 
+    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta15" />
+  </ItemGroup>
 </Project>
