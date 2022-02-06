@@ -1,4 +1,4 @@
-﻿using Highlight.Patterns;
+using Highlight.Patterns;
 
 namespace Highlight.Engines
 {

@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using SixLabors.Fonts;
 
 namespace Highlight.Patterns
