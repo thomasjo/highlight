@@ -9,5 +9,6 @@ packages/
 *.bak
 *.cache
 *.log
+*.vs
 
 Thumbs.db

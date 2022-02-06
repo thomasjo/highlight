@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Text;
 using Highlight.Patterns;
+using SixLabors.Fonts;
 
 namespace Highlight.Engines
 {
@@ -42,10 +43,10 @@ namespace Highlight.Engines
                 if (font.Size > 0f) {
                     patternStyle.Append("font-size: " + font.Size + "px;");
                 }
-                if (font.Style == FontStyle.Regular) {
+                if (font.Instance.Description.Style == FontStyle.Regular) {
                     patternStyle.Append("font-weight: normal;");
                 }
-                if (font.Style == FontStyle.Bold) {
+                if (font.Instance.Description.Style == FontStyle.Bold) {
                     patternStyle.Append("font-weight: bold;");
                 }
             }
