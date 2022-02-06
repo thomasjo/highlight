@@ -44,7 +44,7 @@ namespace Highlight.Engines
 
         private RegexOptions GetRegexOptions(Definition definition)
         {
-            if (definition.CaseSensitive == False) {
+            if (!definition.CaseSensitive) {
                 return DefaultRegexOptions | RegexOptions.IgnoreCase;
             }
 
