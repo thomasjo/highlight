@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace Highlight.Patterns
 {
     public class ColorPair

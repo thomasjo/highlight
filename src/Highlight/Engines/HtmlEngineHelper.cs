@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Text;
 using Highlight.Patterns;
 using SixLabors.Fonts;
@@ -27,26 +26,34 @@ namespace Highlight.Engines
         public static string CreatePatternStyle(ColorPair colors, Font font)
         {
             var patternStyle = new StringBuilder();
-            if (colors != null) {
-                if (colors.ForeColor != Color.Empty) {
+            if (colors != null)
+            {
+                if (colors.ForeColor != Color.Empty)
+                {
                     patternStyle.Append("color: " + colors.ForeColor.Name + ";");
                 }
-                if (colors.BackColor != Color.Empty) {
+                if (colors.BackColor != Color.Empty)
+                {
                     patternStyle.Append("background-color: " + colors.BackColor.Name + ";");
                 }
             }
 
-            if (font != null) {
-                if (font.Name != null) {
+            if (font != null)
+            {
+                if (font.Name != null)
+                {
                     patternStyle.Append("font-family: " + font.Name + ";");
                 }
-                if (font.Size > 0f) {
+                if (font.Size > 0f)
+                {
                     patternStyle.Append("font-size: " + font.Size + "px;");
                 }
-                if (font.Instance.Description.Style == FontStyle.Regular) {
+                if (font.Instance.Description.Style == FontStyle.Regular)
+                {
                     patternStyle.Append("font-weight: normal;");
                 }
-                if (font.Instance.Description.Style == FontStyle.Bold) {
+                if (font.Instance.Description.Style == FontStyle.Bold)
+                {
                     patternStyle.Append("font-weight: bold;");
                 }
             }

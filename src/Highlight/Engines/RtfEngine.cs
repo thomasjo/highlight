@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -49,19 +48,23 @@ namespace Highlight.Engines
             var bracketStyle = CreateRtfPatternStyle(pattern.BracketColors.ForeColor, pattern.BracketColors.BackColor, pattern.Style.Font);
             string attributeNameStyle = null;
             string attributeValueStyle = null;
-            if (pattern.HighlightAttributes) {
+            if (pattern.HighlightAttributes)
+            {
                 attributeNameStyle = CreateRtfPatternStyle(pattern.AttributeNameColors.ForeColor, pattern.AttributeNameColors.BackColor, pattern.Style.Font);
                 attributeValueStyle = CreateRtfPatternStyle(pattern.AttributeValueColors.ForeColor, pattern.AttributeValueColors.BackColor, pattern.Style.Font);
             }
             builder.AppendFormat(RtfFormat, bracketStyle, match.Groups["openTag"].Value);
             builder.Append(match.Groups["ws1"].Value);
             builder.AppendFormat(RtfFormat, style, match.Groups["tagName"].Value);
-            if (attributeNameStyle != null) {
-                for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++) {
+            if (attributeNameStyle != null)
+            {
+                for (var i = 0; i < match.Groups["attribute"].Captures.Count; i++)
+                {
                     builder.Append(match.Groups["ws2"].Captures[i].Value);
                     builder.AppendFormat(RtfFormat, attributeNameStyle, match.Groups["attribName"].Captures[i].Value);
 
-                    if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value)) {
+                    if (String.IsNullOrWhiteSpace(match.Groups["attribValue"].Captures[i].Value))
+                    {
                         continue;
                     }
 
@@ -89,18 +92,21 @@ namespace Highlight.Engines
         private int GetIndexOfColor(Color color)
         {
             var color2 = new HexColor();
-            if (color.Name.IndexOf("#") > -1) {
+            if (color.Name.IndexOf("#") > -1)
+            {
                 color2.Red = Int32.Parse(color.Name.Substring(1, 2), NumberStyles.AllowHexSpecifier);
                 color2.Green = Int32.Parse(color.Name.Substring(3, 2), NumberStyles.AllowHexSpecifier);
                 color2.Blue = Int32.Parse(color.Name.Substring(5, 2), NumberStyles.AllowHexSpecifier);
             }
-            else {
+            else
+            {
                 color2.Red = color.R;
                 color2.Green = color.G;
                 color2.Blue = color.B;
             }
             var index = colors.IndexOf(color2);
-            if (index > -1) {
+            if (index > -1)
+            {
                 return (index + 1);
             }
             colors.Add(color2);
@@ -111,7 +117,8 @@ namespace Highlight.Engines
         private int GetIndexOfFont(string font)
         {
             var index = fonts.IndexOf(font);
-            if (index > -1) {
+            if (index > -1)
+            {
                 return (index + 1);
             }
             fonts.Add(font);
@@ -122,7 +129,8 @@ namespace Highlight.Engines
         private string BuildColorList()
         {
             var builder = new StringBuilder();
-            foreach (var hexColor in colors.Cast<HexColor>()) {
+            foreach (var hexColor in colors.Cast<HexColor>())
+            {
                 builder.AppendFormat(@"\red{0}\green{1}\blue{2};", hexColor.Red, hexColor.Green, hexColor.Blue);
             }
             return builder.ToString();
@@ -131,7 +139,8 @@ namespace Highlight.Engines
         private string BuildFontList()
         {
             var builder = new StringBuilder();
-            for (var i = 0; i < fonts.Count; i++) {
+            for (var i = 0; i < fonts.Count; i++)
+            {
                 builder.AppendFormat(@"\f{0} {1};", i, fonts[i]);
             }
             return builder.ToString();
