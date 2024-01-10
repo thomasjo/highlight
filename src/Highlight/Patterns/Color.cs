@@ -18,7 +18,7 @@ namespace Highlight
             B = b;
         }
 
-        public static Color Empty = new Color("#FFFFFF", 0, 0, 0);
+        public static Color Empty = new Color("#FFFFFF", 255, 255, 255);
 
         public static Color FromName(string name)
         {
